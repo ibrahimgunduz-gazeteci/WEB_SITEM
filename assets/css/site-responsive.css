@@ -1,0 +1,201 @@
+:root {
+  --mobile-nav-bg: rgba(255,255,255,0.98);
+}
+
+html {
+  scroll-padding-top: 110px;
+}
+
+body {
+  min-width: 320px;
+}
+
+@media (max-width: 992px) {
+  .container {
+    width: 95%;
+    padding: 0 12px;
+  }
+
+  header {
+    padding: 12px 0;
+  }
+
+  .header-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  nav ul li {
+    margin-left: 0;
+  }
+
+  nav ul li a {
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  nav {
+    width: 100%;
+    position: relative;
+    background: var(--mobile-nav-bg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  nav ul {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 18px 0 !important;
+    margin: 0;
+  }
+
+  nav ul li {
+    margin: 0 !important;
+  }
+
+  nav ul li a {
+    width: 100%;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 10px 0;
+  }
+
+  .mobile-menu-btn {
+    display: block !important;
+    align-self: flex-end;
+    background: none;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  .hero {
+    padding-top: 140px;
+  }
+
+  .hero-content,
+  .about-content,
+  .book-detail,
+  .content,
+  .article-card,
+  .book-card,
+  .video-card,
+  .gallery-images,
+  .articles-grid,
+  .books-grid,
+  .videos-grid {
+    width: 100% !important;
+  }
+
+  .hero-content {
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+
+  .hero-text,
+  .hero-image,
+  .article-featured-image,
+  .book-detail-cover,
+  .book-detail-info,
+  .gallery-image-container,
+  .article-card,
+  .book-card,
+  .video-card {
+    width: 100% !important;
+  }
+
+  .hero-image img,
+  .article-featured-image img,
+  .book-detail-cover img,
+  .gallery-image,
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .section-title,
+  .hero h1,
+  .hero h3,
+  .article-title,
+  .content h2,
+  .content h3,
+  .newsletter-title {
+    font-size: clamp(20px, 4vw, 32px) !important;
+  }
+
+  .hero p,
+  .section-subtitle,
+  .newsletter-description,
+  .article-content,
+  .content,
+  .book-description,
+  .read-more,
+  .book-read-more,
+  .book-buy-btn,
+  .footer-links li {
+    font-size: 15px !important;
+  }
+
+  .newsletter-form,
+  .book-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .newsletter-input,
+  .book-actions a {
+    width: 100%;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .timeline {
+    padding-left: 20px !important;
+  }
+
+  .timeline::after {
+    left: 20px !important;
+  }
+
+  .timeline-item {
+    padding-left: 50px !important;
+  }
+
+  .timeline-content {
+    padding: 18px !important;
+  }
+
+  .content img.align-left,
+  .content img.align-right {
+    float: none !important;
+    margin: 20px auto !important;
+    display: block !important;
+  }
+
+  .flash-messages {
+    top: auto !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    left: auto !important;
+    width: auto !important;
+  }
+
+  .back-to-top {
+    right: 16px !important;
+    bottom: 16px !important;
+  }
+}

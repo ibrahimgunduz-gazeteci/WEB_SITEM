@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yazı Detayı | İbrahim Gündüz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site-responsive.css">
+  <link rel="icon" href="/static/favicon.png" type="image/x-icon">
+  
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --text-color: #34495e;
+      --light-bg: #f5f5f5;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--text-color); line-height: 1.6; background-color: white; }
+    .container { width: 100%; max-width: 950px; margin: 0 auto; padding: 0 15px; }
+    
+    header { background-color: white; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 100; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: bold; color: var(--primary-color); text-decoration: none; }
+    .logo span { color: var(--secondary-color); }
+    nav ul { display: flex; list-style: none; }
+    nav ul li { margin-left: 20px; }
+    nav ul li a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+    
+    main { margin-top: 120px; margin-bottom: 60px; }
+    .article-title { font-size: 36px; line-height: 1.2; color: var(--primary-color); margin-bottom: 10px; }
+    
+    .article-featured-image { width: 100%; margin-bottom: 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .article-featured-image img { width: 100%; height: auto; display: block; }
+    
+    .article-content { font-size: 18px; line-height: 1.8; color: #444; }
+    .article-content p { margin-bottom: 20px; }
+    .article-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 30px 0; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+
+    footer { background-color: var(--primary-color); color: white; padding: 50px 0 20px; margin-top: 50px; text-align: center; }
+    .footer-bottom { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 14px; color: #aaa; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-container">
+    <a href="ibrahim-gunduz.html" class="logo">İbrahim<span>Gündüz</span></a>
+    <nav>
+      <ul>
+        <li><a href="ibrahim-gunduz.html">Ana Sayfa</a></li>
+        <li><a href="tum-yazilar.html">Yazılar</a></li>
+        <li><a href="ibrahim-gunduz.html#videos">Videolar</a></li>
+        <li><a href="ibrahim-gunduz.html#books">Kitaplar</a></li>
+        <li><a href="ibrahim-gunduz.html#about">Hakkında</a></li>
+        <li><a href="ibrahim-gunduz.html#contact">İletişim</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container" id="loading-view">
+      <p style="text-align:center; padding: 100px;">Yazı yükleniyor...</p>
+  </div>
+
+  <div class="container" id="article-view" style="display:none;">
+    <h1 class="article-title" id="art-title"></h1>
+    
+    <div class="article-featured-image" id="featured-image-container">
+      <img src="" alt="" id="featured-image">
+    </div>
+    
+    <div class="article-content" id="art-content">
+      </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>İbrahim Gündüz | Gazeteci & Yazar</p>
+    <div class="footer-bottom">&copy; 2026 Tüm Hakları Saklıdır.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const fileName = params.get('file'); // URL'den ?file=makale.docx kısmını alır
+
+    if (fileName) {
+        // Python script'inle uyumlu klasör yolu
+        const docxPath = "assets/documents/" + fileName;
+
+        fetch(docxPath)
+            .then(response => {
+                if (!response.ok) throw new Error('Dosya bulunamadı');
+                return response.arrayBuffer();
+            })
+            .then(arrayBuffer => {
+                // Mammoth ayarları: Word'deki karmaşık stilleri temiz HTML'e dönüştürür
+                mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+                    .then(function(result) {
+                        const contentContainer = document.getElementById('art-content');
+                        
+                        // İçeriği yerleştir
+                        contentContainer.innerHTML = result.value;
+                        
+                        // Yükleniyor ekranını gizle, makaleyi göster
+                        document.getElementById('loading-view').style.display = 'none';
+                        document.getElementById('article-view').style.display = 'block';
+                        
+                        // Başlık oluşturma: Dosya adını temizle (yazi-basligi.docx -> Yazi Basligi)
+                        let cleanTitle = fileName.replace('.docx', '')
+                                                 .replace(/-/g, ' ')
+                                                 .replace(/_/g, ' ');
+                        
+                        // Kelimelerin ilk harflerini büyük yap
+                        cleanTitle = cleanTitle.split(' ')
+                                               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                               .join(' ');
+
+                        document.getElementById('art-title').innerText = cleanTitle;
+                        document.title = cleanTitle + " | İbrahim Gündüz";
+                    })
+                    .catch(function(err) {
+                        console.error("Mammoth dönüşüm hatası:", err);
+                        showError("Yazı formatı dönüştürülemedi.");
+                    });
+            })
+            .catch(err => {
+                console.error("Yükleme hatası:", err);
+                showError("Aradığınız yazıya şu an ulaşılamıyor.");
+            });
+    } else {
+        showError("Geçersiz yazı isteği.");
+    }
+
+    function showError(message) {
+        const loadingView = document.getElementById('loading-view');
+        if (loadingView) {
+            loadingView.innerHTML = `<p style="text-align:center; padding: 50px; color: #e74c3c;">${message}</p>`;
+        }
+    }
+});
+</script>

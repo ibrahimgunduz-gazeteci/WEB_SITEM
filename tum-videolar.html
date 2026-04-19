@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <link rel="icon" href="/static/favicon.png" type="image/x-icon">
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tüm Videolar | İbrahim Gündüz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site-responsive.css">
+  <style>
+    /* Ana stiller */
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --text-color: #34495e;
+      --light-bg: #f5f5f5;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background-color: white;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    /* Header stilleri */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .logo span {
+      color: var(--secondary-color);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 20px;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+    }
+    
+    nav ul li a:hover {
+      color: var(--secondary-color);
+    }
+    
+    /* Ana içerik */
+    main {
+      margin-top: 120px;
+      margin-bottom: 60px;
+    }
+    
+    .section-title {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: #777;
+      text-align: center;
+    }
+
+    /* Video grid */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin: 30px 0;
+    }
+    
+    .video-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .video-thumbnail {
+      position: relative;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+    }
+    
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background-color: rgba(231, 76, 60, 0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .video-thumbnail:hover .play-button {
+      background-color: rgba(231, 76, 60, 1);
+    }
+    
+    .video-info {
+      padding: 20px;
+    }
+    
+    .video-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    
+    .video-meta {
+      display: flex;
+      justify-content: space-between;
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    /* Video Modal */
+    .video-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding-top: 60px;
+    }
+    
+    .video-modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      width: 80%;
+      max-width: 900px;
+    }
+    
+    .video-close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .video-close-btn:hover {
+      color: var(--secondary-color);
+    }
+    
+    .video-modal-title {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      font-size: 24px;
+      padding-right: 30px;
+    }
+    
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    
+    /* Footer */
+    footer {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 50px 0 20px;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-brand h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    
+    .footer-brand p {
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+    
+    .footer-links-container h3 {
+      margin-bottom: 20px;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: #aaa;
+    }
+    
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--secondary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .back-to-top.visible {
+      opacity: 1;
+    }
+    
+    /* Responsive tasarım */
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      nav ul {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      .video-modal-content {
+        width: 95%;
+        margin: 10% auto;
+      }
+    }
+
+  /* tum-videolar.html - Modern Galeri Stili */
+.videos-grid {
+  display: grid;
+  /* Ekran genişliğine göre 300px'den küçük olmayacak şekilde yan yana dizer */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 40px 0;
+}
+
+.video-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.video-thumbnail {
+  position: relative;
+  height: 180px; /* Daha kompakt yükseklik */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Thumbnail üzerine hafif bir karartma ekler, böylece buton parlar */
+.video-thumbnail::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
+}
+
+.play-button {
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  z-index: 2;
+}
+
+.video-info {
+  padding: 15px;
+  flex-grow: 1;
+}
+
+.video-title {
+  font-size: 15px !important;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  /* Başlığı 2 satırla sınırla, fazlasına ... koy */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+  height: 42px;
+}
+
+/* Kanal Rozeti (Flash TV, CNN vb.) */
+.source-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--secondary-color);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 3;
+  text-transform: uppercase;
+}
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container header-container">
+    <a href="ibrahim-gunduz.html" class="logo">İbrahim<span>Gündüz</span></a>
+    <nav>
+      <ul>
+        <li><a href="ibrahim-gunduz.html">Ana Sayfa</a></li>
+        <li><a href="ibrahim-gunduz.html#featured-articles">Yazılar</a></li>
+        <li><a href="ibrahim-gunduz.html#videos">Videolar</a></li>
+        <li><a href="ibrahim-gunduz.html#books">Kitaplar</a></li>
+        <li><a href="ibrahim-gunduz.html#about">Hakkında</a></li>
+        <li><a href="ibrahim-gunduz.html#timeline">Kariyer</a></li>
+      </ul>
+    </nav>
+    <button class="mobile-menu-btn" style="display: none;">☰</button>
+  </div>
+</header>
+
+<!-- ANA ICERIK -->
+<main>
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Tüm Videolar</h2>
+      <p class="section-subtitle" style="text-align:center; margin-bottom:40px;">Program arşivimden seçme içerikler</p>
+      
+      <div class="videos-grid" id="all-videos-grid"></div>
+    </div>
+  </section>
+
+  <div id="videoModal" class="video-modal">
+    <div class="video-modal-content">
+      <span class="video-close-btn">&times;</span>
+      <h3 id="videoModalTitle" class="video-modal-title">Video Başlığı</h3>
+      <div class="video-container">
+        <video id="videoPlayer" controls>
+          <source src="" type="video/mp4">
+          Tarayıcınız video etiketini desteklemiyor.
+        </video>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/youtube-feed.js"></script>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>İbrahim Gündüz</h3>
+        <p>Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
+        <div class="social-links">
+          <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/?mibextid=wwXIfr&rdid=50Kb7zIvFSNJQiAK&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18vkrssrsQ%2F%3Fmibextid%3DwwXIfr" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/ibrahimgunduz_gazeteci?igsh=YzMyMGd4dzJ5a2lk&utm_source=qr" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-links-container">
+        <h3>İletişim</h3>
+        <ul class="footer-links">
+          <li>ibrahimgunduz.gazeteci@gmail.com</li>
+          <li>Ankara, Türkiye</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <        <p>&copy; 2025 İbrahim Gündüz. Tüm hakları saklıdır.</p>
+        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;">@askingunduzz</a></p>
+    </div>
+  </div>
+</footer>
+  
+  <script>
+    // Site içi video oynatıcı fonksiyonu - tam dosya adı ile
+    function openVideoPlayerWithFullPath(videoPath, videoTitle) {
+      const videoModal = document.getElementById('videoModal');
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoSource = videoPlayer.querySelector('source');
+      const videoModalTitle = document.getElementById('videoModalTitle');
+      
+      // Video kaynağını tam dosya adıyla ayarla
+      videoSource.src = '/static/videos/' + videoPath;
+      videoModalTitle.textContent = videoTitle;
+      
+      // Videoyu yeniden yükle
+      videoPlayer.load();
+      
+      // Modalı aç
+      videoModal.style.display = 'block';
+      
+      // Videoyu otomatik oynat
+      videoPlayer.play().catch(error => {
+        console.log('Video otomatik oynatılamadı:', error);
+      });
+      
+      // Arka planı kilitleyerek scroll'u engelle
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // Sayfa yüklendiğinde çalışacak kodlar
+    document.addEventListener('DOMContentLoaded', function() {
+      // Modal'ı kapatma fonksiyonu
+      const videoModal = document.getElementById('videoModal');
+      const closeBtn = document.querySelector('.video-close-btn');
+      const videoPlayer = document.getElementById('videoPlayer');
+      
+      closeBtn.addEventListener('click', function() {
+        videoModal.style.display = 'none';
+        videoPlayer.pause();
+        document.body.style.overflow = 'auto'; // Scrollu tekrar etkinleştir
+      });
+      
+      // Modal dışına tıklayarak kapatma
+      window.addEventListener('click', function(event) {
+        if (event.target == videoModal) {
+          videoModal.style.display = 'none';
+          videoPlayer.pause();
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // ESC tuşu ile kapatma
+      window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && videoModal.style.display === 'block') {
+          videoModal.style.display = 'none';
+          videoPlayer.pause();
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // Back to top button
+      const backToTopBtn = document.querySelector('.back-to-top');
+      
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+      
+      backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Mobil menü için kodlar
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const nav = document.querySelector('nav');
+      
+      if (window.innerWidth <= 768) {
+        mobileMenuBtn.style.display = 'block';
+      }
+      
+      window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+          mobileMenuBtn.style.display = 'block';
+        } else {
+          mobileMenuBtn.style.display = 'none';
+          nav.style.display = 'block';
+        }
+      });
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        if (nav.style.display === 'none' || nav.style.display === '') {
+          nav.style.display = 'block';
+          nav.style.position = 'absolute';
+          nav.style.top = '100%';
+          nav.style.left = '0';
+          nav.style.width = '100%';
+          nav.style.backgroundColor = 'white';
+          nav.style.padding = '20px';
+          nav.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+          
+          const ul = nav.querySelector('ul');
+          ul.style.display = 'flex';
+          ul.style.flexDirection = 'column';
+          
+          const lis = ul.querySelectorAll('li');
+          lis.forEach(li => {
+            li.style.margin = '10px 0';
+          });
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+      
+      // Client-side video thumbnail oluşturma (FFmpeg olmadığında yedek çözüm)
+      function createVideoThumbnailClient() {
+        // Eğer sunucu tarafında thumbnail oluşturulmadıysa, sadece client tarafında çalıştır
+        const videoThumbnails = document.querySelectorAll('.video-thumbnail[data-create-thumbnail="true"]');
+        
+        if (videoThumbnails.length === 0) {
+          console.log('Tüm thumbnaillar zaten mevcut veya oluşturulacak thumbnail yok.');
+          return;
+        }
+        
+        console.log(`${videoThumbnails.length} adet client-side thumbnail oluşturulacak...`);
+        
+        videoThumbnails.forEach(thumbnail => {
+          const videoPath = thumbnail.getAttribute('data-video-path');
+          if (!videoPath) return;
+          
+          const tempVideo = document.createElement('video');
+          tempVideo.style.display = 'none';
+          tempVideo.crossOrigin = 'anonymous';
+          tempVideo.src = '/static/videos/' + videoPath;
+          tempVideo.muted = true;
+          
+          // Video yüklenince
+          tempVideo.addEventListener('loadeddata', function() {
+            tempVideo.currentTime = 1; // 1. saniyeye atla
+            
+            // Videodan kare çekildiğinde
+            tempVideo.addEventListener('timeupdate', function() {
+              // Canvas oluştur ve video karesini çiz
+              const canvas = document.createElement('canvas');
+              canvas.width = tempVideo.videoWidth || 350;
+              canvas.height = tempVideo.videoHeight || 200;
+              
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(tempVideo, 0, 0, canvas.width, canvas.height);
+              
+              // Canvas'ı veri URL'sine dönüştür
+              const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+              
+              // Thumbnail arkaplan görüntüsünü güncelle
+              thumbnail.style.backgroundImage = `url(${dataUrl})`;
+              thumbnail.removeAttribute('data-create-thumbnail');
+              
+              // Geçici videoyu temizle
+              document.body.removeChild(tempVideo);
+            }, { once: true });
+          });
+          
+          document.body.appendChild(tempVideo);
+        });
+      }
+      
+      // Client-side thumbnail oluşturma işlemini başlat
+      createVideoThumbnailClient();
+    });
+  </script>
+  </body>
+  </html>

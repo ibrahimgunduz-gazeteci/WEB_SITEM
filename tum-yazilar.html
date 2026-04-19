@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tüm Yazılar | İbrahim Gündüz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site-responsive.css">
+  <link rel="icon" href="/static/favicon.png" type="image/x-icon">
+  
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --text-color: #34495e;
+      --light-bg: #f5f5f5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--text-color); line-height: 1.6; background-color: #fff; }
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+    /* Header */
+    header { background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: bold; color: var(--primary-color); text-decoration: none; }
+    .logo span { color: var(--secondary-color); }
+    nav ul { display: flex; list-style: none; }
+    nav ul li { margin-left: 20px; }
+    nav ul li a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: 0.3s; }
+    nav ul li a:hover { color: var(--secondary-color); }
+
+    /* Page Header */
+    .page-header { padding: 140px 0 60px; background-color: var(--light-bg); text-align: center; }
+    .page-header h1 { font-size: 36px; color: var(--primary-color); margin-bottom: 10px; }
+    .page-header p { color: #777; font-size: 18px; }
+
+    /* Search Bar */
+    .search-container { margin: -30px auto 20px; text-align: center; position: relative; z-index: 10; }
+    #articleSearch { padding: 15px 25px; width: 100%; max-width: 500px; border-radius: 30px; border: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.05); outline: none; font-size: 16px; }
+
+    /* Grid */
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-bottom: 60px; }
+    .article-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
+    .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .article-image { height: 200px; overflow: hidden; background: #eee; }
+    .article-image img { width: 100%; height: 100%; object-fit: cover; }
+    .article-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+    .article-title { font-size: 17px; color: var(--primary-color); margin-bottom: 15px; line-height: 1.4; font-weight: 700; flex-grow: 1; }
+    .read-more { color: var(--secondary-color); text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; margin-top: auto; }
+    .read-more:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer { background-color: var(--primary-color); color: white; padding: 50px 0 30px; margin-top: 50px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+    .social-links { display: flex; gap: 15px; margin-top: 20px; }
+    .social-link { color: white; font-size: 20px; opacity: 0.7; transition: 0.3s; }
+    .social-link:hover { opacity: 1; color: var(--secondary-color); }
+    .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 14px; color: #aaa; }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container header-container">
+      <a href="ibrahim-gunduz.html" class="logo">İbrahim<span>Gündüz</span></a>
+      <nav>
+        <ul>
+          <li><a href="ibrahim-gunduz.html">Ana Sayfa</a></li>
+          <li><a href="ibrahim-gunduz.html#featured-articles">Yazılar</a></li>
+          <li><a href="ibrahim-gunduz.html#videos">Videolar</a></li>
+          <li><a href="ibrahim-gunduz.html#books">Kitaplar</a></li>
+          <li><a href="ibrahim-gunduz.html#about">Hakkında</a></li>
+          <li><a href="ibrahim-gunduz.html#timeline">Kariyer</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <h1>Tüm Yazılar</h1>
+      <p>Çevre, Madencilik, Siyaset ve Toplum üzerine arşivim</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="articleSearch" placeholder="Yazılarda ara...">
+    </div>
+
+    <div class="articles-grid" id="all-articles-grid">
+      </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>İbrahim Gündüz</h3>
+          <p style="margin-top:10px; color:#ccc;">Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
+          <div class="social-links">
+            <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/ibrahimgunduz_gazeteci" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3>İletişim</h3>
+          <p style="margin-top:10px; color:#ccc;">ibrahimgunduz.gazeteci@gmail.com</p>
+          <p style="color:#ccc;">Ankara, Türkiye</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const grid = document.getElementById('all-articles-grid');
+      const searchInput = document.getElementById('articleSearch');
+      let allArticles = [];
+
+      // yazilar.txt dosyasını oku
+      fetch('assets/yazilar.txt')
+          .then(response => response.text())
+          .then(data => {
+              const lines = data.split('\n');
+              
+              allArticles = lines
+                  .filter(line => line.trim() !== "" && !line.startsWith('._')) 
+                  .map(line => {
+                      // Varsa kopyalama kaynaklarını temizle
+                      let fileName = line.replace(/\\s*/g, "").trim();
+                      
+                      // Başlığı kullanıcı dostu yap (dosya-adi.docx -> Dosya Adi)
+                      let title = fileName.replace('.docx', '')
+                                          .replace(/-/g, ' ')
+                                          .replace(/_/g, ' ');
+                      
+                      title = title.split(' ')
+                                   .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                                   .join(' ');
+
+                      return {
+                          fileName: fileName,
+                          title: title
+                      };
+                  });
+
+              displayArticles(allArticles);
+          })
+          .catch(err => {
+              console.error("Liste yüklenirken hata:", err);
+              grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Yazılar şu an yüklenemiyor.</p>';
+          });
+          
+          // tum-yazilar.html içindeki displayArticles fonksiyonunu bu haliyle değiştir:
+          function displayArticles(list) {
+            grid.innerHTML = '';
+            if (list.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Aranan kriterlere uygun yazı bulunamadı.</p>';
+                return;
+            }
+
+            list.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'article-card';
+                // AYNI FLEX MANTIĞI BURAYA DA EKLENDİ
+                card.style.display = "flex";
+                card.style.flexDirection = "column";
+                card.style.height = "360px";
+                card.style.borderRadius = "12px";
+                card.style.overflow = "hidden";
+                card.style.boxShadow = "0 5px 15px rgba(0,0,0,0.08)";
+                
+                const baseName = article.fileName.replace('.docx', '');
+                const jpgPath = `assets/images/articles/${baseName}.jpg`;
+                const pngPath = `assets/images/articles/${baseName}.png`;
+                const fallbackPath = `assets/images/articles/deneme.jpg`;
+
+                card.innerHTML = `
+                  <div style="height: 150px; width: 100%; overflow: hidden; background: #eee;">
+                    <img src="${jpgPath}" 
+                        alt="${article.title}" 
+                        style="width: 100%; height: 100%; object-fit: cover; object-position: top center;"
+                        onerror="if (!this.src.includes('.png') && !this.src.includes('deneme.jpg')) { this.src='${pngPath}'; } else if (this.src.includes('.png')) { this.src='${fallbackPath}'; }">
+                  </div>
+                  <div style="padding: 8px; flex-grow: 1; display: flex; flex-direction: column;">
+                    <h3 style="font-size: 15px; line-height: 1.1; margin: 0; padding: 0; color: #2c3e50; font-weight: 700;">${article.title}</h3>
+                    <a href="haber.html?file=${encodeURIComponent(article.fileName)}" style="margin-top: auto; color: #e74c3c; font-weight: bold; text-decoration: none; font-size: 12px; padding-top: 4px;">Devamını Oku →</a>
+                  </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+      // Arama fonksiyonu
+      searchInput.addEventListener('input', (e) => {
+          const term = e.target.value.toLowerCase();
+          const filtered = allArticles.filter(a => a.title.toLowerCase().includes(term));
+          displayArticles(filtered);
+      });
+  });
+  </script>
+</body>
+</html>
