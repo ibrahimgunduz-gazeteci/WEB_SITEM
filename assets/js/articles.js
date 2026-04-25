@@ -5,8 +5,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Yazıları TXT dosyasından çek
-    fetch('/assets/yazilar.txt')
-        .then(response => response.text())
+    fetch('/assets/yazilar.txt?v=' + new Date().getTime())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
         .then(data => {
             const articles = parseArticlesTxt(data);
 
