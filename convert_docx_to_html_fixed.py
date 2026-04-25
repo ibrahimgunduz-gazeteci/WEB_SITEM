@@ -104,8 +104,9 @@ def process_all_docx():
     ARTICLES_HTML_DIR.mkdir(parents=True, exist_ok=True)
     IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     
-    # Find DOCX files
-    docx_files = list(BASE_DIR.glob("*.docx"))
+    # Find DOCX files in root and subdirectories
+    docx_files = list(BASE_DIR.glob("*.docx")) + list(BASE_DIR.glob("**/*.docx"))
+    docx_files = list(set(docx_files))  # Remove duplicates
     
     # Load existing articles
     if YAZILAR_JSON.exists():
