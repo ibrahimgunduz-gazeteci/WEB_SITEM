@@ -88,8 +88,8 @@ function renderHomeSlider(articles) {
         htmlContent += `
             <div class="article-card">
                 <div class="article-image">
-                    <img src="${article.thumbnail.split('/').map(encodeURIComponent).join('/')}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='assets/images/articles/deneme.jpg';">
+                    <img src="${article.thumbnail}" alt="${article.title}" 
+                         onerror="this.onerror=null; this.src='assets/images/default-thumbnail.jpg';">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
@@ -122,8 +122,8 @@ function renderArticlesGrid(articles) {
             card.className = 'article-card';
             card.innerHTML = `
                 <div class="article-image">
-                    <img src="${article.thumbnail.split('/').map(encodeURIComponent).join('/')}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='assets/images/articles/deneme.jpg';">
+                    <img src="${article.thumbnail}" alt="${article.title}" 
+                         onerror="this.onerror=null; this.src='assets/images/default-thumbnail.jpg';">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>

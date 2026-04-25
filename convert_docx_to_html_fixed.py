@@ -96,7 +96,7 @@ def docx_to_html(docx_path, article_title):
                     # Include any caption text alongside the image (skip [Resim:] placeholders)
                     if text and '[resim:' not in text.lower():
                         html_content.append(f'<p class="foto-caption">{text}</p>')
-                    html_content.append(f'<figure class="article-image"><img src="{img["path"]}" alt="Makale görseli" class="article-img"/></figure>')
+                    html_content.append(f'<figure class="article-image"><img src="{img["path"]}" alt="{text or "Makale görseli"}" class="article-img"/></figure>')
                     img_index += 1
                 continue
             
