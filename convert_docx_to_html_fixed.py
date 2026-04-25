@@ -172,11 +172,11 @@ def process_all_docx():
             
             # Update article entry
             article = {
-                "fileName": title,
+                "fileName": docx_file.name,
                 "title": title,
-                "thumbnail": thumbnail or f"assets/images/articles/{filename}.jpg",
-                "htmlContent": html_content,
-                "content": title[:100]
+                "thumbnail": thumbnail or "assets/images/default-thumbnail.jpg",
+                "htmlFile": str(html_file.relative_to(BASE_DIR)),
+                "htmlContent": html_content
             }
             
             # Check if exists
