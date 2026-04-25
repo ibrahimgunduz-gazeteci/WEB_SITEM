@@ -71,6 +71,17 @@ function parseArticlesTxt(data) {
 }
 
 /**
+ * İlk resmi htmlContent'ten çıkart, yoksa default kullan
+ */
+function getArticleThumbnail(article) {
+    if (!article.htmlContent) return 'assets/images/default-thumbnail.jpg';
+    
+    // htmlContent'den ilk <img src="..."> bulunacak
+    const imgMatch = article.htmlContent.match(/<img\s+[^>]*src="([^"]+)"/);
+    return imgMatch ? imgMatch[1] : 'assets/images/default-thumbnail.jpg';
+}
+
+/**
  * ANA SAYFA: 3'lü Slider Yapısını Oluşturur (Artık Kaydırılabilir)
  */
 function renderHomeSlider(articles) {
@@ -85,10 +96,11 @@ function renderHomeSlider(articles) {
 
     let htmlContent = '';
     recentArticles.forEach(article => {
+        const thumbnail = getArticleThumbnail(article);
         htmlContent += `
             <div class="article-card">
                 <div class="article-image">
-                    <img src="${article.thumbnail}" alt="${article.title}" 
+                    <img src="${thumbnail}" alt="${article.title}" 
                          onerror="this.onerror=null; this.src='assets/images/default-thumbnail.jpg';">
                 </div>
                 <div class="article-content">
@@ -120,9 +132,10 @@ function renderArticlesGrid(articles) {
         list.forEach(article => {
             const card = document.createElement('div');
             card.className = 'article-card';
+            const thumbnail = getArticleThumbnail(article);
             card.innerHTML = `
                 <div class="article-image">
-                    <img src="${article.thumbnail}" alt="${article.title}" 
+                    <img src="${thumbnail}" alt="${article.title}" 
                          onerror="this.onerror=null; this.src='assets/images/default-thumbnail.jpg';">
                 </div>
                 <div class="article-content">
