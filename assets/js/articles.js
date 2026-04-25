@@ -120,8 +120,9 @@ function renderArticlesGrid(articles) {
 
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = articles.filter(a => a.title.toLowerCase().includes(term));
+            const normalize = str => str.toLowerCase().replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+            const term = normalize(e.target.value);
+            const filtered = articles.filter(a => normalize(a.title).includes(term));
             display(filtered);
         });
     }
