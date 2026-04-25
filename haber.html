@@ -84,59 +84,66 @@
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
-    const fileName = params.get('file'); // URL'den ?file=makale.docx kısmını alır
+    const fileName = params.get('file');
 
-    if (fileName) {
-        // Python script'inle uyumlu klasör yolu
-        const docxPath = "assets/documents/" + fileName;
-
-        fetch(docxPath)
-            .then(response => {
-                if (!response.ok) throw new Error('Dosya bulunamadı');
-                return response.arrayBuffer();
-            })
-            .then(arrayBuffer => {
-                // Mammoth ayarları: Word'deki karmaşık stilleri temiz HTML'e dönüştürür
-                mammoth.convertToHtml({arrayBuffer: arrayBuffer})
-                    .then(function(result) {
-                        const contentContainer = document.getElementById('art-content');
-                        
-                        // İçeriği yerleştir
-                        contentContainer.innerHTML = result.value;
-                        
-                        // Yükleniyor ekranını gizle, makaleyi göster
-                        document.getElementById('loading-view').style.display = 'none';
-                        document.getElementById('article-view').style.display = 'block';
-                        
-                        // Başlık oluşturma: Dosya adını temizle (yazi-basligi.docx -> Yazi Basligi)
-                        let cleanTitle = fileName.replace('.docx', '')
-                                                 .replace(/-/g, ' ')
-                                                 .replace(/_/g, ' ');
-                        
-                        // Kelimelerin ilk harflerini büyük yap
-                        cleanTitle = cleanTitle.split(' ')
-                                               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                               .join(' ');
-
-                        document.getElementById('art-title').innerText = cleanTitle;
-                        document.title = cleanTitle + " | İbrahim Gündüz";
-                    })
-                    .catch(function(err) {
-                        console.error("Mammoth dönüşüm hatası:", err);
-                        showError("Yazı formatı dönüştürülemedi.");
-                    });
-            })
-            .catch(err => {
-                console.error("Yükleme hatası:", err);
-                showError("Aradığınız yazıya şu an ulaşılamıyor.");
-            });
+    if (fileName && window.articlesData && Array.isArray(window.articlesData)) {
+        // Articles data'nda dosya adı ile match olan makaleyi bul
+        const article = window.articlesData.find(a => a.fileName === decodeURIComponent(fileName));
+        
+        if (article) {
+            // Başlık ve resmi göster
+            document.getElementById('art-title').innerText = article.title;
+            document.title = article.title + " | İbrahim Gündüz";
+            
+            const imgElement = document.getElementById('featured-image');
+            imgElement.src = article.thumbnail;
+            imgElement.alt = article.title;
+            
+            // İçerik
+            let contentHtml = `
+                <h2>${article.title}</h2>
+                <p style="font-style: italic; color: #666; margin-bottom: 20px;">
+                    <strong>Yazar:</strong> İbrahim Gündüz | <strong>Kaynak:</strong> ${article.fileName.split(' ').slice(-2).join(' ').replace('.docx', '')}
+                </p>
+                <div style="background-color: #f0f0f0; padding: 20px; border-left: 4px solid #e74c3c; margin: 20px 0; border-radius: 4px;">
+                    <p>
+                        <strong>ℹ️ Açıklama:</strong> Bu makalenin tam içeriğini aşağıdan indirebilir, 
+                        <a href="tum-yazilar.html" style="color: #e74c3c; text-decoration: none;"><strong>tüm yazılar sayfasından</strong></a> 
+                        erişebilirsiniz veya doğrudan yazar ile iletişime geçebilirsiniz.
+                    </p>
+                </div>
+                <p style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-radius: 4px; text-align: center;">
+                    <strong>Şu anda tarayıcıda ön izleme desteği bulunmamaktadır.</strong>
+                </p>
+            `;
+            
+            if (article.content) {
+                contentHtml += `<div style="margin-top: 20px;">${article.content}</div>`;
+            }
+            
+            document.getElementById('art-content').innerHTML = contentHtml;
+            
+            // Download button oluştur
+            const downloadBtn = document.createElement('a');
+            downloadBtn.href = `assets/documents/${encodeURIComponent(article.fileName)}`;
+            downloadBtn.download = article.fileName;
+            downloadBtn.className = 'download-button';
+            downloadBtn.style.marginTop = '30px';
+            downloadBtn.innerHTML = '📥 Makaleyi İndir (DOCX) <i class="fas fa-download"></i>';
+            
+            document.getElementById('art-content').appendChild(downloadBtn);
+            
+            // Yükleniyor ekranını gizle, makaleyi göster
+            document.getElementById('loading-view').style.display = 'none';
+            document.getElementById('article-view').style.display = 'block';
+        } else {
+            showError("Aradığınız makale veritabanında bulunamadı.");
+        }
     } else {
-        showError("Geçersiz yazı isteği.");
+        showError("Yazı yükleme sisteminde bir sorun oluştu. Lütfen yazılar sayfasından erişmeyi deneyiniz.");
     }
 
     function showError(message) {
