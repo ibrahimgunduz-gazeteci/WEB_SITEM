@@ -9,38 +9,30 @@ with open('assets/yazilar.json', 'r', encoding='utf-8') as f:
 # Veriyi JavaScript değişkeni olarak format et
 articles_script = f"window.articlesData = {json.dumps(articles_data, ensure_ascii=False)};"
 
-# index.html'i oku
-with open('index.html', 'r', encoding='utf-8') as f:
-    index_content = f.read()
+# Dosyaları işle
+html_files = ['index.html', 'tum-yazilar.html', 'haber.html']
 
-# Eğer window.articlesData zaten varsa, kaldır
-index_content = re.sub(r'  <script>window\.articlesData = \[[\s\S]*?\];</script>\n', '', index_content)
+for html_file in html_files:
+    try:
+        with open(html_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Eğer window.articlesData zaten varsa, kaldır
+        content = re.sub(r'  <script>window\.articlesData = \[[\s\S]*?\];</script>\n', '', content)
+        
+        # </head> etiketinden önce veri embed et
+        content = content.replace(
+            '</head>',
+            f'  <script>{articles_script}</script>\n</head>'
+        )
+        
+        # Dosyayı kaydet
+        with open(html_file, 'w', encoding='utf-8') as f:
+            f.write(content)
+        
+        print(f"✓ {html_file} güncellendi")
+    except FileNotFoundError:
+        print(f"⚠️ {html_file} bulunamadı")
 
-# </head> etiketinden önce veri embed et
-index_content = index_content.replace(
-    '</head>',
-    f'  <script>{articles_script}</script>\n</head>'
-)
+print("✓ Makale verileri embed edildi")
 
-# index.html'i kaydet
-with open('index.html', 'w', encoding='utf-8') as f:
-    f.write(index_content)
-
-# tum-yazilar.html'i oku
-with open('tum-yazilar.html', 'r', encoding='utf-8') as f:
-    tum_content = f.read()
-
-# Eğer window.articlesData zaten varsa, kaldır
-tum_content = re.sub(r'  <script>window\.articlesData = \[[\s\S]*?\];</script>\n', '', tum_content)
-
-# </head> etiketinden önce veri embed et
-tum_content = tum_content.replace(
-    '</head>',
-    f'  <script>{articles_script}</script>\n</head>'
-)
-
-# tum-yazilar.html'i kaydet
-with open('tum-yazilar.html', 'w', encoding='utf-8') as f:
-    f.write(tum_content)
-
-print("✓ Makale verileri index.html ve tum-yazilar.html dosyalarına embed edildi")
