@@ -115,29 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 contentDiv.innerHTML = '<p style="color: #999; font-style: italic; text-align: center; padding: 40px;">Makale içeriği işlenmededir. Lütfen aşağıdaki DOCX dosyasını indirerek görüntüleyiniz.</p>';
             }
             
-            // Download button ekle
-            const downloadBtn = document.createElement('a');
-            downloadBtn.href = `assets/documents/${encodeURIComponent(article.fileName)}`;
-            downloadBtn.download = article.fileName;
-            downloadBtn.style.display = 'inline-block';
-            downloadBtn.style.padding = '12px 24px';
-            downloadBtn.style.backgroundColor = '#e74c3c';
-            downloadBtn.style.color = 'white';
-            downloadBtn.style.textDecoration = 'none';
-            downloadBtn.style.borderRadius = '5px';
-            downloadBtn.style.fontWeight = 'bold';
-            downloadBtn.style.fontSize = '16px';
-            downloadBtn.style.marginTop = '20px';
-            downloadBtn.innerHTML = '📥 Makaleyi İndir (DOCX)';
-            
-            const hr = document.createElement('hr');
-            hr.style.margin = '40px 0';
-            hr.style.border = 'none';
-            hr.style.borderTop = '1px solid #ddd';
-            
-            contentDiv.appendChild(hr);
-            contentDiv.appendChild(downloadBtn);
-            
             // Yükleniyor ekranını gizle, makaleyi göster
             document.getElementById('loading-view').style.display = 'none';
             document.getElementById('article-view').style.display = 'block';
