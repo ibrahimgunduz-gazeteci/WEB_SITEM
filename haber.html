@@ -105,13 +105,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const article = articles.find(a => a.fileName === decodeURIComponent(fileName));
             
             if (article) {
-                // Başlık, sayfa başlığı ve resmi ayarla
+                // Başlık ve sayfa başlığı ayarla
                 document.getElementById('art-title').innerText = article.title;
                 document.title = article.title + " | İbrahim Gündüz";
-                
-                const imgElement = document.getElementById('featured-image');
-                imgElement.src = article.thumbnail;
-                imgElement.alt = article.title;
                 
                 const contentDiv = document.getElementById('art-content');
                 
