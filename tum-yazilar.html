@@ -127,89 +127,65 @@
   document.addEventListener('DOMContentLoaded', function() {
       const grid = document.getElementById('all-articles-grid');
       const searchInput = document.getElementById('articleSearch');
-      let allArticles = [];
-
-      // yazilar.txt dosyasını oku
-      fetch('assets/yazilar.txt')
-          .then(response => response.text())
-          .then(data => {
-              const lines = data.split('\n');
-              
-              allArticles = lines
-                  .filter(line => line.trim() !== "" && !line.startsWith('._')) 
-                  .map(line => {
-                      // Varsa kopyalama kaynaklarını temizle
-                      let fileName = line.replace(/\\s*/g, "").trim();
-                      
-                      // Başlığı kullanıcı dostu yap (dosya-adi.docx -> Dosya Adi)
-                      let title = fileName.replace('.docx', '')
-                                          .replace(/-/g, ' ')
-                                          .replace(/_/g, ' ');
-                      
-                      title = title.split(' ')
-                                   .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-                                   .join(' ');
-
-                      return {
-                          fileName: fileName,
-                          title: title
-                      };
-                  });
-
-              displayArticles(allArticles);
-          })
-          .catch(err => {
-              console.error("Liste yüklenirken hata:", err);
-              grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Yazılar şu an yüklenemiyor.</p>';
-          });
+      
+      // window.articlesData zaten embed edilmiş, bunu kullan
+      if (window.articlesData && Array.isArray(window.articlesData)) {
+          const allArticles = window.articlesData;
+          displayArticles(allArticles);
           
-          // tum-yazilar.html içindeki displayArticles fonksiyonunu bu haliyle değiştir:
-          function displayArticles(list) {
-            grid.innerHTML = '';
-            if (list.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Aranan kriterlere uygun yazı bulunamadı.</p>';
-                return;
-            }
+          // Arama fonksiyonu - Türkçe karakterleri normalize et
+          searchInput.addEventListener('input', (e) => {
+              const normalize = str => str.toLowerCase()
+                  .replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u')
+                  .replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+              
+              const term = normalize(e.target.value);
+              const filtered = allArticles.filter(a => normalize(a.title).includes(term));
+              displayArticles(filtered);
+          });
+      } else {
+          grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Yazılar yüklenemiyor.</p>';
+      }
+          
+      function displayArticles(list) {
+          grid.innerHTML = '';
+          if (list.length === 0) {
+              grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Aranan kriterlere uygun yazı bulunamadı.</p>';
+              return;
+          }
 
-            list.forEach(article => {
-                const card = document.createElement('div');
-                card.className = 'article-card';
-                // AYNI FLEX MANTIĞI BURAYA DA EKLENDİ
-                card.style.display = "flex";
-                card.style.flexDirection = "column";
-                card.style.height = "360px";
-                card.style.borderRadius = "12px";
-                card.style.overflow = "hidden";
-                card.style.boxShadow = "0 5px 15px rgba(0,0,0,0.08)";
-                
-                const baseName = article.fileName.replace('.docx', '');
-                const jpgPath = `assets/images/articles/${baseName}.jpg`;
-                const pngPath = `assets/images/articles/${baseName}.png`;
-                const fallbackPath = `assets/images/articles/deneme.jpg`;
+          list.forEach(article => {
+              const card = document.createElement('div');
+              card.className = 'article-card';
+              card.style.display = "flex";
+              card.style.flexDirection = "column";
+              card.style.height = "360px";
+              card.style.borderRadius = "12px";
+              card.style.overflow = "hidden";
+              card.style.boxShadow = "0 5px 15px rgba(0,0,0,0.08)";
+              
+              const baseName = article.fileName.replace('.docx', '');
+              const jpgPath = `assets/images/articles/${baseName}.jpg`;
+              const pngPath = `assets/images/articles/${baseName}.png`;
+              const fallbackPath = `assets/images/articles/deneme.jpg`;
 
-                card.innerHTML = `
-                  <div style="height: 150px; width: 100%; overflow: hidden; background: #eee;">
-                    <img src="${jpgPath}" 
-                        alt="${article.title}" 
-                        style="width: 100%; height: 100%; object-fit: cover; object-position: top center;"
-                        onerror="if (!this.src.includes('.png') && !this.src.includes('deneme.jpg')) { this.src='${pngPath}'; } else if (this.src.includes('.png')) { this.src='${fallbackPath}'; }">
-                  </div>
-                  <div style="padding: 8px; flex-grow: 1; display: flex; flex-direction: column;">
-                    <h3 style="font-size: 15px; line-height: 1.1; margin: 0; padding: 0; color: #2c3e50; font-weight: 700;">${article.title}</h3>
-                    <a href="haber.html?file=${encodeURIComponent(article.fileName)}" style="margin-top: auto; color: #e74c3c; font-weight: bold; text-decoration: none; font-size: 12px; padding-top: 4px;">Devamını Oku →</a>
-                  </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-      // Arama fonksiyonu
-      searchInput.addEventListener('input', (e) => {
-          const term = e.target.value.toLowerCase();
-          const filtered = allArticles.filter(a => a.title.toLowerCase().includes(term));
-          displayArticles(filtered);
-      });
+              card.innerHTML = `
+                <div style="height: 150px; width: 100%; overflow: hidden; background: #eee;">
+                  <img src="${article.thumbnail}" 
+                      alt="${article.title}" 
+                      style="width: 100%; height: 100%; object-fit: cover; object-position: top center;"
+                      onerror="this.onerror=null; this.src='${fallbackPath}';">
+                </div>
+                <div style="padding: 8px; flex-grow: 1; display: flex; flex-direction: column;">
+                  <h3 style="font-size: 15px; line-height: 1.1; margin: 0; padding: 0; color: #2c3e50; font-weight: 700;">${article.title}</h3>
+                  <a href="haber.html?file=${encodeURIComponent(article.fileName)}" style="margin-top: auto; color: #e74c3c; font-weight: bold; text-decoration: none; font-size: 12px; padding-top: 4px;">Devamını Oku →</a>
+                </div>
+              `;
+              grid.appendChild(card);
+          });
+      }
   });
+  </script>
   </script>
 </body>
 </html>
