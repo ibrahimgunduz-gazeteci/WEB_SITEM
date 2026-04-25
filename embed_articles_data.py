@@ -14,7 +14,7 @@ with open('index.html', 'r', encoding='utf-8') as f:
     index_content = f.read()
 
 # Eğer window.articlesData zaten varsa, kaldır
-index_content = re.sub(r'<script>window\.articlesData = \[.*?\];</script>\n', '', index_content, flags=re.DOTALL)
+index_content = re.sub(r'  <script>window\.articlesData = \[[\s\S]*?\];</script>\n', '', index_content)
 
 # </head> etiketinden önce veri embed et
 index_content = index_content.replace(
@@ -31,7 +31,7 @@ with open('tum-yazilar.html', 'r', encoding='utf-8') as f:
     tum_content = f.read()
 
 # Eğer window.articlesData zaten varsa, kaldır
-tum_content = re.sub(r'<script>window\.articlesData = \[.*?\];</script>\n', '', tum_content, flags=re.DOTALL)
+tum_content = re.sub(r'  <script>window\.articlesData = \[[\s\S]*?\];</script>\n', '', tum_content)
 
 # </head> etiketinden önce veri embed et
 tum_content = tum_content.replace(
