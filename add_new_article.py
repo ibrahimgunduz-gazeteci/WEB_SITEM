@@ -22,18 +22,22 @@ ASSETS_DIR = BASE_DIR / "assets"
 ARTICLES_HTML_DIR = ASSETS_DIR / "articles-html"
 YAZILAR_JSON = ASSETS_DIR / "yazilar.json"
 
-def get_user_input():
+def get_user_input(predefined_docx=None):
     """Get article information from user"""
     print("\n" + "="*60)
-    print("YENİ YAZIYA HWelcome EKLE SISTEMI")
+    print("YENİ YAZIYA HOŞGELDINIZ")
     print("="*60)
     
     # Get DOCX file
-    while True:
-        docx_path = input("\n📄 DOCX dosyasının yolunu girin: ").strip()
-        if os.path.exists(docx_path) and docx_path.endswith('.docx'):
-            break
-        print("❌ Dosya bulunamadı veya .docx değil. Tekrar deneyin.")
+    if predefined_docx and os.path.exists(predefined_docx) and predefined_docx.endswith('.docx'):
+        docx_path = predefined_docx
+        print(f"\n📄 Dosya: {os.path.basename(docx_path)}")
+    else:
+        while True:
+            docx_path = input("\n📄 DOCX dosyasının yolunu girin: ").strip()
+            if os.path.exists(docx_path) and docx_path.endswith('.docx'):
+                break
+            print("❌ Dosya bulunamadı veya .docx değil. Tekrar deneyin.")
     
     # Get article title
     title = input("\n📝 Yazı başlığı: ").strip()
@@ -47,17 +51,13 @@ def get_user_input():
     if thumb_input and os.path.exists(thumb_input):
         thumbnail = thumb_input
     
-    # Get article type
-    print("\n📂 Yazı türü seçin:")
-    print("1. Makale (article)")
-    print("2. Haber (news)")
-    article_type = input("Seçim (1-2): ").strip()
-    article_type_name = "article" if article_type == "1" else "news"
+    # Article type is always "article" (removed news/video option)
+    article_type_name = "article"
     
     # Get language
     print("\n🌍 Dil seçin:")
-    print("1. Türkçe")
-    print("2. İngilizce")
+    print("1. Türkçe (Makaleler)")
+    print("2. İngilizce (English Articles)")
     lang_choice = input("Seçim (1-2): ").strip()
     language = "tr" if lang_choice == "1" else "en"
     
@@ -154,16 +154,16 @@ def add_article(article_info):
         print(f"   Başlık: {article_info['title']}")
         print(f"   Toplam yazı: {len(articles)}")
         
-        # Ask for git commit
-        commit = input("\n📦 Git'e commit yap? (e/h): ")
-        if commit.lower() == 'e':
-            try:
-                os.chdir(BASE_DIR)
-                subprocess.run(['git', 'add', '.'], check=True)
-                subprocess.run(['git', 'commit', '-m', f"Add article: {article_info['title']}"], check=True)
-                print("✅ Git commit başarılı!")
-            except Exception as e:
-                print(f"⚠️  Git commit başarısız: {e}")
+        # Automatically commit and push to GitHub
+        print("\n📦 GitHub'a push ediliyor...")
+        try:
+            os.chdir(BASE_DIR)
+            subprocess.run(['git', 'add', '.'], check=True)
+            subprocess.run(['git', 'commit', '-m', f"Add article: {article_info['title']}"], check=True)
+            subprocess.run(['git', 'push'], check=True)
+            print("✅ GitHub push başarılı!")
+        except Exception as e:
+            print(f"⚠️  GitHub push başarısız: {e}")
         
         return True
         
@@ -209,11 +209,16 @@ def embed_articles_in_html(articles):
             print(f"   ❌ {html_file.name}: {e}")
 
 def main():
-    print("\n🚀 İbrahim Gündüz - Yazı Ekleme Sistemi")
-    print("Basit ve hızlı yazı ekle!")
+    print("\n" + "="*50)
+    print("🚀 İbrahim Gündüz - Yazı Ekleme Sistemi")
+    print("Türkçe/İngilizce Makaleler")
+    print("="*50)
+    
+    # Check if DOCX file passed as argument (from drag-drop)
+    predefined_docx = sys.argv[1] if len(sys.argv) > 1 else None
     
     # Get user input
-    article_info = get_user_input()
+    article_info = get_user_input(predefined_docx)
     
     # Add article
     if add_article(article_info):
