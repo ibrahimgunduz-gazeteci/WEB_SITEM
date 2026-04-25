@@ -63,8 +63,18 @@ def extract_images_from_docx(docx_path, article_title):
     
     return extracted_images
 
+def has_inline_image(para):
+    """Check if a paragraph contains an embedded inline image via XML"""
+    ns_draw = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+    ns_vml = 'urn:schemas-microsoft-com:vml'
+    return (
+        para._element.find(f'.//{{{ns_draw}}}inline') is not None or
+        para._element.find(f'.//{{{ns_draw}}}anchor') is not None or
+        para._element.find(f'.//{{{ns_vml}}}shape') is not None
+    )
+
 def docx_to_html(docx_path, article_title):
-    """Convert DOCX to HTML with images"""
+    """Convert DOCX to HTML with images placed inline at their original positions"""
     try:
         # Extract images
         images = extract_images_from_docx(docx_path, article_title)
@@ -73,13 +83,25 @@ def docx_to_html(docx_path, article_title):
         doc = Document(docx_path)
         html_content = []
         first_image = images[0]['path'] if images else None
+        img_index = 0
         
         # Process paragraphs
         for para in doc.paragraphs:
             text = para.text.strip()
             
-            # Skip empty and image reference text
-            if not text or "[Resim:" in text.lower():
+            # If paragraph contains an inline image, place the image here
+            if has_inline_image(para):
+                if img_index < len(images):
+                    img = images[img_index]
+                    # Include any caption text alongside the image (skip [Resim:] placeholders)
+                    if text and '[resim:' not in text.lower():
+                        html_content.append(f'<p class="foto-caption">{text}</p>')
+                    html_content.append(f'<figure class="article-image"><img src="{img["path"]}" alt="Makale görseli" class="article-img"/></figure>')
+                    img_index += 1
+                continue
+            
+            # Skip empty and old-style image reference text
+            if not text or '[resim:' in text.lower():
                 continue
             
             # Add as paragraph
@@ -89,8 +111,8 @@ def docx_to_html(docx_path, article_title):
             else:
                 html_content.append(f"<p>{text}</p>")
         
-        # Add extracted images at the end (before any old image references)
-        for img in images:
+        # Append any remaining images that weren't matched to inline positions
+        for img in images[img_index:]:
             html_content.append(f'<figure class="article-image"><img src="{img["path"]}" alt="Makale görseli" class="article-img"/></figure>')
         
         return "\n".join(html_content), first_image
