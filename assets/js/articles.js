@@ -138,7 +138,18 @@ function renderArticlesGrid(articles) {
 
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const normalize = str => str.toLowerCase().replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+            const normalize = str => {
+                // İlk combining marks'u temizle
+                let normalized = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                // Sonra lowercase yap
+                normalized = normalized.toLowerCase();
+                // Türkçe karakterleri dönüştür
+                normalized = normalized
+                    .replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u')
+                    .replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c')
+                    .replace(/i̇/g, 'i'); // combining dot'lu i
+                return normalized;
+            };
             const term = normalize(e.target.value);
             const filtered = articles.filter(a => normalize(a.title).includes(term));
             display(filtered);
