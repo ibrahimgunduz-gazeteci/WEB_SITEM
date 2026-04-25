@@ -4,6 +4,18 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Veri zaten sayfada embed edilmişse onu kullan, yoksa fetch yap
+    if (window.articlesData && Array.isArray(window.articlesData)) {
+        const articles = window.articlesData;
+        
+        if (window.location.pathname.includes('tum-yazilar.html')) {
+            renderArticlesGrid(articles);
+        } else {
+            renderHomeSlider(articles);
+        }
+        return;
+    }
+    
     // Yazıları JSON dosyasından çek
     fetch('/assets/yazilar.json?v=' + new Date().getTime())
         .then(response => {
