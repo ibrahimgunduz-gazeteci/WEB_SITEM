@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <link rel="icon" href="/static/favicon.png" type="image/x-icon">
+  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -522,7 +522,7 @@
       const videoModalTitle = document.getElementById('videoModalTitle');
       
       // Video kaynağını tam dosya adıyla ayarla
-      videoSource.src = '/static/videos/' + videoPath;
+      videoSource.src = 'assets/videos/' + videoPath;
       videoModalTitle.textContent = videoTitle;
       
       // Videoyu yeniden yükle
@@ -649,7 +649,7 @@
           const tempVideo = document.createElement('video');
           tempVideo.style.display = 'none';
           tempVideo.crossOrigin = 'anonymous';
-          tempVideo.src = '/static/videos/' + videoPath;
+          tempVideo.src = 'assets/videos/' + videoPath;
           tempVideo.muted = true;
           
           // Video yüklenince
