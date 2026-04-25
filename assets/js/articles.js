@@ -4,16 +4,17 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Yazıları TXT dosyasından çek
-    fetch('/assets/yazilar.txt?v=' + new Date().getTime())
+    // Yazıları JSON dosyasından çek
+    fetch('/assets/yazilar.json?v=' + new Date().getTime())
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.text();
+            return response.json();
         })
         .then(data => {
-            const articles = parseArticlesTxt(data);
+            // JSON zaten doğru formatta, direkt kullan
+            const articles = data;
 
             // Hangi sayfada olduğumuzu kontrol et
             if (window.location.pathname.includes('tum-yazilar.html')) {
