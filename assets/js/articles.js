@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Yazıları TXT dosyasından çek
-    fetch('../yazilar.txt')
+    fetch('./assets/yazilar.txt')
         .then(response => response.text())
         .then(data => {
             const articles = parseArticlesTxt(data);
