@@ -270,6 +270,14 @@ nav ul li a:hover {
   transform: translateX(5px);
 }
 
+.seller-btn {
+  text-align: center;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  padding: 10px 15px !important;
+}
 
 /* Ana Kırmızı Renk ve Buton Düzeltelemeleri */
 :root {

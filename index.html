@@ -70,8 +70,12 @@
       <h2 class="section-title">İngilizce Makaleler ve Yazılar</h2>
       <p class="section-subtitle">İngilizce dilinde akademik makaleler ve çalışmalar</p>
 
-      <div class="articles-grid" id="eng-articles-grid">
-        <!-- Yazılar assets/eng-yazilar.json'dan yüklenir -->
+      <div class="articles-slider">
+        <button class="article-nav-btn article-prev" aria-label="Önceki yazılar"><i class="fas fa-chevron-left"></i></button>
+        <button class="article-nav-btn article-next" aria-label="Sonraki yazılar"><i class="fas fa-chevron-right"></i></button>
+        <div class="articles-slider-wrapper" id="eng-articles-grid">
+          <!-- Yazılar assets/eng-yazilar.json'dan yüklenir -->
+        </div>
       </div>
 
       <div style="text-align: center; margin-top: 30px;">
@@ -623,14 +627,16 @@ Teşekkürler,
   </script>
 
   <script>
-  /* İngilizce yazılar bölümü — assets/eng-yazilar.json'dan yükler */
+  /* İngilizce yazılar bölümü — assets/eng-yazilar.json'dan yükler ve slider olarak gösterir */
   document.addEventListener('DOMContentLoaded', function () {
-    const grid = document.getElementById('eng-articles-grid');
-    if (!grid) return;
+    const sliderContainer = document.querySelector('#eng-articles > .articles-slider');
+    if (!sliderContainer) return;
+    
+    const sliderWrapper = sliderContainer.querySelector('.articles-slider-wrapper');
     fetch('assets/eng-yazilar.json?v=' + new Date().getTime())
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(articles => {
-        grid.innerHTML = '';
+        sliderWrapper.innerHTML = '';
         articles.forEach(a => {
           const target = a.linkType === 'pdf' ? 'target="_blank"' : '';
           const label  = a.linkType === 'pdf' ? 'View Presentation →' : 'Read More →';
@@ -645,13 +651,34 @@ Teşekkürler,
               <p class="article-excerpt">${a.excerpt || ''}</p>
               <a href="${a.link}" class="read-more" ${target}>${label}</a>
             </div>`;
-          grid.appendChild(card);
+          sliderWrapper.appendChild(card);
         });
+        
+        // Slider kontrolü başlat
+        initEnglishArticleSlider(sliderContainer, sliderWrapper);
       })
       .catch(() => {
-        grid.innerHTML = '<p style="text-align:center;padding:20px;">Articles could not be loaded.</p>';
+        sliderWrapper.innerHTML = '<p style="text-align:center;padding:20px;">Articles could not be loaded.</p>';
       });
   });
+  
+  function initEnglishArticleSlider(container, wrapper) {
+    const prevBtn = container.querySelector('.article-prev');
+    const nextBtn = container.querySelector('.article-next');
+    const scrollAmount = wrapper.offsetWidth / 3;
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      });
+    }
+  }
   </script>
 </body>
 </html>

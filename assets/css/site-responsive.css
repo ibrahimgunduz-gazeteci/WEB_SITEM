@@ -85,6 +85,20 @@ body {
     padding-top: 140px;
   }
 
+  .hero-text > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .hero-text .btn {
+    flex: 1;
+    min-width: 150px;
+    margin-right: 0;
+    text-align: center;
+  }
+
   .hero-content,
   .about-content,
   .book-detail,
