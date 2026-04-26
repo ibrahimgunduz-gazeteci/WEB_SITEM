@@ -173,14 +173,13 @@
               card.style.overflow = "hidden";
               card.style.boxShadow = "0 5px 15px rgba(0,0,0,0.08)";
               
-              const baseName = article.fileName.replace('.docx', '');
-              const jpgPath = `assets/images/articles/${baseName}.jpg`;
-              const pngPath = `assets/images/articles/${baseName}.png`;
-              const fallbackPath = `assets/images/articles/deneme.jpg`;
+              // URL-encode the thumbnail path for proper handling of spaces and Turkish characters
+              const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
+              const fallbackPath = 'static/ibrahimgunduz.png';
 
               card.innerHTML = `
                 <div style="height: 150px; width: 100%; overflow: hidden; background: #eee;">
-                  <img src="${article.thumbnail}" 
+                  <img src="${encodedThumbnail}" 
                       alt="${article.title}" 
                       style="width: 100%; height: 100%; object-fit: cover; object-position: top center;"
                       onerror="this.onerror=null; this.src='${fallbackPath}';">
