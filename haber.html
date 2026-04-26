@@ -115,6 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('art-title').innerText = article.title;
                 document.title = article.title + " | İbrahim Gündüz";
                 
+                // Display featured image (thumbnail)
+                const featuredImageDiv = document.querySelector('.article-featured-image');
+                if (featuredImageDiv && article.thumbnail) {
+                    const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
+                    featuredImageDiv.innerHTML = `<img src="${encodedThumbnail}" alt="${article.title}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                }
+                
                 const contentDiv = document.getElementById('art-content');
                 
                 // Makale içeriğini göster
