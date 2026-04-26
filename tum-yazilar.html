@@ -175,7 +175,17 @@
               
               // URL-encode the thumbnail path for proper handling of spaces and Turkish characters
               const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
-              const fallbackPath = 'static/ibrahimgunduz.png';
+              
+              // Extract first image from htmlContent as fallback
+              let firstImg = 'static/ibrahimgunduz.png';
+              if (article.htmlContent) {
+                  const imgMatch = article.htmlContent.match(/src="([^"]*\.(?:png|jpeg|jpg|gif|webp))"/i);
+                  if (imgMatch) {
+                      firstImg = imgMatch[1];
+                  }
+              }
+              
+              const fallbackPath = firstImg;
 
               card.innerHTML = `
                 <div style="height: 150px; width: 100%; overflow: hidden; background: #eee;">
