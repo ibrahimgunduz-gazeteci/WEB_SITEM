@@ -147,13 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     
                     contentDiv.innerHTML = htmlContent;
-                    
-                    // Add error handler to all images
-                    contentDiv.querySelectorAll('img').forEach(img => {
-                        img.onerror = function() {
-                            this.src = 'static/ibrahimgunduz.png';
-                        };
-                    });
                 } else {
                     contentDiv.innerHTML = '<p style="color: #999; font-style: italic; text-align: center; padding: 40px;">Makale içeriği işlenmededir.</p>';
                 }
