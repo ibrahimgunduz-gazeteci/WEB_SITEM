@@ -121,15 +121,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (article.htmlContent) {
                     // URL-encode image paths to handle spaces and Turkish characters
                     let htmlContent = article.htmlContent;
+                    
+                    // Replace all src attributes in img tags
                     htmlContent = htmlContent.replace(/src="([^"]*)"/g, function(match, path) {
-                        // Only encode if it's a relative path (starts with assets/)
-                        if (path.startsWith('assets/')) {
-                            const encodedPath = path.split('/').map(part => encodeURIComponent(part)).join('/');
-                            return 'src="' + encodedPath + '"';
+                        if (!path.startsWith('assets/')) {
+                            return match;
                         }
-                        return match;
+                        
+                        try {
+                            // Split path and encode each part
+                            const parts = path.split('/');
+                            const encodedParts = parts.map(p => {
+                                try {
+                                    return encodeURIComponent(p);
+                                } catch(e) {
+                                    return p;
+                                }
+                            });
+                            const encodedPath = encodedParts.join('/');
+                            return 'src="' + encodedPath + '"';
+                        } catch(e) {
+                            console.error('Error encoding path:', path, e);
+                            return match;
+                        }
                     });
+                    
                     contentDiv.innerHTML = htmlContent;
+                    
+                    // Add error handler to all images
+                    contentDiv.querySelectorAll('img').forEach(img => {
+                        img.onerror = function() {
+                            this.src = 'static/ibrahimgunduz.png';
+                        };
+                    });
                 } else {
                     contentDiv.innerHTML = '<p style="color: #999; font-style: italic; text-align: center; padding: 40px;">Makale içeriği işlenmededir.</p>';
                 }
