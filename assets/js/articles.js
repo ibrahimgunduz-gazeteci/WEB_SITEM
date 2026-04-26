@@ -91,7 +91,7 @@ function renderHomeSlider(articles) {
             <div class="article-card">
                 <div class="article-image">
                     <img src="${encodedThumbnail}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='assets/images/profile/default-thumbnail.jpg';">
+                         onerror="this.onerror=null; this.src='static/ibrahimgunduz.png';">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
@@ -127,7 +127,7 @@ function renderArticlesGrid(articles) {
             card.innerHTML = `
                 <div class="article-image">
                     <img src="${encodedThumbnail}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='assets/images/profile/default-thumbnail.jpg';">
+                         onerror="this.onerror=null; this.src='static/ibrahimgunduz.png';">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>

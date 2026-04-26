@@ -102,7 +102,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(articles => {
-            const article = articles.find(a => a.fileName === decodeURIComponent(fileName));
+            // Unicode normalization untuk Turkish character matching
+            const decodedFileName = decodeURIComponent(fileName);
+            const normalizedSearchName = decodedFileName.normalize('NFC');
+            
+            const article = articles.find(a => 
+                a.fileName.normalize('NFC') === normalizedSearchName
+            );
             
             if (article) {
                 // Başlık ve sayfa başlığı ayarla
