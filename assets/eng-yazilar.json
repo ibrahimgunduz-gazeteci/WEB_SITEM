@@ -1,0 +1,16 @@
+[
+  {
+    "title": "A View at Turkey's Evolving Democracy",
+    "thumbnail": "static/ibrahimgunduz.png",
+    "link": "eng_article.html",
+    "linkType": "internal",
+    "excerpt": "An in-depth look at the evolution of democratic processes and institutions in Turkey."
+  },
+  {
+    "title": "The Changing Landscape of Media in Turkey",
+    "thumbnail": "static/ibrahimgunduz.png",
+    "link": "assets/eng-documents/media-landscape.pdf",
+    "linkType": "pdf",
+    "excerpt": "A presentation examining how Turkey's media environment has transformed in recent decades."
+  }
+]

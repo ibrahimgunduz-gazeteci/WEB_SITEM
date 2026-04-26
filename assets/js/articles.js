@@ -1,39 +1,24 @@
 /**
  * Ibrahim Gündüz Website - Dinamik Makale Sistemi
- * Bu dosya assets/yazilar.txt dosyasını okur ve içeriği sayfalara basar.
+ * Yazıları assets/yazilar.json dosyasından çeker ve sayfalara basar.
+ * Yeni makale eklemek için sadece assets/documents/ klasörüne .docx dosyası koyun.
+ * GitHub Actions otomatik olarak yazilar.json'u günceller.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Veri zaten sayfada embed edilmişse onu kullan, yoksa fetch yap
-    if (window.articlesData && Array.isArray(window.articlesData)) {
-        const articles = window.articlesData;
-        
-        if (window.location.pathname.includes('tum-yazilar.html')) {
-            renderArticlesGrid(articles);
-        } else {
-            renderHomeSlider(articles);
-        }
-        return;
-    }
-    
-    // Yazıları JSON dosyasından çek
-    fetch('/assets/yazilar.json?v=' + new Date().getTime())
+    // Yazıları JSON dosyasından çek (tek kaynak: assets/yazilar.json)
+    fetch('assets/yazilar.json?v=' + new Date().getTime())
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
-        .then(data => {
-            // JSON zaten doğru formatta, direkt kullan
-            const articles = data;
-
+        .then(articles => {
             // Hangi sayfada olduğumuzu kontrol et
             if (window.location.pathname.includes('tum-yazilar.html')) {
-                // Eğer "Tüm Yazılar" sayfasındaysak (Grid yapısı)
                 renderArticlesGrid(articles);
             } else {
-                // Ana sayfadaysak (Slider yapısı)
                 renderHomeSlider(articles);
             }
         })
@@ -43,32 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (container) container.innerHTML = '<p style="text-align:center; padding:20px;">Yazılar şu an yüklenemiyor.</p>';
         });
 });
-
-/**
- * TXT Verisini Temizler ve Nesne Dönüştürür
- */
-function parseArticlesTxt(data) {
-    const lines = data.split('\n');
-    return lines
-        .filter(line => line.trim() !== "" && !line.startsWith('._') && line.includes('.docx'))
-        .map(line => {
-            // Sadece satır sonundaki görünmez karakterleri (\r, \n) ve baş-son boşlukları temizler
-            let fileName = line.replace(/[\r\n]/g, "").trim();
-            
-            // Başlık oluştur: dosya-adi.docx -> Dosya Adi
-            let title = fileName.replace('.docx', '').replace(/-/g, ' ').replace(/_/g, ' ');
-            title = title.split(' ')
-                         .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-                         .join(' ');
-
-            return {
-                fileName: fileName,
-                title: title,
-                // Python script'inin ayıklayıp kaydettiği ilk görsel (img1.png) thumbnail yolu
-                thumbnail: `assets/images/articles/${fileName.replace('.docx', '')}-img1.png`
-            };
-        });
-}
 
 /**
  * ANA SAYFA: 3'lü Slider Yapısını Oluşturur (Artık Kaydırılabilir)

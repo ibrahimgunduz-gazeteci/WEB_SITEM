@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tüm Yazılar | İbrahim Gündüz</title>
+  <title>English Articles | İbrahim Gündüz</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site-responsive.css">
   <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-  
+
   <style>
     :root {
       --primary-color: #2c3e50;
@@ -15,12 +15,10 @@
       --text-color: #34495e;
       --light-bg: #f5f5f5;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--text-color); line-height: 1.6; background-color: #fff; }
     .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 
-    /* Header */
     header { background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; }
     .header-container { display: flex; justify-content: space-between; align-items: center; }
     .logo { font-size: 24px; font-weight: bold; color: var(--primary-color); text-decoration: none; }
@@ -30,27 +28,24 @@
     nav ul li a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: 0.3s; }
     nav ul li a:hover { color: var(--secondary-color); }
 
-    /* Page Header */
     .page-header { padding: 140px 0 60px; background-color: var(--light-bg); text-align: center; }
     .page-header h1 { font-size: 36px; color: var(--primary-color); margin-bottom: 10px; }
     .page-header p { color: #777; font-size: 18px; }
 
-    /* Search Bar */
     .search-container { margin: -30px auto 20px; text-align: center; position: relative; z-index: 10; }
     #articleSearch { padding: 15px 25px; width: 100%; max-width: 500px; border-radius: 30px; border: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.05); outline: none; font-size: 16px; }
 
-    /* Grid */
     .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-bottom: 60px; }
-    .article-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
+    .article-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; }
     .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .article-image { height: 200px; overflow: hidden; background: #eee; }
     .article-image img { width: 100%; height: 100%; object-fit: cover; }
     .article-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-    .article-title { font-size: 17px; color: var(--primary-color); margin-bottom: 15px; line-height: 1.4; font-weight: 700; flex-grow: 1; }
+    .article-title { font-size: 17px; color: var(--primary-color); margin-bottom: 10px; line-height: 1.4; font-weight: 700; flex-grow: 1; }
+    .article-excerpt { font-size: 14px; color: #777; margin-bottom: 15px; }
     .read-more { color: var(--secondary-color); text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; margin-top: auto; }
     .read-more:hover { text-decoration: underline; }
 
-    /* Footer */
     footer { background-color: var(--primary-color); color: white; padding: 50px 0 30px; margin-top: 50px; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
     .social-links { display: flex; gap: 15px; margin-top: 20px; }
@@ -63,7 +58,6 @@
       .footer-grid { grid-template-columns: 1fr; }
     }
   </style>
-  
 </head>
 <body>
 
@@ -74,10 +68,10 @@
         <ul>
           <li><a href="index.html">Ana Sayfa</a></li>
           <li><a href="index.html#featured-articles">Yazılar</a></li>
+          <li><a href="index.html#eng-articles">English</a></li>
           <li><a href="index.html#videos">Videolar</a></li>
           <li><a href="index.html#books">Kitaplar</a></li>
           <li><a href="index.html#about">Hakkında</a></li>
-          <li><a href="index.html#timeline">Kariyer</a></li>
         </ul>
       </nav>
     </div>
@@ -85,18 +79,16 @@
 
   <section class="page-header">
     <div class="container">
-      <h1>Tüm Yazılar</h1>
-      <p>Çevre, Madencilik, Siyaset ve Toplum üzerine arşivim</p>
+      <h1>English Articles</h1>
+      <p>Academic articles and writings on Turkey, democracy, and the environment</p>
     </div>
   </section>
 
   <div class="container">
     <div class="search-container">
-      <input type="text" id="articleSearch" placeholder="Yazılarda ara...">
+      <input type="text" id="articleSearch" placeholder="Search articles...">
     </div>
-
-    <div class="articles-grid" id="all-articles-grid">
-      </div>
+    <div class="articles-grid" id="eng-articles-grid"></div>
   </div>
 
   <footer>
@@ -104,7 +96,7 @@
       <div class="footer-grid">
         <div>
           <h3>İbrahim Gündüz</h3>
-          <p style="margin-top:10px; color:#ccc;">Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
+          <p style="margin-top:10px; color:#ccc;">Journalist, author, and public intellectual with over 30 years of experience in Turkish media.</p>
           <div class="social-links">
             <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
             <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
@@ -112,17 +104,60 @@
           </div>
         </div>
         <div>
-          <h3>İletişim</h3>
+          <h3>Contact</h3>
           <p style="margin-top:10px; color:#ccc;">ibrahimgunduz.gazeteci@gmail.com</p>
-          <p style="color:#ccc;">Ankara, Türkiye</p>
+          <p style="color:#ccc;">Ankara, Turkey</p>
         </div>
       </div>
       <div class="footer-bottom">
-        &copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.
+        &copy; 2026 İbrahim Gündüz. All rights reserved.
       </div>
     </div>
   </footer>
 
-  <script src="assets/js/articles.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const grid = document.getElementById('eng-articles-grid');
+    const searchInput = document.getElementById('articleSearch');
+
+    fetch('assets/eng-yazilar.json?v=' + new Date().getTime())
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(articles => {
+        render(articles);
+        searchInput.addEventListener('input', e => {
+          const term = e.target.value.toLowerCase();
+          render(articles.filter(a => a.title.toLowerCase().includes(term)));
+        });
+      })
+      .catch(() => {
+        grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;padding:40px;">Articles could not be loaded.</p>';
+      });
+
+    function render(list) {
+      grid.innerHTML = '';
+      if (!list.length) {
+        grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;padding:40px;">No articles found.</p>';
+        return;
+      }
+      list.forEach(a => {
+        const isDefault = !a.thumbnail || a.thumbnail === 'static/ibrahimgunduz.png';
+        const imgHtml = `<img src="${a.thumbnail}" alt="${a.title}" onerror="this.onerror=null;this.src='static/ibrahimgunduz.png';">`;
+        const target = a.linkType === 'pdf' ? 'target="_blank"' : '';
+        const label  = a.linkType === 'pdf' ? 'View Presentation →' : 'Read More →';
+
+        const card = document.createElement('div');
+        card.className = 'article-card';
+        card.innerHTML = `
+          <div class="article-image">${imgHtml}</div>
+          <div class="article-content">
+            <h3 class="article-title">${a.title}</h3>
+            <p class="article-excerpt">${a.excerpt || ''}</p>
+            <a href="${a.link}" class="read-more" ${target}>${label}</a>
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+  });
+  </script>
 </body>
 </html>

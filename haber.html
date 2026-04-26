@@ -118,11 +118,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('art-title').innerText = article.title;
                 document.title = article.title + " | İbrahim Gündüz";
                 
-                // Display featured image (thumbnail)
+                // Display featured image (thumbnail) — only if it's a real article image, not the default placeholder
                 const featuredImageDiv = document.querySelector('.article-featured-image');
-                if (featuredImageDiv && article.thumbnail) {
+                const isDefaultThumb = !article.thumbnail || article.thumbnail === 'static/ibrahimgunduz.png';
+                if (featuredImageDiv && !isDefaultThumb) {
                     const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
                     featuredImageDiv.innerHTML = `<img src="${encodedThumbnail}" alt="${article.title}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                } else if (featuredImageDiv) {
+                    featuredImageDiv.style.display = 'none';
                 }
                 
                 const contentDiv = document.getElementById('art-content');
