@@ -64,8 +64,8 @@ function parseArticlesTxt(data) {
             return {
                 fileName: fileName,
                 title: title,
-                // Python script'inin ayıklayıp kaydettiği JPG thumbnail yolu
-                thumbnail: `assets/images/articles/${fileName.replace('.docx', '.jpg')}`
+                // Python script'inin ayıklayıp kaydettiği ilk görsel (img1.png) thumbnail yolu
+                thumbnail: `assets/images/articles/${fileName.replace('.docx', '')}-img1.png`
             };
         });
 }
@@ -85,11 +85,13 @@ function renderHomeSlider(articles) {
 
     let htmlContent = '';
     recentArticles.forEach(article => {
+        // URL-encode the thumbnail path for proper handling of spaces in file names
+        const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
         htmlContent += `
             <div class="article-card">
                 <div class="article-image">
-                    <img src="${article.thumbnail}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='assets/images/default-thumbnail.jpg';">
+                    <img src="${encodedThumbnail}" alt="${article.title}" 
+                         onerror="this.onerror=null; this.src='assets/images/profile/default-thumbnail.jpg';">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
@@ -118,12 +120,14 @@ function renderArticlesGrid(articles) {
     const display = (list) => {
         grid.innerHTML = '';
         list.forEach(article => {
+            // URL-encode the thumbnail path for proper handling of spaces in file names
+            const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
             const card = document.createElement('div');
             card.className = 'article-card';
             card.innerHTML = `
                 <div class="article-image">
-                    <img src="${article.thumbnail}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='assets/images/default-thumbnail.jpg';">
+                    <img src="${encodedThumbnail}" alt="${article.title}" 
+                         onerror="this.onerror=null; this.src='assets/images/profile/default-thumbnail.jpg';">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
