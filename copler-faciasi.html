@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <link rel="icon" href="/static/favicon.png" type="image/x-icon">
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Çöpler Faciası | İbrahim Gündüz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site-responsive.css">
+  <style>
+    /* Ana stiller */
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --text-color: #34495e;
+      --light-bg: #f5f5f5;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background-color: white;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    /* Header stilleri */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .logo span {
+      color: var(--secondary-color);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 20px;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+    }
+    
+    nav ul li a:hover {
+      color: var(--secondary-color);
+    }
+    
+    /* Ana içerik */
+    main {
+      padding-top: 100px;
+      padding-bottom: 60px;
+    }
+    
+    /* Kitap detay sayfası */
+    .book-detail {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .book-detail-cover {
+      position: relative;
+    }
+    
+    .book-detail-cover img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 10px 10px 0 var(--secondary-color);
+    }
+    
+    .book-detail-info h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    
+    .book-meta {
+      display: flex;
+      margin-bottom: 25px;
+    }
+    
+    .book-meta-item {
+      margin-right: 30px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .book-meta-item i {
+      color: var(--secondary-color);
+      margin-right: 10px;
+    }
+    
+    .book-description {
+      margin-bottom: 30px;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    
+    .book-description p {
+      margin-bottom: 20px;
+    }
+    
+    .purchase-options {
+      margin: 30px 0;
+    }
+    
+    .purchase-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    
+    .purchase-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .purchase-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 25px;
+      background-color: white;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    .purchase-link:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .purchase-link i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    /* Kitap içeriği */
+    .book-content {
+      margin-top: 50px;
+    }
+    
+    .book-content h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    
+    .tab-container {
+      margin-bottom: 30px;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-right: 20px;
+      font-weight: bold;
+    }
+    
+    .tab.active {
+      border-bottom-color: var(--secondary-color);
+      color: var(--secondary-color);
+    }
+    
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .tab-content p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+    
+    /* Geri buton */
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 25px;
+      background-color: var(--secondary-color);
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 40px;
+    }
+    
+    .back-button i {
+      margin-right: 10px;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 50px 0 20px;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-brand h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    
+    .footer-brand p {
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+    
+    .footer-links-container h3 {
+      margin-bottom: 20px;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: #aaa;
+    }
+    
+    /* Mobil uyumluluk */
+    @media (max-width: 768px) {
+      .book-detail {
+        grid-template-columns: 1fr;
+      }
+      
+      .book-detail-cover {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      
+      .book-detail-cover img {
+        max-width: 70%;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      nav ul {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <!-- Header -->
+<header>
+  <div class="container header-container">
+    <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Ana Sayfa</a></li>
+        <li><a href="index.html#featured-articles">Yazılar</a></li>
+        <li><a href="index.html#videos">Videolar</a></li>
+        <li><a href="index.html#books">Kitaplar</a></li>
+        <li><a href="index.html#about">Hakkında</a></li>
+        <li><a href="index.html#timeline">Kariyer</a></li>
+      </ul>
+    </nav>
+    <button class="mobile-menu-btn" style="display: none;">☰</button>
+  </div>
+</header>
+
+
+
+  <!-- Ana İçerik -->
+  <main>
+    <div class="container">
+      <div class="book-detail">
+        <div class="book-detail-cover">
+          <img src="assets/images/books/copler_faciasi.jpeg" alt="Çöpler Faciası">
+        </div>
+        <div class="book-detail-info">
+          <h1>Çöpler Faciası</h1>
+          
+          <div class="book-meta">
+            <div class="book-meta-item">
+              <i class="fas fa-calendar-alt"></i>
+              <span>2024</span>
+            </div>
+            <div class="book-meta-item">
+              <i class="fas fa-book"></i>
+              <span>350 Sayfa</span>
+            </div>
+            <div class="book-meta-item">
+              <i class="fas fa-building"></i>
+              <span>Galeati Yayınevi</span>
+            </div>
+          </div>
+          
+          <div class="book-description">
+            <p><strong>Çöpler Faciası - Sömürge Madenciliğinde Bir Nokta</strong>, dokuz işçinin hayatını kaybettiği ve madencilik endüstrisinin iktidar ve medya ilişkilerini açığa çıkaran yüksek profilli bir faciayı derinlemesine incelemektedir. Bu araştırma, sömürge kapitalizmi, çalışan sağlığı ve güvenliği ile Türkiye'nin doğal kaynaklarının sömürülmesinin karanlık yüzünü ortaya koymaktadır.</p>
+            
+            <p>İbrahim Gündüz'ün kapsamlı araştırması ve gazeteci gözüyle yapılan bu inceleme, medya özgürlüğü eksikliğinde perde arkasında kalan gerçekleri yüzü yüze getirmektedir. Kitap, hukuk devletinin sınırlarını ve iktidarın etkilerini sorgulamakta, çalışan sınıfının karşı karşıya olduğu sistematik riskleri detaylı olarak açıklamaktadır.</p>
+            
+            <p>Bu eser, Türkiye'nin madencilik politikaları, çevre sorunları ve işçi güvenliği meselelerine yönelik önemli bir belge niteliğindedir ve gazeteciliğin toplumsal sorumluluğunun en güzel örneklerinden birini sunmaktadır.</p>
+          </div>
+          
+          <div class="purchase-options">
+            <h3 class="purchase-title">Kitabı Satın Al</h3>
+            <div class="purchase-links">
+              <a href="https://www.amazon.com.tr/Ç%C3%B6pler-Facias%C4%B1-S%C3%B6m%C3%BCrge-Madencili%C4%9Finde-Noktas%C4%B1/dp/6256876482/" target="_blank" class="purchase-link">
+                <i class="fas fa-shopping-cart"></i> Amazon.tr
+              </a>
+              <a href="https://galeatiyayinevi.com/" target="_blank" class="purchase-link">
+                <i class="fab fa-amazon"></i> Galeati Yayınevi
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="book-content">
+        <h2>Kitabın İçeriği</h2>
+        
+        <div class="tab-container">
+          <div class="tabs">
+            <div class="tab active" data-tab="summary">Özet</div>
+            <div class="tab" data-tab="toc">İçindekiler</div>
+            <div class="tab" data-tab="reviews">Eleştiriler</div>
+          </div>
+          
+          <div class="tab-content active" id="summary">
+            <p>"Çöpler Faciası", madencilik endüstrisinin sömürgecilik mantığını ve bu sistemde işçilerin ne kadar değersiz hale geldiğini gösteren bir çalışmadır. Kitap, dokuz işçinin hayatını kaybettiği faciayı ele alarak, medya özgürlüğü eksikliğinde perde arkasında kalan gerçekleri ortaya koymaktadır.</p>
+            
+            <p>Kitabın ilk bölümü, Türkiye'nin madencilik politikalarını ve ülkede çalışan sınıfının karşı karşıya olduğu sistematik riskleri incelemektedir. Devlet ve özel sektör arasındaki ilişkiler, rüşvet ve yolsuzluk mekanizmaları, çevre sorunları ve işçi güvenliğinin göz ardı edildiği yapıyı analiz etmektedir.</p>
+            
+            <p>İkinci bölümde, medya kurumlarının nasıl susturulduğu ve gazeteciliğin darbe altında kaldığı detaylı olarak gösterilmektedir. Gündüz, iktidarın medya üzerindeki baskısını, kurumsal gazeteciliğin taşıyıcısı olarak kullanılma mekanizmalarını ve haber üretiminin kontrol altına alınmasını ortaya koymaktadır.</p>
+            
+            <p>Son bölümde, işçi sınıfının örgütlenme çabaları, mücadele tarihi ve yeniden dirilişi için gerekli olan toplumsal ve siyasi koşullar tartışılmaktadır. Kitap, gazeteciliğin toplumsal sorumluluğunu ve adalet peşinde koşmanın gerekliliğini vurgulamaktadır.</p>
+            
+            <p>"Çöpler Faciası", sadece bir olayın hikayesi değil, Türkiye'nin sı­nıf yapısını, iktidar mekanizmalarını ve medya özgürlüğünün ne denli önemli olduğunu anlatan kapsamlı bir belge niteliğindedir.</p>
+          </div>
+          
+          <div class="tab-content" id="toc">
+            <h3>İÇİNDEKİLER</h3>
+            <p><strong>ÖNSÖZ: SESSIZLIĞIN FIYATI</strong></p>
+            
+            <p><strong>BİRİNCİ BÖLÜM: MADENCILERDE ÖLÜM VE SUSKUNLUK</strong></p>
+            <ul>
+              <li>1.1. Çöpler Faciası Nedir?</li>
+              <li>1.2. Madenciliğin İç Yüzü</li>
+              <li>1.3. Dokuz İşçinin Hikayesi</li>
+              <li>1.4. İmama Değer, Bedavaya Canım</li>
+            </ul>
+            
+            <p><strong>İKİNCİ BÖLÜM: TÜRKİYE'NİN MADENCILIK POLİTİKASI VE SINIF MÜCADELESI</strong></p>
+            <ul>
+              <li>2.1. Sömürge Madenciliği</li>
+              <li>2.2. Devlet-İktidar İlişkisi</li>
+              <li>2.3. İşçi Güvenliğinin Göz Ardı Edilişi</li>
+              <li>2.4. Çevre Katliamı</li>
+            </ul>
+            
+            <p><strong>ÜÇÜNCÜ BÖLÜM: MEDYA VE SUSTURMA</strong></p>
+            <ul>
+              <li>3.1. Medya Özgürlüğünün Sonu</li>
+              <li>3.2. İktidarın Baskısı Altında Gazetecilik</li>
+              <li>3.3. Kurumsal Gazeteciliğin Payandaları</li>
+              <li>3.4. Haber Üretiminin Kontrolü</li>
+            </ul>
+            
+            <p><strong>DÖRDÜNCÜ BÖLÜM: MÜCADELE VE UMUT</strong></p>
+            <ul>
+              <li>4.1. İşçi Örgütlerinin Çabaları</li>
+              <li>4.2. Yürüyüşler ve Protesto</li>
+              <li>4.3. Adalet Arayışı</li>
+              <li>4.4. Yeniden Diriliş için Gerekli Olanlar</li>
+            </ul>
+            
+            <p><strong>SONUÇ: ADİL BİR TÜRKIYE İÇİN</strong></p>
+            <p><strong>KAYNAKÇA VE İZLEYEBİLİR LİNKLER</strong></p>
+          </div>
+          
+          <div class="tab-content" id="reviews">
+            <div class="review">
+              <p><em>"'Çöpler Faciası', İbrahim Gündüz tarafından, işçi sınıfının kan ve gözyaşlarıyla yazılmış bir eserdir. Madencilik endüstrisinin sömürgecilik mantığını, medyanın susturulmasını ve adaletin pes ettiğini gösteren bu kitap, herkesin okuması gereken bir belge."</em></p>
+              <p>- ODATV Haber Sitesi</p>
+            </div>
+            
+            <div class="review">
+              <p><em>"Gündüz bu kitapta, gazeteciliğin en asil görevini yerine getiriyor: güçlülerin açıkları ortaya koymak. Dokuz işçinin feryatını haykıran bu eser, Türkiye'nin sindirme tiyatrosuna karşı açık bir meydan okuyuş."</em></p>
+              <p>- Bağımsız Gazeteciler Derneği</p>
+            </div>
+              <p><em>"Dijital çağda gazeteciliğin nasıl dönüşmesi gerektiğine dair en kapsamlı çalışmalardan biri. Gündüz, teknolojik değişimlerin getirdiği zorlukları kabul ederken, aynı zamanda bu değişimlerin sunduğu fırsatları değerlendirerek mesleğe umut aşılıyor."</em></p>
+              <p>- Medya ve İletişim Dergisi</p>
+            </div>
+            
+            <div class="review">
+              <p><em>"İbrahim Gündüz, 'Altın Ölüm' ile sadece mesleki bir analiz sunmuyor, aynı zamanda demokrasinin sağlıklı işleyişi için hayati öneme sahip olan gazetecilik mesleğinin nasıl korunup geliştirilebileceğine dair bir yol haritası çiziyor."</em></p>
+              <p>- Prof. Dr. Ahmet Yıldız, İletişim Fakültesi Dekanı</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px; margin-bottom: 80px;">
+        <a href="index.html#books" class="back-button">
+          <i class="fas fa-arrow-left"></i> Tüm Kitaplara Dön
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>İbrahim Gündüz</h3>
+        <p>Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
+        <div class="social-links">
+          <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/?mibextid=wwXIfr&rdid=50Kb7zIvFSNJQiAK&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18vkrssrsQ%2F%3Fmibextid%3DwwXIfr" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/ibrahimgunduz_gazeteci?igsh=YzMyMGd4dzJ5a2lk&utm_source=qr" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-links-container">
+        <h3>İletişim</h3>
+        <ul class="footer-links">
+          <li>ibrahimgunduz.gazeteci@gmail.com</li>
+          <li>Ankara, Türkiye</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <        <p>&copy; 2025 İbrahim Gündüz. Tüm hakları saklıdır.</p>
+        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;">@askingunduzz</a></p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    // Tab işlevselliği
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.tab');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Tüm tablardan active sınıfını kaldır
+          tabs.forEach(t => t.classList.remove('active'));
+          
+          // Tıklanan taba active sınıfını ekle
+          this.classList.add('active');
+          
+          // Tüm içerikleri gizle
+          const tabContents = document.querySelectorAll('.tab-content');
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // İlgili içeriği göster
+          const tabId = this.getAttribute('data-tab');
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+      
+      // Mobil menü işlevselliği
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const nav = document.querySelector('nav');
+      
+      if (window.innerWidth <= 768) {
+        mobileMenuBtn.style.display = 'block';
+      }
+      
+      window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+          mobileMenuBtn.style.display = 'block';
+        } else {
+          mobileMenuBtn.style.display = 'none';
+          nav.style.display = 'block';
+        }
+      });
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        if (nav.style.display === 'none' || nav.style.display === '') {
+          nav.style.display = 'block';
+          nav.style.position = 'absolute';
+          nav.style.top = '100%';
+          nav.style.left = '0';
+          nav.style.width = '100%';
+          nav.style.backgroundColor = 'white';
+          nav.style.padding = '20px';
+          nav.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+          
+          const ul = nav.querySelector('ul');
+          ul.style.display = 'flex';
+          ul.style.flexDirection = 'column';
+          
+          const lis = ul.querySelectorAll('li');
+          lis.forEach(li => {
+            li.style.margin = '10px 0';
+          });
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+    });
+  </script>
