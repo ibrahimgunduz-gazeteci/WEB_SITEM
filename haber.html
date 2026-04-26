@@ -119,7 +119,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Makale içeriğini göster
                 if (article.htmlContent) {
-                    contentDiv.innerHTML = article.htmlContent;
+                    // URL-encode image paths to handle spaces and Turkish characters
+                    let htmlContent = article.htmlContent;
+                    htmlContent = htmlContent.replace(/src="([^"]*)"/g, function(match, path) {
+                        // Only encode if it's a relative path (starts with assets/)
+                        if (path.startsWith('assets/')) {
+                            const encodedPath = path.split('/').map(part => encodeURIComponent(part)).join('/');
+                            return 'src="' + encodedPath + '"';
+                        }
+                        return match;
+                    });
+                    contentDiv.innerHTML = htmlContent;
                 } else {
                     contentDiv.innerHTML = '<p style="color: #999; font-style: italic; text-align: center; padding: 40px;">Makale içeriği işlenmededir.</p>';
                 }
