@@ -1,0 +1,7 @@
+name = "ig-admin-api"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Secrets via `wrangler secret put` — do not put tokens here.
+# GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_TOKEN,
+# ALLOWED_GITHUB_USERS, SESSION_SECRET, REPO_OWNER, REPO_NAME, REPO_BRANCH
