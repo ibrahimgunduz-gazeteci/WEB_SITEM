@@ -1,0 +1,422 @@
+/*
+ * Shared book detail + purchase styles (v2.6)
+ * Load after main.css / refinement.css
+ */
+
+/* ---- Detail layout ---- */
+.book-detail {
+  display: grid;
+  grid-template-columns: minmax(200px, 320px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+.book-detail-cover {
+  position: relative;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.book-detail-cover img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow:
+    0 14px 32px rgba(28, 44, 58, .14),
+    0 0 0 1px rgba(28, 44, 58, .06);
+}
+
+.book-detail-info h1 {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  margin: 0 0 14px;
+  color: var(--color-heading, #2c3e50);
+}
+
+.book-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 18px;
+}
+
+.book-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-text-muted, #5f7182);
+}
+
+.book-meta-item i {
+  color: var(--color-accent, #e74c3c);
+}
+
+.book-description {
+  margin-bottom: 22px;
+}
+
+.book-description p {
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--color-text, #34495e);
+  margin: 0 0 14px;
+  max-width: 62ch;
+}
+
+.purchase-options {
+  margin: 22px 0 8px;
+}
+
+.purchase-title {
+  font-size: 20px;
+  margin: 0 0 14px;
+  color: var(--color-heading, #2c3e50);
+}
+
+.purchase-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.purchase-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border, #e2e8ee);
+  background: var(--color-surface, #fff);
+  color: var(--color-heading, #2c3e50) !important;
+  font-weight: 650;
+  font-size: 14px;
+  text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease, background .2s ease;
+}
+
+.purchase-link i {
+  color: var(--color-accent, #e74c3c);
+  font-size: 18px;
+  width: 1.25em;
+  text-align: center;
+}
+
+.purchase-link:hover,
+.purchase-link:focus-visible {
+  border-color: #c0392b;
+  transform: translateY(-1px);
+}
+
+/* Elegant back control (detail + purchase) */
+.back-button,
+a.book-back-link,
+.book-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border, #e2e8ee);
+  background: transparent;
+  color: var(--color-heading, #2c3e50) !important;
+  font-weight: 650;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.back-button:hover,
+.book-back-link:hover {
+  border-color: #c0392b;
+  color: #c0392b !important;
+  background: rgba(192, 57, 43, .06);
+}
+
+.book-back-wrap {
+  margin: 8px 0 20px;
+}
+
+.book-back-wrap.bottom {
+  margin: 28px 0 8px;
+  text-align: left;
+}
+
+/* Override old giant red back-button rules from page inline CSS */
+a.back-button.btn,
+a.btn.back-button,
+.book-back-wrap .btn {
+  background: transparent !important;
+  color: var(--color-heading, #2c3e50) !important;
+  border: 1px solid var(--color-border, #e2e8ee) !important;
+  box-shadow: none !important;
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 999px;
+}
+
+/* ---- Purchase / satin-al page ---- */
+.buy-page-container {
+  display: grid;
+  grid-template-columns: minmax(180px, 300px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+  margin: 12px 0 24px;
+}
+
+.book-image {
+  background: var(--ig-surface, #f3f6f9);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.book-image img {
+  max-width: min(100%, 280px);
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(28, 44, 58, .14);
+}
+
+.book-purchase-title {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(26px, 3vw, 36px);
+  color: var(--color-heading, #2c3e50);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.book-year-badge {
+  background: #c0392b;
+  color: #fff !important;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.book-author,
+.book-subtitle,
+.book-subtitle em {
+  color: var(--color-text-muted, #5f7182) !important;
+  font-size: 15px;
+}
+
+.book-details {
+  background: var(--ig-surface, #f3f6f9);
+  padding: 16px 18px;
+  border-radius: 12px;
+  margin-bottom: 22px;
+  border-left: 3px solid #c0392b;
+}
+
+.book-details p {
+  margin: 8px 0;
+  color: var(--color-text, #34495e) !important;
+  font-size: 14.5px;
+}
+
+.book-details strong {
+  color: var(--color-heading, #2c3e50) !important;
+}
+
+.book-description-full h3,
+.purchase-options h3 {
+  font-size: 18px;
+  color: var(--color-heading, #2c3e50) !important;
+  margin: 0 0 12px;
+}
+
+.book-description-full p {
+  color: var(--color-text, #34495e) !important;
+  line-height: 1.75;
+  font-size: 15.5px;
+  max-width: 60ch;
+}
+
+/* 2×2 seller grid in the content column — never 3+1 */
+.seller-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.seller-card {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e2e8ee);
+  border-radius: 14px;
+  padding: 16px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 148px;
+  box-shadow: 0 4px 14px rgba(28, 44, 58, .05);
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.seller-card:hover {
+  border-color: #c5a7a2;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(28, 44, 58, .08);
+}
+
+.seller-icon {
+  font-size: 26px;
+  color: #c0392b;
+  margin: 0;
+  line-height: 1;
+}
+
+.seller-card h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-heading, #2c3e50) !important;
+  line-height: 1.3;
+}
+
+.seller-price {
+  display: none; /* unused placeholder prices removed visually */
+}
+
+.seller-btn {
+  margin-top: auto;
+  background: #c0392b !important;
+  color: #fff !important;
+  padding: 8px 14px !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  min-height: 36px;
+  min-width: 0 !important;
+  width: auto;
+  text-decoration: none;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.seller-btn:hover {
+  background: #a93226 !important;
+}
+
+/* ---- Dark theme ---- */
+html[data-theme="dark"] .book-detail-cover img {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, .4), 0 0 0 1px rgba(255, 255, 255, .06);
+}
+
+html[data-theme="dark"] .book-detail-info h1,
+html[data-theme="dark"] .book-purchase-title,
+html[data-theme="dark"] .purchase-title,
+html[data-theme="dark"] .book-description-full h3,
+html[data-theme="dark"] .purchase-options h3,
+html[data-theme="dark"] .book-details strong,
+html[data-theme="dark"] .seller-card h4 {
+  color: #f0f5f8 !important;
+}
+
+html[data-theme="dark"] .book-description p,
+html[data-theme="dark"] .book-description-full p,
+html[data-theme="dark"] .book-details p,
+html[data-theme="dark"] .book-author,
+html[data-theme="dark"] .book-subtitle,
+html[data-theme="dark"] .book-subtitle em,
+html[data-theme="dark"] .book-meta-item {
+  color: #c8d5e0 !important;
+}
+
+html[data-theme="dark"] .purchase-link {
+  background: #1a2731 !important;
+  border-color: #2f3f4b !important;
+  color: #eef3f7 !important;
+}
+
+html[data-theme="dark"] .purchase-link i {
+  color: #ff8f82;
+}
+
+html[data-theme="dark"] .seller-card {
+  background: #1a2731 !important;
+  border-color: #2f3f4b !important;
+  color: #eef3f7 !important;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .book-image,
+html[data-theme="dark"] .book-details {
+  background: #141e26 !important;
+}
+
+html[data-theme="dark"] .back-button,
+html[data-theme="dark"] .book-back-link,
+html[data-theme="dark"] .book-back-wrap .btn {
+  color: #e8eef2 !important;
+  border-color: #2f3f4b !important;
+  background: transparent !important;
+}
+
+html[data-theme="dark"] .back-button:hover,
+html[data-theme="dark"] .book-back-link:hover {
+  color: #ff8f82 !important;
+  border-color: #ff8f82 !important;
+  background: rgba(231, 76, 60, .1) !important;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  .book-detail {
+    grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .book-detail,
+  .buy-page-container {
+    grid-template-columns: 1fr;
+  }
+  .book-detail-cover,
+  .book-image img {
+    max-width: 240px;
+  }
+  .book-detail-cover {
+    margin: 0 auto 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .seller-grid,
+  .purchase-links {
+    grid-template-columns: 1fr;
+  }
+  .seller-card {
+    min-height: 0;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 12px 14px;
+    gap: 12px;
+  }
+  .seller-btn {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .book-meta-item {
+    font-size: 13px;
+  }
+}
