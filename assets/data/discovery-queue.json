@@ -1,0 +1,247 @@
+{
+  "generatedAt": "2026-10-31T20:40:32Z",
+  "policy": "Otomatik yayım yok. İbrahim Gündüz hakkında yazılmış haberler yazarın kendi yazısı sanılmamalı.",
+  "sources": [
+    {
+      "id": "kisadalga",
+      "name": "Kısa Dalga",
+      "supported": true,
+      "autoPublish": false,
+      "notes": "Yazar sayfası/HTML tarama; resmi yazar RSS garanti değil.",
+      "errors": [
+        {
+          "url": "https://kisadalga.net/yazar/ibrahim-gunduz",
+          "error": "HTTP Error 404: Not Found"
+        }
+      ],
+      "candidates": 33
+    },
+    {
+      "id": "odatv",
+      "name": "Odatv",
+      "supported": false,
+      "autoPublish": false,
+      "notes": "Yazar arşivi HTML; bot koruması olabilir.",
+      "errors": [
+        {
+          "url": "https://www.odatv.com/yazar/ibrahim-gunduz",
+          "error": "HTTP Error 404: Not Found"
+        },
+        {
+          "url": "https://www.odatv4.com/yazar/ibrahim-gunduz",
+          "error": "HTTP Error 404: Not Found"
+        }
+      ],
+      "candidates": 0
+    },
+    {
+      "id": "12punto",
+      "name": "12punto",
+      "supported": true,
+      "autoPublish": false,
+      "notes": "Arama sayfası üzerinden keşif; kalıcı yazar RSS doğrulanmalı.",
+      "errors": [],
+      "candidates": 0
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://kisadalga.net/assets/favicon/favicon-96x96.png",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/assets/favicon/apple-touch-icon.png",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/assets/bundle/2019-main.css?1777897063",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/imamoglunun-tutuklu-avukati-pehlivan-agabeyimi-tutukladilar-kanser-hastasi-anne-babama-ve-cocuguma-bakacak-kimsemiz-kalmadi-141312",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/solcu-ustelik-turkiye-kokenli-o-zaman-vurun-elife-141300",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/surecte-silahsizlanma-ve-hukuki-guvence-dugumu-bestastan-tikaniklik-uyarisi-141316",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/yodayi-izle-ama-takip-etme-141298",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/ekonomi/binanceta-63-milyar-dolarlik-kripto-hirsizligi-sirket-kayiplari-karsilayacagini-acikladi-141302",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/ozel-haber/kitalararasi-grev-gunu-liman-iscileri-lojistik-askeri-olmak-istemiyor-141273",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/ozel-haber/kuryeler-kotu-havada-durabilmek-icin-kaza-butonuna-basiyor-141244",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/ozel-haber/tmmob-cop31e-katilmayacak-tek-ciktisi-diplomatik-turizm-ve-ulke-tanitimi-olacak-141241",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/ozel-haber/odtu-ankara-hacettepe-mersinde-akademik-ozgurluk-uc-kere-yutkunup-oyle-konusabiliyorum-hepimiz-otosansur-uyguluyoruz-141207",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/turkiye-feridun-sinirlioglunu-bm-genel-sekreterligi-icin-aday-gosterdi-141317",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/kadinlar-ortak-gelecek-icin-bulustu-adalet-olmadan-baris-olmaz-141315",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/cumartesi-anneleri-1127nci-haftada-dargecit-dosyasini-meydana-tasidi-141313",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/kisa-dalga-bulten/akp-ve-mhpden-chpnin-adayina-oy-yoksulluk-siniri-124-bin-liraya-dayandi-141291",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/kapadokyada-peribacasi-coktu-3-kisi-hayatini-kaybetti-5-kisi-yaralandi-141271",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/sinem-dedetasin-davetine-deniz-goktastan-yanit-en-guzel-coraplarimla-gelecegim-141274",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/yeni-parti-mutlak-butlan-kararini-aihme-tasiyacak-birinci-parti-olan-chpyi-yuzde-2lere-dusurduler-141277",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/kisadalgatv/detay/bir-dakikada-bugun-ne-oldu-743-141314",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/gundem/eren-keskinden-sarigul-iddiasi-ozgur-ulkenin-bombalanmasi-olayinda-sorusturulmaliydi-141311",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/arastirma/bebek-cocuk-protez-bacak-ve-kotu-muamele-iddiasi-geri-gonderme-merkezleri-sikayetleri-tihek-kararlarinda-140264",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/arastirma/dosya-4-i-geri-gonderme-merkezlerinde-belirsizlik-uyarisi-hak-ihlalleri-nasil-gorunmez-hale-geliyor-140198",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/arastirma/dosya-3-i-geri-gonderme-merkezlerinde-saglik-tablosu-doktora-2-dakika-odalarda-acil-durumda-buton-yok-ama-uyuz-var-140183",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/arastirma/dosya-2-geri-gonderme-merkezinde-4-yasindaki-epilepsi-hastasi-cocuk-cocuklarin-yasam-kosullari-140165",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/kisa-dalga-bulten/kurtulmustan-surec-aciklamasi-chpden-cemil-tugay-hakkinda-suc-duyurusu-141246",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/kisa-dalga-bulten/bakirkoy-belediyesine-operasyon-issizlik-verileri-aciklandi-141225",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/kisa-dalga-bulten/oktay-saraldan-istifa-aciklamasi-tavsanli-hoyuk-kazilarinda-4-bin-yillik-pati-izi-141203",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/soylesi/psikiyatrist-enes-ozel-ile-normal-kitabi-uzerine-hicbir-sey-degismeyecek-dusuncesi-iktidar-sistemlerinin-urunu-141205",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/soylesi/karabekir-akkoyunlu-sol-luladan-sonrasi-icin-hazirlanmazsa-brezilyayi-uzun-vadede-saga-kaybedebilir-141206",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/soylesi/nuri-gunayla-tirtilin-cigligi-uzerine-derdim-hikaye-anlatmakti-141088",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/haber/soylesi/basar-basarir-roman-kahramanlari-daima-yolcudur-zaman-yolcusu-gonul-yolcusu-ya-da-zihin-yolcusu-141007",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    },
+    {
+      "url": "https://kisadalga.net/gizlilik-ilkeleri",
+      "source": "kisadalga",
+      "status": "needs_review",
+      "reason": "Keşif adayı — yazar doğrulaması ve elle onay gerekli"
+    }
+  ]
+}

@@ -3,29 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/js/theme-init.js?v=2.3"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-ig.svg">
+  <link rel="alternate icon" href="assets/favicon.png" type="image/png">
   <title>İbrahim Gündüz | Gazeteci & Yazar</title>
+  <meta name="description" content="Gazeteci ve yazar İbrahim Gündüz’ün yazıları, videoları ve kitapları. Çevre, madencilik ve basın üzerine çalışmalar.">
+  <link rel="canonical" href="https://ibrahimgunduz.com.tr/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="İbrahim Gündüz | Gazeteci & Yazar">
+  <meta property="og:description" content="Yazılar, videolar ve kitaplar — İbrahim Gündüz.">
+  <meta property="og:url" content="https://ibrahimgunduz.com.tr/">
+  <meta property="og:image" content="https://ibrahimgunduz.com.tr/assets/images/profile/ibrahimgunduz.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"İbrahim Gündüz","jobTitle":"Gazeteci & Yazar","url":"https://ibrahimgunduz.com.tr/","sameAs":["https://x.com/ibrahimggunduzz","https://www.instagram.com/ibrahimgunduz_gazeteci","https://www.youtube.com/@İbrahimGündüz-Gazeteci"]}
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-  
+  <link rel="stylesheet" href="assets/css/main.css?v=2.3">
+
+  <link rel="stylesheet" href="assets/css/refinement.css?v=2.5">
+  <script src="assets/js/theme-toggle.js?v=2.3" defer></script>
 </head>
 <body>
   <header>
-    <div class="container header-container">
-      <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
-      <nav>
-        <ul>
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="#featured-articles">Yazılar</a></li>
-          <li><a href="#videos">Videolar</a></li>
-          <li><a href="#books">Kitaplar</a></li>
-          <li><a href="#about">Hakkında</a></li>
-          <li><a href="#timeline">Kariyer</a></li>
-        </ul>
-      </nav>
-      <button class="mobile-menu-btn">☰</button>
-    </div>
-  </header>
+  <div class="container header-container">
+    <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
+    <nav id="site-nav" aria-label="Ana menü">
+      <ul>
+        <li><a href="index.html">Ana Sayfa</a></li>
+        <li><a href="index.html#featured-articles">Yazılar</a></li>
+        <li><a href="index.html#videos">Videolarım</a></li>
+        <li><a href="index.html#books">Kitaplar</a></li>
+        <li><a href="index.html#about">Hakkında</a></li>
+        <li><a href="index.html#timeline">Kariyer</a></li>
+      </ul>
+    </nav>
+    <button class="mobile-menu-btn" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="site-nav">☰</button>
+  </div>
+</header>
 
   <div class="flash-messages"></div>
 
@@ -35,14 +50,14 @@
         <div class="hero-text">
           <h3>Gazeteci & Yazar</h3>
           <h1>İbrahim Gündüz</h1>
-          <p>Üniversiteye adım attıktan sonra sadece gazetecilik yapmayı düşünen ve bundan sonra da hayatını bu şekilde noktalayacak bir Türk vatandaşı...</p>
+          <p>Gazeteciliği hayatının merkezine koyan; çevre ve vahşi madencilik konularında yazan bir yazar.</p>
           <div>
-            <a href="#featured-articles" class="btn">Yazılarımı Keşfet</a>
-            <a href="#videos" class="btn">Haberlerim</a>
+            <a href="index.html#featured-articles" class="btn">Yazılarımı İncele</a>
+            <a href="index.html#books" class="btn">Kitaplarım</a>
           </div>
         </div>
         <div class="hero-image">
-          <img src="assets/images/profile/ibrahimgunduz.png" alt="İbrahim Gündüz">
+          <img src="assets/images/profile/ibrahimgunduz.png" alt="İbrahim Gündüz, gazeteci ve yazar" width="480" height="600" fetchpriority="high" decoding="async">
         </div>
       </div>
     </div>
@@ -86,7 +101,7 @@
 
 <section id="videos" class="section" style="background-color: var(--light-bg);">
   <div class="container">
-    <h2 class="section-title">Haberlerim</h2>
+    <h2 class="section-title">Videolarım</h2>
     <p class="section-subtitle">YouTube kanalımdan en son yayınlar</p>
     
     <div class="articles-slider">
@@ -101,11 +116,11 @@
     </div>
     
     <div style="text-align: center; margin-top: 30px;">
-      <a href="https://www.youtube.com/@İbrahimGündüz-Gazeteci" target="_blank" class="btn">Kanalın Tamamını Gör</a>
+      <a href="tum-videolar.html" class="btn">Tüm Videoları Gör</a>
+      <div style="text-align:center;margin-top:12px;"><a href="https://www.youtube.com/@İbrahimGündüz-Gazeteci" target="_blank" rel="noopener noreferrer" class="read-more">YouTube kanalı →</a></div>
     </div>
   </div>
 </section>
-
 
 <section id="books" class="section">
   <div class="container">
@@ -119,7 +134,7 @@
         </div>
         <div class="book-info">
           <div class="book-header">
-            <span class="book-year">2023</span>
+            <span class="book-year">2020</span>
             <h3 class="book-title">Altın Ölüm</h3>
           </div>
           <p class="book-description">Siyanürlü altın madenciliğinin ekolojik etkilerini ele alan kapsamlı bir inceleme.</p>
@@ -178,7 +193,7 @@
             <span class="book-year">2024</span>
             <h3 class="book-title">Çöpler Faciası</h3>
           </div>
-          <p class="book-description">Çöp yönetimi ve atık işleme sistemlerinin çevresel ve sosyal etkilerini araştıran bir çalışma.</p>
+          <p class="book-description">Erzincan İliç’teki Çöpler altın madeni faciasını ve sorumluluk zincirini belgeleyen bir çalışma.</p>
           
           <div class="book-actions">
             <a href="copler-faciasi.html" class="book-read-more">Detaylı İncele</a>
@@ -202,7 +217,7 @@
           <p style="margin-bottom: 20px;">Ankara Üniversitesi İletişim Fakültesi'nden mezun oldum. Kariyerime 1987 yılında Güneş Gazetesi'nde stajyer olarak başladım ve önce gece muhabirliği, ardından belediye muhabirliği ve siyasi parti muhabirliği görevlerinde bulundum.</p>
           <p style="margin-bottom: 20px;">Günaydın ve Sabah gazetelerinde diplomasi muhabiri olarak görev yaptım. Bu süreçte Asya, Avrupa, Amerika ve Afrika kıtalarında birçok ülkeyi ziyaret ettim ve NATO, AB Zirvesi gibi uluslararası toplantılar ile Pakistan Depremi gibi doğal afet olaylarını haberleştirdim.</p>
           <p style="margin-bottom: 20px;">Televizyon kariyerimde 1999-2004 yılları arasında ATV parlamento muhabiri olarak, ardından 2018 yılına kadar Kanal D adına aynı görevi sürdürdüm.</p>
-          <p style="margin-bottom: 20px;">Bugüne kadar "Altın Ölüm" (2020), "Altın Girdap" (2022) ve "O Soruyu Biz Sormayalım. Ekranın Arkası" (2022) isimli üç kitabım yayınlandı. Şu anda çeşitli internet platformlarında ağırlıklı olarak çevre ve vahşi madencilik konularında yazılar yazarak serbest gazeteci olarak çalışmalarımı sürdürüyorum.</p>
+          <p style="margin-bottom: 20px;">Bugüne kadar "Altın Ölüm" (2020), "Altın Girdap" (2022), "O Soruyu Biz Sormayalım. Ekranın Arkası" (2022) ve "Çöpler Faciası" (2024) isimli kitaplarım yayınlandı. Şu anda çeşitli internet platformlarında ağırlıklı olarak çevre ve vahşi madencilik konularında yazılar yazarak serbest gazeteci olarak çalışmalarımı sürdürüyorum.</p>
           <p style="margin-bottom: 20px;">Prof. Dr. Zuhal Yeşilyurt Gündüz ile evliyim ve Aşkın ve Barış adında iki çocuğum var.</p>
         </div>
       </div>
@@ -257,7 +272,7 @@
           <div class="timeline-content">
             <div class="timeline-year">2020-2022</div>
             <h3 class="timeline-title">Kitap Çalışmaları</h3>
-            <p>"Altın Ölüm" (2020), "Altın Girdap" (2022) ve "O Soruyu Biz Sormayalım. Ekranın Arkası" (2022) isimli kitaplarımı yayınladım.</p>
+            <p>"Altın Ölüm" (2020), "Altın Girdap" (2022), "O Soruyu Biz Sormayalım. Ekranın Arkası" (2022) ve "Çöpler Faciası" (2024) kitaplarımı yayınladım.</p>
           </div>
         </div>
         
@@ -273,7 +288,6 @@
     </div>
   </section>
 
-
   <div class="back-to-top"><i class="fas fa-arrow-up"></i></div>
 
  <!-- Footer -->
@@ -284,9 +298,9 @@
           <h3>İbrahim Gündüz</h3>
           <p>Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
           <div class="social-links">
-            <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/ibrahimgunduz_gazeteci" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/ibrahimgunduz_gazeteci" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
         
@@ -301,329 +315,22 @@
       
       <div class="footer-bottom">
         <p>&copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.</p>
-        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;">@askingunduzz</a></p>
+        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;" rel="noopener noreferrer">@askingunduzz</a></p>
       </div>
     </div>
   </footer>
+  <!-- EmailJS intentionally not loaded: newsletter/admin retired until secure backend exists -->
   
-  <!-- Admin Panel -->
-  <div id="admin-panel" class="admin-panel">
-    <div class="admin-content">
-      <div class="admin-header">
-        <h2>Abone Yönetimi</h2>
-        <button class="admin-close" onclick="closeAdminPanel()">×</button>
-      </div>
-      
-      <div class="subscriber-count">
-        <span id="subscriber-count-text">Toplam Abone: 0</span>
-      </div>
-      
-      <div class="subscribers-list" id="subscribers-list">
-        <p style="text-align: center; color: #999;">Henüz abone yok</p>
-      </div>
-      
-      <div class="admin-actions">
-        <button class="admin-btn export" onclick="exportSubscribers()">📥 Dışa Aktar (CSV)</button>
-        <button class="admin-btn export" onclick="sendBulkEmail()">📧 Herkese Mail Gönder</button>
-        <button class="admin-btn clear" onclick="clearAllSubscribers()">🗑️ Tümünü Sil</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- EmailJS Library -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
   
   <!-- JavaScript files -->
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/articles.js"></script>
-  <script src="assets/js/youtube-feed.js"></script>
+  <script src="assets/js/main.js?v=2.6"></script>
+  <script src="assets/js/articles.js?v=2.1"></script>
+  <script src="assets/js/youtube-feed.js?v=2.1"></script>
   
   <script>
-    // Create admin panel object FIRST (before anything else)
-    window.adminPanel = {};
-    
-    console.log('✓ Admin panel object created');
-    
-    // Initialize EmailJS
-    try {
-      emailjs.init("Y0xVmCY3J7S3UxM0C");
-      console.log('✓ EmailJS initialized');
-    } catch (err) {
-      console.log('EmailJS init error (non-critical):', err);
-    }
-    
-    console.log('✓ Newsletter script loaded');
-    
-    function handleNewsletterSubmit(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      
-      const emailInput = document.getElementById('newsletter-email');
-      const email = emailInput.value.trim();
-      const msgDiv = document.getElementById('newsletter-message');
-      
-      // Clear message
-      msgDiv.textContent = '';
-      msgDiv.className = 'newsletter-message';
-      
-      // Validate email
-      if (!email.includes('@') || !email.includes('.')) {
-        showMsg('❌ Lütfen geçerli bir e-posta girin.', 'error', msgDiv);
-        return false;
-      }
-      
-      // Get subscribers from storage
-      let subs = [];
-      try {
-        const stored = localStorage.getItem('newsletterSubscribers');
-        if (stored) subs = JSON.parse(stored);
-      } catch (e) {
-        console.log('Storage read error:', e);
-      }
-      
-      // Check if duplicate
-      const duplicate = subs.some(s => s.email.toLowerCase() === email.toLowerCase());
-      if (duplicate) {
-        showMsg('❌ Bu e-posta zaten kayıtlı!', 'error', msgDiv);
-        emailInput.value = '';
-        emailInput.focus();
-        return false;
-      }
-      
-      // Add to list
-      subs.push({
-        email: email,
-        date: new Date().toLocaleString('tr-TR')
-      });
-      
-      // Save
-      try {
-        localStorage.setItem('newsletterSubscribers', JSON.stringify(subs));
-      } catch (e) {
-        showMsg('❌ Depolama hatası!', 'error', msgDiv);
-        console.log('Storage write error:', e);
-        return false;
-      }
-      
-      // Send welcome email with EmailJS
-      sendWelcomeEmailWithEmailJS(email, msgDiv, function(success) {
-        if (success) {
-          showMsg('✓ Hoşgeldin e-postası gönderildi. Abone olduğunuz için teşekkürler!', 'success', msgDiv);
-        } else {
-          showMsg('⚠️ Abone oldunuz, ancak hoşgeldin e-postası gönderilemedi. Lütfen daha sonra tekrar kontrol edin.', 'error', msgDiv);
-        }
-        emailInput.value = '';
-        emailInput.focus();
-      });
-      
-      return false;
-    }
-    
-    function sendWelcomeEmailWithEmailJS(email, msgDiv, callback) {
-      const welcomeMessage = `Saygın Abone,
-
-İbrahim Gündüz'ün web sitesine abone olduğunuz için teşekkür ederiz!
-
-Artık en son yazıları, videoları ve kitapları hakkında haberdar olacaksınız.
-
-📚 İbrahim Gündüz Hakkında:
-- Gazeteci, yazar ve düşünce insanı
-- Türkiye'nin medya dünyasında 30 yılı aşkın deneyim
-- Dördü yayınlanmış eserler
-
-🔗 Web Sitesi: ${window.location.origin}
-
-En kısa zamanda yeni içeriklerle karşınızda olacak.
-
-Teşekkürler,
-İbrahim Gündüz Ekibi`;
-
-      try {
-        if (!window.emailjs || typeof emailjs.send !== 'function') {
-          console.log('EmailJS not loaded yet or broken');
-          if (callback) callback(false);
-          return;
-        }
-
-        emailjs.send('service_newsletter', 'template_welcome', {
-          to_email: email,
-          user_email: email,
-          message: welcomeMessage
-        }).then(function(response) {
-          console.log('Welcome email sent successfully:', response);
-          if (callback) callback(true);
-        }).catch(function(error) {
-          console.log('Email send failed (service/template may not be configured):', error);
-          if (callback) callback(false);
-        });
-      } catch (error) {
-        console.log('Email send error:', error);
-        if (callback) callback(false);
-      }
-    }
-    
-    function showMsg(text, type, element) {
-      element.textContent = text;
-      element.className = 'newsletter-message ' + type;
-      setTimeout(function() {
-        if (element.className === 'newsletter-message ' + type) {
-          element.className = 'newsletter-message';
-          element.textContent = '';
-        }
-      }, 5000);
-    }
-    
-    // Admin Panel Functions
-    function openAdminPanel(password) {
-      const adminPassword = 'ibrahim2024';
-      const enteredPassword = prompt('Admin Şifresi:');
-      
-      if (enteredPassword === adminPassword) {
-        document.getElementById('admin-panel').classList.add('active');
-        updateSubscribersList();
-      } else if (enteredPassword !== null) {
-        alert('Şifre yanlış!');
-      }
-    }
-    
-    function closeAdminPanel() {
-      document.getElementById('admin-panel').classList.remove('active');
-    }
-    
-    function updateSubscribersList() {
-      const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-      const listDiv = document.getElementById('subscribers-list');
-      const countDiv = document.getElementById('subscriber-count-text');
-      
-      countDiv.textContent = 'Toplam Abone: ' + subscribers.length;
-      
-      if (subscribers.length === 0) {
-        listDiv.innerHTML = '<p style="text-align: center; color: #999;">Henüz abone yok</p>';
-        return;
-      }
-      
-      listDiv.innerHTML = subscribers.map((sub, index) => `
-        <div class="subscriber-item">
-          <div>
-            <strong>${sub.email}</strong><br>
-            <small style="color: #666;">${sub.date}</small>
-          </div>
-          <button class="delete-btn" onclick="deleteSubscriber(${index})">Sil</button>
-        </div>
-      `).join('');
-    }
-    
-    function deleteSubscriber(index) {
-      let subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-      subscribers.splice(index, 1);
-      localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-      updateSubscribersList();
-    }
-    
-    function exportSubscribers() {
-      const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-      
-      if (subscribers.length === 0) {
-        alert('Dışa aktar için henüz abone yok!');
-        return;
-      }
-      
-      let csv = 'E-posta,Tarih\n';
-      subscribers.forEach(sub => {
-        csv += `"${sub.email}","${sub.date}"\n`;
-      });
-      
-      const link = document.createElement('a');
-      link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-      link.download = 'abone-listesi-' + new Date().toISOString().split('T')[0] + '.csv';
-      link.click();
-    }
-    
-    function clearAllSubscribers() {
-      if (confirm('Tüm abone bilgilerini silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
-        localStorage.removeItem('newsletterSubscribers');
-        updateSubscribersList();
-        alert('Tüm abone bilgileri silinmiştir.');
-      }
-    }
-    
-    function sendBulkEmail() {
-      const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-      
-      if (subscribers.length === 0) {
-        alert('Mail göndermek için en az bir abone gereklidir!');
-        return;
-      }
-      
-      const emailSubject = prompt('Email konusu:', 'İbrahim Gündüz - Yeni İçerik');
-      if (!emailSubject) return;
-      
-      const emailMessage = prompt('Email metni:', 'Selamlar,\n\nYeni bir video/yazı yayınladım.\n\nWeb sitesini ziyaret edin: ' + window.location.origin + '\n\nTeşekkürler!');
-      if (!emailMessage) return;
-      
-      if (confirm(emailSubject + '\n\n' + emailMessage + '\n\n' + subscribers.length + ' kişiye gönder?')) {
-        let sent = 0;
-        subscribers.forEach(sub => {
-          sendBulkEmailWithEmailJS(sub.email, emailSubject, emailMessage);
-          sent++;
-        });
-        alert('✓ ' + sent + ' e-posta gönderiliyor...');
-      }
-    }
-    
-    function sendBulkEmailWithEmailJS(email, subject, message) {
-      emailjs.send('service_newsletter', 'template_bulk', {
-        to_email: email,
-        subject: subject,
-        message: message
-      }).catch(function(error) {
-        console.log('Email error for ' + email + ':', error);
-      });
-    }
-    
-    // Keyboard shortcut for admin panel: Ctrl+Shift+A
-    function handleAdminKeydown(e) {
-      console.log('Key pressed:', {code: e.code, key: e.key, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey});
-      
-      const isA = (e.code === 'KeyA' || e.key === 'A' || e.key === 'a');
-      const isCtrlShift = (e.ctrlKey && e.shiftKey);
-      
-      console.log('isA:', isA, 'isCtrlShift:', isCtrlShift);
-      
-      if (isCtrlShift && isA) {
-        console.log('Opening admin panel!');
-        e.preventDefault();
-        openAdminPanel();
-      }
-    }
-    
-    // Attach listener with capture phase to catch all events
-    try {
-      document.addEventListener('keydown', handleAdminKeydown, true);
-      window.addEventListener('keydown', handleAdminKeydown, true);
-      console.log('✓ Keyboard listeners attached');
-    } catch (err) {
-      console.log('Error attaching keyboard listeners:', err);
-    }
-    
-    // Set up admin panel methods
-    console.log('About to set window.adminPanel methods...');
-    try {
-      window.adminPanel.open = function() {
-        openAdminPanel();
-      };
-      
-      window.adminPanel.testKey = function() {
-        console.log('Admin panel test function');
-        openAdminPanel();
-      };
-      
-      console.log('✓ window.adminPanel methods set up successfully');
-      console.log('✓ Type adminPanel.open() in console to test');
-    } catch (err) {
-      console.log('ERROR setting up admin panel:', err);
-    }
+    /* Güvenlik: istemci şifreli admin paneli ve localStorage newsletter kaldırıldı.
+       Yeni yazı yönetimi için CLI / Cloudflare Worker kullanılacak. */
   </script>
 
   <script>

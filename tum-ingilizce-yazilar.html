@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/js/theme-init.js?v=2.3"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-ig.svg">
+  <link rel="alternate icon" href="assets/favicon.png" type="image/png">
   <title>English Articles | İbrahim Gündüz</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site-responsive.css">
-  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-
-  <style>
+  <link rel="stylesheet" href="assets/css/site-responsive.css?v=2.3">
+<style>
     :root {
       --primary-color: #2c3e50;
       --secondary-color: #e74c3c;
@@ -74,7 +75,7 @@
         background: #fff;
         box-shadow: 0 15px 40px rgba(0,0,0,0.13);
         z-index: 9999;
-        border-top: 3px solid var(--secondary-color);
+        border-top: none;
       }
       nav ul {
         display: flex !important;
@@ -98,25 +99,29 @@
       .footer-grid { grid-template-columns: 1fr; }
     }
   </style>
+
+  <link rel="stylesheet" href="assets/css/main.css?v=2.3">
+  <link rel="stylesheet" href="assets/css/refinement.css?v=2.5">
+  <script src="assets/js/theme-toggle.js?v=2.3" defer></script>
 </head>
 <body>
 
   <header>
-    <div class="container header-container">
-      <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
-      <nav>
-        <ul>
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="index.html#featured-articles">Yazılar</a></li>
-          <li><a href="index.html#eng-articles">English</a></li>
-          <li><a href="index.html#videos">Videolar</a></li>
-          <li><a href="index.html#books">Kitaplar</a></li>
-          <li><a href="index.html#about">Hakkında</a></li>
-        </ul>
-      </nav>
-      <button class="mobile-menu-btn" aria-label="Menü">&#9776;</button>
-    </div>
-  </header>
+  <div class="container header-container">
+    <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
+    <nav id="site-nav" aria-label="Ana menü">
+      <ul>
+        <li><a href="index.html">Ana Sayfa</a></li>
+        <li><a href="index.html#featured-articles">Yazılar</a></li>
+        <li><a href="index.html#videos">Videolarım</a></li>
+        <li><a href="index.html#books">Kitaplar</a></li>
+        <li><a href="index.html#about">Hakkında</a></li>
+        <li><a href="index.html#timeline">Kariyer</a></li>
+      </ul>
+    </nav>
+    <button class="mobile-menu-btn" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="site-nav">☰</button>
+  </div>
+</header>
 
   <section class="page-header">
     <div class="container">
@@ -139,9 +144,9 @@
           <h3>İbrahim Gündüz</h3>
           <p style="margin-top:10px; color:#ccc;">Journalist, author, and public intellectual with over 30 years of experience in Turkish media.</p>
           <div class="social-links">
-            <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/ibrahimgunduz_gazeteci" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/ibrahimgunduz_gazeteci" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
         <div>
@@ -181,10 +186,12 @@
         return;
       }
       list.forEach(a => {
-        const isDefault = !a.thumbnail || a.thumbnail === 'static/ibrahimgunduz.png';
         const imgHtml = `<img src="${a.thumbnail}" alt="${a.title}" onerror="this.onerror=null;this.src='static/ibrahimgunduz.png';">`;
-        const target = a.linkType === 'pdf' ? 'target="_blank"' : '';
-        const label  = a.linkType === 'pdf' ? 'View Presentation →' : 'Read More →';
+        const unavailable = a.status === 'unavailable';
+        const target = a.linkType === 'pdf' ? 'target="_blank" rel="noopener noreferrer"' : '';
+        const label = unavailable
+          ? 'Status →'
+          : (a.linkType === 'pdf' ? 'View Presentation →' : 'Read More →');
 
         const card = document.createElement('div');
         card.className = 'article-card';
@@ -200,26 +207,6 @@
     }
   });
   </script>
-  <script>
-  (function() {
-    var btn = document.querySelector('.mobile-menu-btn');
-    var nav = document.querySelector('nav');
-    if (!btn || !nav) return;
-    function isMobile() { return window.innerWidth <= 768; }
-    function syncState() {
-      if (isMobile()) { btn.style.display = 'block'; nav.style.display = 'none'; }
-      else { btn.style.display = 'none'; nav.style.display = 'block'; }
-    }
-    syncState();
-    window.addEventListener('resize', syncState);
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
-    });
-    document.addEventListener('click', function(e) {
-      if (isMobile() && !nav.contains(e.target) && e.target !== btn) nav.style.display = 'none';
-    });
-  })();
-  </script>
+  <script src="assets/js/main.js?v=2.6"></script>
 </body>
 </html>

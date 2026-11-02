@@ -4,13 +4,15 @@
     "thumbnail": "static/ibrahimgunduz.png",
     "link": "eng_article.html",
     "linkType": "internal",
-    "excerpt": "An in-depth look at the evolution of democratic processes and institutions in Turkey."
+    "status": "placeholder",
+    "excerpt": "An in-depth look at the evolution of democratic processes and institutions in Turkey. Full essay text pending upload."
   },
   {
     "title": "The Changing Landscape of Media in Turkey",
     "thumbnail": "static/ibrahimgunduz.png",
-    "link": "assets/eng-documents/media-landscape.pdf",
-    "linkType": "pdf",
-    "excerpt": "A presentation examining how Turkey's media environment has transformed in recent decades."
+    "link": "eng_media_landscape.html",
+    "linkType": "internal",
+    "status": "unavailable",
+    "excerpt": "Presentation PDF is not in the repository yet. Opens a status page — not a substitute document."
   }
 ]

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-  
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/js/theme-init.js?v=2.3"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-ig.svg">
+  <link rel="alternate icon" href="assets/favicon.png" type="image/png">
   <title>Tüm Videolar | İbrahim Gündüz</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site-responsive.css">
+  <link rel="stylesheet" href="assets/css/site-responsive.css?v=2.3">
   <style>
     /* Ana stiller */
     :root {
@@ -435,6 +436,10 @@
   text-transform: uppercase;
 }
   </style>
+
+  <link rel="stylesheet" href="assets/css/main.css?v=2.3">
+  <link rel="stylesheet" href="assets/css/refinement.css?v=2.5">
+  <script src="assets/js/theme-toggle.js?v=2.3" defer></script>
 </head>
 <body>
 
@@ -442,17 +447,17 @@
 <header>
   <div class="container header-container">
     <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
-    <nav>
+    <nav id="site-nav" aria-label="Ana menü">
       <ul>
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="index.html#featured-articles">Yazılar</a></li>
-          <li><a href="index.html#videos">Videolar</a></li>
-          <li><a href="index.html#books">Kitaplar</a></li>
-          <li><a href="index.html#about">Hakkında</a></li>
-          <li><a href="index.html#timeline">Kariyer</a></li>
+        <li><a href="index.html">Ana Sayfa</a></li>
+        <li><a href="index.html#featured-articles">Yazılar</a></li>
+        <li><a href="index.html#videos">Videolarım</a></li>
+        <li><a href="index.html#books">Kitaplar</a></li>
+        <li><a href="index.html#about">Hakkında</a></li>
+        <li><a href="index.html#timeline">Kariyer</a></li>
       </ul>
     </nav>
-    <button class="mobile-menu-btn" style="display: none;">☰</button>
+    <button class="mobile-menu-btn" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="site-nav">☰</button>
   </div>
 </header>
 
@@ -481,7 +486,7 @@
   </div>
 </main>
 
-<script src="assets/js/youtube-feed.js"></script>
+<script src="assets/js/youtube-feed.js?v=2.1"></script>
 
 <!-- Footer -->
 <footer>
@@ -491,9 +496,9 @@
         <h3>İbrahim Gündüz</h3>
         <p>Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
         <div class="social-links">
-          <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/?mibextid=wwXIfr&rdid=50Kb7zIvFSNJQiAK&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18vkrssrsQ%2F%3Fmibextid%3DwwXIfr" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/ibrahimgunduz_gazeteci?igsh=YzMyMGd4dzJ5a2lk&utm_source=qr" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/?mibextid=wwXIfr&rdid=50Kb7zIvFSNJQiAK&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18vkrssrsQ%2F%3Fmibextid%3DwwXIfr" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/ibrahimgunduz_gazeteci?igsh=YzMyMGd4dzJ5a2lk&utm_source=qr" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       
@@ -507,8 +512,8 @@
     </div>
     
     <div class="footer-bottom">
-      <        <p>&copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.</p>
-        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;">@askingunduzz</a></p>
+      <p>&copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.</p>
+        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;" rel="noopener noreferrer">@askingunduzz</a></p>
     </div>
   </div>
 </footer>
@@ -571,23 +576,20 @@
         }
       });
       
-      // Back to top button
+      // Back to top button (optional)
       const backToTopBtn = document.querySelector('.back-to-top');
-      
-      window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-          backToTopBtn.classList.add('visible');
-        } else {
-          backToTopBtn.classList.remove('visible');
-        }
-      });
-      
-      backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
+      if (backToTopBtn) {
+        window.addEventListener('scroll', function() {
+          if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('visible');
+          } else {
+            backToTopBtn.classList.remove('visible');
+          }
         });
-      });
+        backToTopBtn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
       
       // Mobil menü için kodlar
       const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -686,5 +688,6 @@
       createVideoThumbnailClient();
     });
   </script>
-  </body>
+    <script src="assets/js/main.js?v=2.6"></script>
+</body>
   </html>
