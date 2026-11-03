@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/js/theme-init.js?v=2.3"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-ig.svg">
+  <link rel="alternate icon" href="assets/favicon.png" type="image/png">
   <title>Yazı Detayı | İbrahim Gündüz</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site-responsive.css">
-  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-  
-  <style>
+  <link rel="stylesheet" href="assets/css/site-responsive.css?v=2.3">
+<style>
     :root {
       --primary-color: #2c3e50;
       --secondary-color: #e74c3c;
@@ -62,7 +63,7 @@
         background: #fff;
         box-shadow: 0 15px 40px rgba(0,0,0,0.13);
         z-index: 9999;
-        border-top: 3px solid var(--secondary-color);
+        border-top: none;
       }
       nav ul {
         display: flex !important;
@@ -86,23 +87,27 @@
     }
   </style>
   
+
+  <link rel="stylesheet" href="assets/css/main.css?v=2.3">
+  <link rel="stylesheet" href="assets/css/refinement.css?v=2.5">
+  <script src="assets/js/theme-toggle.js?v=2.3" defer></script>
 </head>
 <body>
 
 <header>
   <div class="container header-container">
     <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
-    <nav>
+    <nav id="site-nav" aria-label="Ana menü">
       <ul>
         <li><a href="index.html">Ana Sayfa</a></li>
-        <li><a href="tum-yazilar.html">Yazılar</a></li>
-        <li><a href="index.html#videos">Videolar</a></li>
+        <li><a href="index.html#featured-articles">Yazılar</a></li>
+        <li><a href="index.html#videos">Videolarım</a></li>
         <li><a href="index.html#books">Kitaplar</a></li>
         <li><a href="index.html#about">Hakkında</a></li>
-        <li><a href="index.html#contact">İletişim</a></li>
+        <li><a href="index.html#timeline">Kariyer</a></li>
       </ul>
     </nav>
-    <button class="mobile-menu-btn" aria-label="Menü">&#9776;</button>
+    <button class="mobile-menu-btn" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="site-nav">☰</button>
   </div>
 </header>
 
@@ -133,120 +138,97 @@
   </div>
 </footer>
 
+<script src="assets/js/sanitize-html.js?v=2.5"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
     const fileName = params.get('file');
 
     if (!fileName) {
-        showError("Makale seçilmedi. <a href='tum-yazilar.html'>Yazılar sayfasına dön</a>");
+        showError('Makale seçilmedi.', true);
+        return;
+    }
+    // Path traversal / scheme injection guard
+    if (/[\\/]|\.\.|[:\0]/.test(fileName) || fileName.length > 240) {
+        showError('Geçersiz makale parametresi.', true);
         return;
     }
 
-    // yazilar.json'dan veri çek
     fetch('assets/yazilar.json?v=' + new Date().getTime())
         .then(response => {
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
             return response.json();
         })
         .then(articles => {
-            // Unicode normalization untuk Turkish character matching
             const decodedFileName = decodeURIComponent(fileName);
             const normalizedSearchName = decodedFileName.normalize('NFC');
-            
-            const article = articles.find(a => 
-                a.fileName.normalize('NFC') === normalizedSearchName
-            );
-            
-            if (article) {
-                // Başlık ve sayfa başlığı ayarla
-                document.getElementById('art-title').innerText = article.title;
-                document.title = article.title + " | İbrahim Gündüz";
-                
-                // Display featured image (thumbnail) — only if it's a real article image, not the default placeholder
-                const featuredImageDiv = document.querySelector('.article-featured-image');
-                const isDefaultThumb = !article.thumbnail || article.thumbnail === 'static/ibrahimgunduz.png';
-                if (featuredImageDiv && !isDefaultThumb) {
-                    const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
-                    featuredImageDiv.innerHTML = `<img src="${encodedThumbnail}" alt="${article.title}" style="width: 100%; height: 100%; object-fit: cover;">`;
-                } else if (featuredImageDiv) {
-                    featuredImageDiv.style.display = 'none';
-                }
-                
-                const contentDiv = document.getElementById('art-content');
-                
-                // Makale içeriğini göster
-                if (article.htmlContent) {
-                    // URL-encode image paths to handle spaces and Turkish characters
-                    let htmlContent = article.htmlContent;
-                    
-                    // Replace all src attributes in img tags
-                    htmlContent = htmlContent.replace(/src="([^"]*)"/g, function(match, path) {
-                        if (!path.startsWith('assets/')) {
-                            return match;
-                        }
-                        
-                        try {
-                            // Split path and encode each part
-                            const parts = path.split('/');
-                            const encodedParts = parts.map(p => {
-                                try {
-                                    return encodeURIComponent(p);
-                                } catch(e) {
-                                    return p;
-                                }
-                            });
-                            const encodedPath = encodedParts.join('/');
-                            return 'src="' + encodedPath + '"';
-                        } catch(e) {
-                            console.error('Error encoding path:', path, e);
-                            return match;
-                        }
-                    });
-                    
-                    contentDiv.innerHTML = htmlContent;
-                } else {
-                    contentDiv.innerHTML = '<p style="color: #999; font-style: italic; text-align: center; padding: 40px;">Makale içeriği işlenmededir.</p>';
-                }
-                
-                // Yükleniyor ekranını gizle, makaleyi göster
-                document.getElementById('loading-view').style.display = 'none';
-                document.getElementById('article-view').style.display = 'block';
-            } else {
-                showError("Aradığınız makale veritabanında bulunamadı. <a href='tum-yazilar.html'>Yazılar sayfasına dön</a>");
+            const article = articles.find(a => a.fileName && a.fileName.normalize('NFC') === normalizedSearchName);
+
+            if (!article) {
+                showError('Aradığınız makale veritabanında bulunamadı.', true);
+                return;
             }
+
+            document.getElementById('art-title').textContent = article.title || '';
+            document.title = (article.title || 'Yazı') + ' | İbrahim Gündüz';
+
+            const featuredImageDiv = document.querySelector('.article-featured-image');
+            const isDefaultThumb = !article.thumbnail || article.thumbnail === 'static/ibrahimgunduz.png';
+            if (featuredImageDiv && !isDefaultThumb && window.IGSanitize.safeSrc(article.thumbnail)) {
+                const img = document.createElement('img');
+                img.src = article.thumbnail.split('/').map(function (part) { return encodeURIComponent(part); }).join('/');
+                img.alt = article.title || '';
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+                featuredImageDiv.replaceChildren(img);
+            } else if (featuredImageDiv) {
+                featuredImageDiv.style.display = 'none';
+            }
+
+            const contentDiv = document.getElementById('art-content');
+            if (article.htmlContent) {
+                let htmlContent = article.htmlContent;
+                htmlContent = htmlContent.replace(/src="([^"]*)"/g, function(match, path) {
+                    if (!path.startsWith('assets/')) return match;
+                    try {
+                        return 'src="' + path.split('/').map(function (p) { return encodeURIComponent(p); }).join('/') + '"';
+                    } catch (e) {
+                        return match;
+                    }
+                });
+                contentDiv.innerHTML = window.IGSanitize.sanitizeHtml(htmlContent);
+            } else {
+                contentDiv.textContent = '';
+                const p = document.createElement('p');
+                p.style.cssText = 'color:#999;font-style:italic;text-align:center;padding:40px;';
+                p.textContent = 'Makale içeriği işlenmededir.';
+                contentDiv.appendChild(p);
+            }
+
+            document.getElementById('loading-view').style.display = 'none';
+            document.getElementById('article-view').style.display = 'block';
         })
-        .catch(error => {
-            console.error("Hata:", error);
-            showError("Yazı yüklenirken hata oluştu. <a href='tum-yazilar.html'>Yazılar sayfasına dön</a>");
+        .catch(function (error) {
+            console.error('Hata:', error);
+            showError('Yazı yüklenirken hata oluştu.', true);
         });
 
-    function showError(message) {
+    function showError(message, withLink) {
         const loadingView = document.getElementById('loading-view');
-        if (loadingView) {
-            loadingView.innerHTML = `<p style="text-align:center; padding: 50px; color: #e74c3c;">${message}</p>`;
+        if (!loadingView) return;
+        loadingView.replaceChildren();
+        const p = document.createElement('p');
+        p.style.cssText = 'text-align:center;padding:50px;color:#e74c3c;';
+        p.appendChild(document.createTextNode(message + ' '));
+        if (withLink) {
+            const a = document.createElement('a');
+            a.href = 'tum-yazilar.html';
+            a.textContent = 'Yazılar sayfasına dön';
+            p.appendChild(a);
         }
+        loadingView.appendChild(p);
     }
 });
 </script>
-<script>
-(function() {
-  var btn = document.querySelector('.mobile-menu-btn');
-  var nav = document.querySelector('nav');
-  if (!btn || !nav) return;
-  function isMobile() { return window.innerWidth <= 768; }
-  function syncState() {
-    if (isMobile()) { btn.style.display = 'block'; nav.style.display = 'none'; }
-    else { btn.style.display = 'none'; nav.style.display = 'block'; }
-  }
-  syncState();
-  window.addEventListener('resize', syncState);
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
-  });
-  document.addEventListener('click', function(e) {
-    if (isMobile() && !nav.contains(e.target) && e.target !== btn) nav.style.display = 'none';
-  });
-})();
-</script>
+  <script src="assets/js/main.js?v=2.6"></script>
+</body>
+</html>

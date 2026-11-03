@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <link rel="icon" href="/static/favicon.png" type="image/x-icon">
-  
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/js/theme-init.js?v=2.3"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-ig.svg">
+  <link rel="alternate icon" href="assets/favicon.png" type="image/png">
   <title>Altın Ölüm | İbrahim Gündüz</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/site-responsive.css">
+  <link rel="stylesheet" href="assets/css/site-responsive.css?v=2.6">
   <style>
     /* Ana stiller */
     :root {
@@ -103,94 +104,35 @@
     }
     
     /* Kitap detay sayfası */
-    .book-detail {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 40px;
-      margin-bottom: 40px;
-    }
+    .book-detail { /* layout in books.css */ }
     
-    .book-detail-cover {
-      position: relative;
-    }
+    .book-detail-cover { /* books.css */ }
     
-    .book-detail-cover img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 10px 10px 0 var(--secondary-color);
-    }
+    .book-detail-cover img { /* books.css */ }
     
-    .book-detail-info h1 {
-      font-size: 36px;
-      margin-bottom: 15px;
-      color: var(--primary-color);
-    }
+    .book-detail-info h1 { /* books.css */ }
     
-    .book-meta {
-      display: flex;
-      margin-bottom: 25px;
-    }
+    .book-meta { /* books.css */ }
     
-    .book-meta-item {
-      margin-right: 30px;
-      display: flex;
-      align-items: center;
-    }
+    .book-meta-item { /* books.css */ }
     
-    .book-meta-item i {
-      color: var(--secondary-color);
-      margin-right: 10px;
-    }
+    .book-meta-item i { /* books.css */ }
     
-    .book-description {
-      margin-bottom: 30px;
-      font-size: 18px;
-      line-height: 1.8;
-    }
+    .book-description { /* books.css */ }
     
-    .book-description p {
-      margin-bottom: 20px;
-    }
+    .book-description p { /* books.css */ }
     
-    .purchase-options {
-      margin: 30px 0;
-    }
+    .purchase-options { /* books.css */ }
     
-    .purchase-title {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: var(--primary-color);
-    }
+    .purchase-title { /* books.css */ }
     
-    .purchase-links {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+    .purchase-links { /* books.css */ }
     
-    .purchase-link {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 25px;
-      background-color: white;
-      border: 2px solid var(--primary-color);
-      color: var(--primary-color);
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
+    .purchase-link { /* books.css */ }
     
-    .purchase-link:hover {
-      background-color: var(--primary-color);
-      color: white;
-    }
+    .purchase-link:hover { /* books.css */ }
     
-    .purchase-link i {
-      margin-right: 10px;
-      font-size: 20px;
-    }
+    .purchase-link i { /* books.css */ }
     
     /* Kitap içeriği */
     .book-content {
@@ -246,21 +188,9 @@
     }
     
     /* Geri buton */
-    .back-button {
-      display: inline-flex;
-      align-items: center;
-      padding: 12px 25px;
-      background-color: var(--secondary-color);
-      color: white;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-      margin-top: 40px;
-    }
+    .back-button { /* books.css */ }
     
-    .back-button i {
-      margin-right: 10px;
-    }
+    .back-button i { margin-right: 8px; }
     
     /* Footer */
     footer {
@@ -332,8 +262,8 @@
     }
     
     /* Mobil uyumluluk */
-    @media (max-width: 768px) {
-      .book-detail {
+    @media (max-width: 900px) {
+      .book-detail { /* books.css also handles */
         grid-template-columns: 1fr;
       }
       
@@ -359,7 +289,7 @@
         background: #fff;
         box-shadow: 0 15px 40px rgba(0,0,0,0.13);
         z-index: 9999;
-        border-top: 3px solid #e74c3c;
+        border-top: none;
       }
       nav ul {
         display: flex !important;
@@ -384,6 +314,11 @@
       }
     }
   </style>
+
+  <link rel="stylesheet" href="assets/css/main.css?v=2.6">
+  <link rel="stylesheet" href="assets/css/refinement.css?v=2.6">
+  <link rel="stylesheet" href="assets/css/books.css?v=2.6">
+  <script src="assets/js/theme-toggle.js?v=2.3" defer></script>
 </head>
 <body>
   <!-- Header -->
@@ -391,21 +326,19 @@
 <header>
   <div class="container header-container">
     <a href="index.html" class="logo">İbrahim<span>Gündüz</span></a>
-    <nav>
+    <nav id="site-nav" aria-label="Ana menü">
       <ul>
         <li><a href="index.html">Ana Sayfa</a></li>
         <li><a href="index.html#featured-articles">Yazılar</a></li>
-        <li><a href="index.html#videos">Videolar</a></li>
+        <li><a href="index.html#videos">Videolarım</a></li>
         <li><a href="index.html#books">Kitaplar</a></li>
         <li><a href="index.html#about">Hakkında</a></li>
         <li><a href="index.html#timeline">Kariyer</a></li>
       </ul>
     </nav>
-    <button class="mobile-menu-btn" aria-label="Menü">&#9776;</button>
+    <button class="mobile-menu-btn" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="site-nav">☰</button>
   </div>
 </header>
-
-
 
   <!-- Ana İçerik -->
   <main>
@@ -420,15 +353,15 @@
           <div class="book-meta">
             <div class="book-meta-item">
               <i class="fas fa-calendar-alt"></i>
-              <span>2023</span>
+              <span>2020</span>
             </div>
             <div class="book-meta-item">
               <i class="fas fa-book"></i>
-              <span>264 Sayfa</span>
+              <span>384 Sayfa</span>
             </div>
             <div class="book-meta-item">
               <i class="fas fa-building"></i>
-              <span>Kırmızı Kedi Yayınevi</span>
+              <span>Galeati Yayınevi</span>
             </div>
           </div>
           
@@ -443,13 +376,13 @@
           <div class="purchase-options">
             <h3 class="purchase-title">Kitabı Satın Al</h3>
             <div class="purchase-links">
-              <a href="https://galeatiyayinevi.com/product/altin-olum-ibrahim-gunduz/" target="_blank" class="purchase-link">
+              <a href="https://galeatiyayinevi.com/product/altin-olum-ibrahim-gunduz/" target="_blank" class="purchase-link" rel="noopener noreferrer">
                 <i class="fas fa-book"></i> Galeati Yayınevi</a>
-              <a href="https://www.amazon.com.tr/Alt%C4%B1n-%C3%96l%C3%BCm-Madenleri-Karadenize-Sald%C4%B1r%C4%B1s%C4%B1/dp/6056996875/" target="_blank" class="purchase-link">
+              <a href="https://www.amazon.com.tr/Alt%C4%B1n-%C3%96l%C3%BCm-Madenleri-Karadenize-Sald%C4%B1r%C4%B1s%C4%B1/dp/6056996875/" target="_blank" class="purchase-link" rel="noopener noreferrer">
                 <i class="fab fa-amazon"></i> Amazon.tr</a>
-              <a href="https://www.kitapyurdu.com/kitap/altin-olum/556264.html" target="_blank" class="purchase-link">
+              <a href="https://www.kitapyurdu.com/kitap/altin-olum/556264.html" target="_blank" class="purchase-link" rel="noopener noreferrer">
                 <i class="fas fa-book-open"></i> Kitap Yurdu</a>
-              <a href="https://www.dr.com.tr/kitap/altin-olum/ibrahim-gunduz/arastirma-tarih/politika-arastirma/turkiye-politika-/urunno=0001888916001" target="_blank" class="purchase-link">
+              <a href="https://www.dr.com.tr/kitap/altin-olum/ibrahim-gunduz/arastirma-tarih/politika-arastirma/turkiye-politika-/urunno=0001888916001" target="_blank" class="purchase-link" rel="noopener noreferrer">
                 <i class="fas fa-store"></i> D&R</a>
             </div>
           </div>
@@ -540,7 +473,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 40px; margin-bottom: 80px;">
-        <a href="index.html#books" class="back-button">
+        <a href="index.html#books" class="back-button book-back-link">
           <i class="fas fa-arrow-left"></i> Tüm Kitaplara Dön
         </a>
       </div>
@@ -556,9 +489,9 @@
         <h3>İbrahim Gündüz</h3>
         <p>Gazeteci, yazar ve düşünce insanı. Türkiye'nin medya dünyasında 30 yılı aşkın deneyim.</p>
         <div class="social-links">
-          <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/?mibextid=wwXIfr&rdid=50Kb7zIvFSNJQiAK&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18vkrssrsQ%2F%3Fmibextid%3DwwXIfr" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/ibrahimgunduz_gazeteci?igsh=YzMyMGd4dzJ5a2lk&utm_source=qr" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="https://x.com/ibrahimggunduzz" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.facebook.com/people/%C4%B0brahim-G%C3%BCnd%C3%BCz/pfbid02icKsdrTQDfZJSwCSNdPi7Bhf7NWBRDLsXDR9MitAFEUyh9zfevQrhHeCC6DadA92l/?mibextid=wwXIfr&rdid=50Kb7zIvFSNJQiAK&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18vkrssrsQ%2F%3Fmibextid%3DwwXIfr" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/ibrahimgunduz_gazeteci?igsh=YzMyMGd4dzJ5a2lk&utm_source=qr" target="_blank" class="social-link" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       
@@ -572,8 +505,8 @@
     </div>
     
     <div class="footer-bottom">
-      <        <p>&copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.</p>
-        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;">@askingunduzz</a></p>
+      <p>&copy; 2026 İbrahim Gündüz. Tüm hakları saklıdır.</p>
+        <p>Tasarımı ve Kodlaması: <a href="https://www.linkedin.com/in/askin-gunduz/" target="_blank" style="color: #e74c3c; text-decoration: none;" rel="noopener noreferrer">@askingunduzz</a></p>
     </div>
   </div>
 </footer>
@@ -600,26 +533,8 @@
           document.getElementById(tabId).classList.add('active');
         });
       });
-      
-      // Mobil menü işlevselliği
-      (function() {
-        var btn = document.querySelector('.mobile-menu-btn');
-        var nav = document.querySelector('nav');
-        if (!btn || !nav) return;
-        function isMobile() { return window.innerWidth <= 768; }
-        function syncState() {
-          if (isMobile()) { btn.style.display = 'block'; nav.style.display = 'none'; }
-          else { btn.style.display = 'none'; nav.style.display = 'block'; }
-        }
-        syncState();
-        window.addEventListener('resize', syncState);
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
-        });
-        document.addEventListener('click', function(e) {
-          if (isMobile() && !nav.contains(e.target) && e.target !== btn) nav.style.display = 'none';
-        });
-      })();
-    });
+});
   </script>
+  <script src="assets/js/main.js?v=2.6"></script>
+</body>
+</html>

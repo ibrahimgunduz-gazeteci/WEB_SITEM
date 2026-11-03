@@ -1,0 +1,23 @@
+__pycache__/
+.venv-tools/
+.venv/
+.env
+.env.*
+!.env.example
+_site/
+node_modules/
+package-lock.json
+package.json
+.DS_Store
+*.pem
+*.p12
+credentials.json
+
+# Local QA artifacts (keep reports in repo; screenshots stay local)
+SCREENSHOTS-2.3/
+SCREENSHOTS-2.4/
+SCREENSHOTS-2.5/
+SCREENSHOTS-2.6/
+screenshots/
+tests/navigation/
+*.pyc

@@ -1,150 +1,248 @@
 /**
- * Ibrahim Gündüz Website - Dinamik Makale Sistemi
- * Yazıları assets/yazilar.json dosyasından çeker ve sayfalara basar.
- * Yeni makale eklemek için sadece assets/documents/ klasörüne .docx dosyası koyun.
- * GitHub Actions otomatik olarak yazilar.json'u günceller.
+ * Dinamik makale sistemi — legacy yazilar.json + external-articles.json
+ * Eski haber.html?file=... URL'leri korunur.
+ * Haricî yazılar kaynak sitesine açılır (metin kopyalanmaz).
  */
+(function () {
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Yazıları JSON dosyasından çek (tek kaynak: assets/yazilar.json)
-    fetch('assets/yazilar.json?v=' + new Date().getTime())
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(articles => {
-            // Hangi sayfada olduğumuzu kontrol et
-            if (window.location.pathname.includes('tum-yazilar.html')) {
-                renderArticlesGrid(articles);
-            } else {
-                renderHomeSlider(articles);
-            }
-        })
-        .catch(err => {
-            console.error("Yazı listesi yüklenirken hata oluştu:", err);
-            const container = document.querySelector('.articles-slider') || document.getElementById('all-articles-grid');
-            if (container) container.innerHTML = '<p style="text-align:center; padding:20px;">Yazılar şu an yüklenemiyor.</p>';
-        });
-});
+  function normalizeSearch(str) {
+    let normalized = String(str || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+    normalized = normalized.toLowerCase();
+    return normalized
+      .replace(/ı/g, "i")
+      .replace(/ğ/g, "g")
+      .replace(/ü/g, "u")
+      .replace(/ş/g, "s")
+      .replace(/ö/g, "o")
+      .replace(/ç/g, "c")
+      .replace(/i̇/g, "i");
+  }
 
-/**
- * ANA SAYFA: 3'lü Slider Yapısını Oluşturur (Artık Kaydırılabilir)
- */
-function renderHomeSlider(articles) {
-    const sliderContainer = document.querySelector('.articles-slider');
-    if (!sliderContainer) return;
+  function encodeAssetPath(path) {
+    if (!path) return "static/ibrahimgunduz.png";
+    return path
+      .split("/")
+      .map(function (part) {
+        try {
+          return encodeURIComponent(part);
+        } catch (e) {
+          return part;
+        }
+      })
+      .join("/");
+  }
 
-    sliderContainer.innerHTML = '';
-    const sliderWrapper = document.createElement('div');
-    sliderWrapper.className = 'articles-slider-wrapper'; // CSS buradaki class'a bağlanacak
-    
-    const recentArticles = articles.slice(0, 30);
+  function formatDate(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("tr-TR", { year: "numeric", month: "short", day: "numeric" });
+  }
 
-    let htmlContent = '';
-    recentArticles.forEach(article => {
-        // URL-encode the thumbnail path for proper handling of spaces in file names
-        const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
-        htmlContent += `
-            <div class="article-card">
-                <div class="article-image">
-                    <img src="${encodedThumbnail}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='static/ibrahimgunduz.png';">
-                </div>
-                <div class="article-content">
-                    <h3 class="article-title">${article.title}</h3>
-                    <p class="article-excerpt">Yazının detaylarını okumak için aşağıdaki bağlantıya tıklayabilirsiniz.</p>
-                    <a href="haber.html?file=${encodeURIComponent(article.fileName)}" class="read-more">Devamını Oku →</a>
-                </div>
-            </div>
-        `;
-    });
-    
-    sliderWrapper.innerHTML = htmlContent;
-    sliderContainer.appendChild(sliderWrapper);
-    
-    // Ok butonlarını oluştur (Daha önce yazdığımız fonksiyonu çağırır)
-    initArticleSlider(sliderContainer, sliderWrapper);
-}
-
-/**
- * TÜM YAZILAR: Arama özellikli Grid yapısı
- */
-function renderArticlesGrid(articles) {
-    const grid = document.getElementById('all-articles-grid');
-    const searchInput = document.getElementById('articleSearch');
-    if (!grid) return;
-
-    const display = (list) => {
-        grid.innerHTML = '';
-        list.forEach(article => {
-            // URL-encode the thumbnail path for proper handling of spaces in file names
-            const encodedThumbnail = article.thumbnail.split('/').map(part => encodeURIComponent(part)).join('/');
-            const card = document.createElement('div');
-            card.className = 'article-card';
-            card.innerHTML = `
-                <div class="article-image">
-                    <img src="${encodedThumbnail}" alt="${article.title}" 
-                         onerror="this.onerror=null; this.src='static/ibrahimgunduz.png';">
-                </div>
-                <div class="article-content">
-                    <h3 class="article-title">${article.title}</h3>
-                    <a href="haber.html?file=${encodeURIComponent(article.fileName)}" class="read-more">Devamını Oku →</a>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
+  function legacyToCard(article) {
+    return {
+      kind: "legacy",
+      title: article.title,
+      thumbnail: article.thumbnail || "static/ibrahimgunduz.png",
+      href: "haber.html?file=" + encodeURIComponent(article.fileName),
+      excerpt: "Yazının detaylarını okumak için bağlantıya tıklayın.",
+      meta: "",
+      sortDate: "",
+      fileName: article.fileName,
     };
+  }
 
-    display(articles);
+  function externalToCard(article) {
+    return {
+      kind: "external",
+      title: article.title,
+      thumbnail: article.image || "static/ibrahimgunduz.png",
+      href: article.url,
+      external: true,
+      excerpt: article.excerpt || "Yayınlandığı sitede okuyun.",
+      meta: [article.publisher, formatDate(article.publishedAt)].filter(Boolean).join(" · "),
+      sortDate: article.publishedAt || article.createdAt || "",
+      id: article.id,
+    };
+  }
 
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const normalize = str => {
-                // İlk combining marks'u temizle
-                let normalized = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                // Sonra lowercase yap
-                normalized = normalized.toLowerCase();
-                // Türkçe karakterleri dönüştür
-                normalized = normalized
-                    .replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u')
-                    .replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c')
-                    .replace(/i̇/g, 'i'); // combining dot'lu i
-                return normalized;
-            };
-            const term = normalize(e.target.value);
-            const filtered = articles.filter(a => normalize(a.title).includes(term));
-            display(filtered);
-        });
+  function cardHtml(item) {
+    var thumb = encodeAssetPath(item.thumbnail);
+    if (item.kind === "external" && item.thumbnail && /^https?:/i.test(item.thumbnail)) {
+      thumb = escapeHtml(item.thumbnail);
     }
-}
+    var rel = item.external ? ' target="_blank" rel="noopener noreferrer"' : "";
+    var meta = item.meta
+      ? '<p class="article-meta-line">' + escapeHtml(item.meta) + "</p>"
+      : "";
+    var badge =
+      item.kind === "external"
+        ? '<span class="article-source-badge">Kaynak site</span>'
+        : "";
+    return (
+      '<div class="article-card">' +
+      '<div class="article-image">' +
+      badge +
+      '<img src="' +
+      thumb +
+      '" alt="' +
+      escapeHtml(item.title) +
+      '" loading="lazy" width="400" height="240" onerror="this.onerror=null;this.src=\'static/ibrahimgunduz.png\';">' +
+      "</div>" +
+      '<div class="article-content">' +
+      '<h3 class="article-title">' +
+      escapeHtml(item.title) +
+      "</h3>" +
+      meta +
+      '<p class="article-excerpt">' +
+      escapeHtml(item.excerpt) +
+      "</p>" +
+      '<a href="' +
+      escapeHtml(item.href) +
+      '" class="read-more"' +
+      rel +
+      ">" +
+      (item.external ? "Yazının Tamamını Oku →" : "Devamını Oku →") +
+      "</a>" +
+      "</div></div>"
+    );
+  }
 
-/**
- * Yazılar Slider Kontrolü (Videolar ile Aynı Kaydırma Mantığı)
- */
-function initArticleSlider(container, wrapper) {
-    // Varsa eski butonları temizle (üst üste binmemesi için)
-    container.querySelectorAll('.article-nav-btn').forEach(btn => btn.remove());
-
-    const prevBtn = document.createElement('button');
-    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    prevBtn.className = 'article-nav-btn article-prev';
-    
-    const nextBtn = document.createElement('button');
-    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-    nextBtn.className = 'article-nav-btn article-next';
-
-    const scrollAmount = wrapper.offsetWidth / 3; // Dinamik kaydırma miktarı
-
-    nextBtn.addEventListener('click', () => {
-        wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  function initArticleSlider(container, wrapper) {
+    container.querySelectorAll(".article-nav-btn").forEach(function (btn) {
+      btn.remove();
     });
-
-    prevBtn.addEventListener('click', () => {
-        wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    var prevBtn = document.createElement("button");
+    prevBtn.type = "button";
+    prevBtn.innerHTML = '<i class="fas fa-chevron-left" aria-hidden="true"></i>';
+    prevBtn.className = "article-nav-btn article-prev";
+    prevBtn.setAttribute("aria-label", "Önceki yazılar");
+    var nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right" aria-hidden="true"></i>';
+    nextBtn.className = "article-nav-btn article-next";
+    nextBtn.setAttribute("aria-label", "Sonraki yazılar");
+    var scrollAmount = Math.max(280, wrapper.offsetWidth / 3);
+    nextBtn.addEventListener("click", function () {
+      wrapper.scrollBy({ left: scrollAmount, behavior: "smooth" });
     });
-
+    prevBtn.addEventListener("click", function () {
+      wrapper.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
     container.appendChild(prevBtn);
     container.appendChild(nextBtn);
-}
+  }
+
+  function renderHomeSlider(items) {
+    var sliderContainer = document.querySelector("#featured-articles .articles-slider");
+    if (!sliderContainer) return;
+    sliderContainer.innerHTML = "";
+    var sliderWrapper = document.createElement("div");
+    sliderWrapper.className = "articles-slider-wrapper";
+    var recent = items.slice(0, 30);
+    sliderWrapper.innerHTML = recent.map(cardHtml).join("");
+    sliderContainer.appendChild(sliderWrapper);
+    initArticleSlider(sliderContainer, sliderWrapper);
+  }
+
+  function renderArticlesGrid(items) {
+    var grid = document.getElementById("all-articles-grid");
+    var searchInput = document.getElementById("articleSearch");
+    if (!grid) return;
+
+    function display(list) {
+      grid.innerHTML = list.map(cardHtml).join("") || '<p style="text-align:center;padding:24px;">Sonuç bulunamadı.</p>';
+    }
+
+    display(items);
+
+    if (searchInput) {
+      searchInput.addEventListener("input", function (e) {
+        var term = normalizeSearch(e.target.value);
+        if (!term) {
+          display(items);
+          return;
+        }
+        display(
+          items.filter(function (a) {
+            return (
+              normalizeSearch(a.title).includes(term) ||
+              normalizeSearch(a.meta).includes(term) ||
+              normalizeSearch(a.excerpt).includes(term)
+            );
+          })
+        );
+      });
+    }
+  }
+
+  function mergeLists(legacy, external) {
+    var extCards = (external.articles || [])
+      .filter(function (a) {
+        return a.status === "published";
+      })
+      .map(externalToCard);
+
+    var legacyCards = (legacy || []).map(legacyToCard);
+
+    // External first when dated; otherwise keep legacy order after dated externals
+    var dated = extCards.filter(function (c) {
+      return c.sortDate;
+    });
+    dated.sort(function (a, b) {
+      return a.sortDate < b.sortDate ? 1 : -1;
+    });
+    var undatedExt = extCards.filter(function (c) {
+      return !c.sortDate;
+    });
+    return dated.concat(undatedExt, legacyCards);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var needsLegacy =
+      document.querySelector("#featured-articles .articles-slider") ||
+      document.getElementById("all-articles-grid");
+    if (!needsLegacy) return;
+
+    Promise.all([
+      fetch("assets/yazilar.json").then(function (r) {
+        if (!r.ok) throw new Error("yazilar.json " + r.status);
+        return r.json();
+      }),
+      fetch("assets/external-articles.json")
+        .then(function (r) {
+          return r.ok ? r.json() : { articles: [] };
+        })
+        .catch(function () {
+          return { articles: [] };
+        }),
+    ])
+      .then(function (results) {
+        var items = mergeLists(results[0], results[1]);
+        if (window.location.pathname.indexOf("tum-yazilar.html") !== -1) {
+          renderArticlesGrid(items);
+        } else {
+          renderHomeSlider(items);
+        }
+      })
+      .catch(function (err) {
+        console.error("Yazı listesi yüklenirken hata:", err);
+        var container =
+          document.querySelector("#featured-articles .articles-slider") ||
+          document.getElementById("all-articles-grid");
+        if (container) {
+          container.innerHTML =
+            '<p style="text-align:center;padding:20px;">Yazılar şu an yüklenemiyor.</p>';
+        }
+      });
+  });
+})();

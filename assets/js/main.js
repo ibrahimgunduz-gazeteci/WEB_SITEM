@@ -4,21 +4,12 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu Functionality
     initializeMobileMenu();
-    
-    // Smooth scrolling for navigation links
     initializeSmoothScrolling();
-    
-    // Back to top button
+    initializeHashLanding();
     initializeBackToTopButton();
-    
-    // Initialize flash messages
     initializeFlashMessages();
-    
-    // Initialize forms if they exist
     initializeForms();
-    
   });
   
   /**
@@ -30,21 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!mobileMenuBtn) return;
     
-    // Show/hide mobile menu button based on screen size
-    if (window.innerWidth <= 768) {
-      mobileMenuBtn.style.display = 'block';
-      nav.style.display = 'none';
-    } else {
-      mobileMenuBtn.style.display = 'none';
-      nav.style.display = 'block';
-    }
-    
-    window.addEventListener('resize', function() {
-      if (window.innerWidth <= 768) {
+    const MOBILE_NAV_MAX = 1100;
+
+    function applyNavMode() {
+      if (window.innerWidth <= MOBILE_NAV_MAX) {
         mobileMenuBtn.style.display = 'block';
-        nav.style.display = 'none';
+        if (!nav.classList.contains('nav-open')) {
+          nav.style.display = 'none';
+        }
       } else {
         mobileMenuBtn.style.display = 'none';
+        nav.classList.remove('nav-open');
         nav.style.display = 'block';
         nav.style.position = '';
         nav.style.top = '';
@@ -53,73 +40,130 @@ document.addEventListener('DOMContentLoaded', function() {
         nav.style.backgroundColor = '';
         nav.style.padding = '';
         nav.style.boxShadow = '';
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
       }
-    });
+    }
+
+    applyNavMode();
+    window.addEventListener('resize', applyNavMode);
     
     // Toggle mobile menu
     mobileMenuBtn.addEventListener('click', function() {
-      if (nav.style.display === 'none' || nav.style.display === '') {
-        nav.style.display = 'block';
+      const open = nav.classList.toggle('nav-open');
+      nav.style.display = open ? 'block' : 'none';
+      if (open) {
         nav.style.position = 'absolute';
         nav.style.top = '100%';
         nav.style.left = '0';
         nav.style.width = '100%';
-        nav.style.backgroundColor = 'white';
-        nav.style.padding = '20px';
+        nav.style.padding = '8px';
         nav.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
-        
         const ul = nav.querySelector('ul');
-        ul.style.display = 'flex';
-        ul.style.flexDirection = 'column';
-        
-        const lis = ul.querySelectorAll('li');
-        lis.forEach(li => {
-          li.style.margin = '10px 0';
-        });
-      } else {
-        nav.style.display = 'none';
+        if (ul) {
+          ul.style.display = 'flex';
+          ul.style.flexDirection = 'column';
+        }
       }
+      mobileMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
     
     // Close mobile menu when a link is clicked
     const navLinks = nav.querySelectorAll('a');
     navLinks.forEach(link => {
       link.addEventListener('click', function() {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= MOBILE_NAV_MAX) {
+          nav.classList.remove('nav-open');
           nav.style.display = 'none';
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
       });
     });
   }
   
+  function getHeaderOffset() {
+    var header = document.querySelector('header');
+    return (header ? header.offsetHeight : 72) + 12;
+  }
+
+  function currentPageFile() {
+    var file = (location.pathname.split('/').pop() || '').toLowerCase();
+    return file || 'index.html';
+  }
+
+  function isSamePageHashLink(href) {
+    if (!href || href.indexOf('#') === -1) return false;
+    if (href.charAt(0) === '#') return true;
+    if (/^https?:\/\//i.test(href) || href.charAt(0) === '/') return false;
+    var parts = href.split('#');
+    var path = parts[0];
+    var hash = parts[1];
+    if (!hash) return false;
+    var targetFile = (path.split('/').pop() || '').toLowerCase() || 'index.html';
+    var cur = currentPageFile();
+    if (cur === targetFile) return true;
+    if ((cur === 'index.html' || cur === '') && targetFile === 'index.html') return true;
+    return false;
+  }
+
+  function scrollToId(id, behavior) {
+    if (!id) return false;
+    var el = document.getElementById(id);
+    if (!el) return false;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset();
+    window.scrollTo({ top: Math.max(0, top), behavior: behavior || 'smooth' });
+    return true;
+  }
+
   /**
-   * Smooth scrolling for navigation links
+   * Same-page hash: smooth scroll. Cross-page (index.html#videos from book page): do NOT preventDefault.
    */
   function initializeSmoothScrolling() {
-    const links = document.querySelectorAll('nav a');
-    
-    links.forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        
-        // Check if the href is a hash link on the current page (not to another file)
-        if (href.includes('#') && !href.startsWith('/') && !href.startsWith('http') && !href.includes('.html')) {
-          e.preventDefault();
-          
-          const targetId = href.split('#')[1];
-          const targetElement = document.getElementById(targetId);
-          
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 80,
-              behavior: 'smooth'
-            });
-          }
-        }
-        // For links that go to different pages with hash (like file.html#section), 
-        // allow normal navigation - the browser will handle it
+    var links = document.querySelectorAll('header nav a, a.btn, a.back-button, a.book-back-link');
+    links.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var href = this.getAttribute('href');
+        if (!href || href.indexOf('#') === -1) return;
+        if (!isSamePageHashLink(href)) return; // allow full navigation
+        var id = href.split('#')[1];
+        if (!id || !document.getElementById(id)) return;
+        e.preventDefault();
+        scrollToId(id, 'smooth');
+        if (history.replaceState) history.replaceState(null, '', '#' + id);
+        else location.hash = id;
       });
     });
+  }
+
+  function initializeHashLanding() {
+    var timers = [];
+    function clearTimers() {
+      timers.forEach(function (t) { clearTimeout(t); });
+      timers = [];
+    }
+    function go(behavior) {
+      var id = (location.hash || '').replace(/^#/, '');
+      if (!id) return;
+      scrollToId(id, behavior || 'auto');
+    }
+    function settle() {
+      // Slider/JSON içerik yüksekliği değişince hash hedefini yeniden hizala
+      clearTimers();
+      go('auto');
+      [80, 200, 500, 1000, 1800, 2800].forEach(function (ms) {
+        timers.push(setTimeout(function () { go('auto'); }, ms));
+      });
+    }
+    settle();
+    window.addEventListener('hashchange', function () { settle(); });
+    window.addEventListener('popstate', function () { settle(); });
+    window.addEventListener('load', function () { if (location.hash) settle(); });
+    // Yazı/video grid'leri DOM'a eklenince
+    var mo = new MutationObserver(function () {
+      if (location.hash) go('auto');
+    });
+    var root = document.querySelector('main') || document.body;
+    if (root) mo.observe(root, { childList: true, subtree: true });
+    setTimeout(function () { mo.disconnect(); }, 4000);
   }
   
   /**

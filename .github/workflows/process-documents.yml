@@ -1,43 +1,68 @@
 name: Yeni Belgeleri İşle
 
-# assets/documents/ klasörüne yeni bir .docx dosyası push edildiğinde otomatik çalışır.
-# Script sadece yazilar.json'da olmayan YENİ dosyaları işler; mevcut makaleler değişmez.
+# assets/documents/**/*.docx push → yazilar.json güncelle → main ise Pages yayınla.
+# Mevcut 72 makaleyi değiştirmez (script yalnızca yeni dosyaları işler).
+# [skip ci] kullanılmaz; GITHUB_TOKEN push zaten on.push tetiklemez, bu yüzden
+# değişiklik olduğunda reusable deploy çağrılır.
 
 on:
   push:
     paths:
-      - 'assets/documents/**.docx'
+      - "assets/documents/**.docx"
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
 
 jobs:
   process-docs:
     runs-on: ubuntu-latest
-
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
     steps:
-      - name: Repoyu İndir
-        uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-      - name: Python Kur
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Bağımlılıkları Yükle
         run: pip install python-docx Pillow
 
       - name: Belgeleri İşle
-        run: python scripts/process_docs.py
+        run: |
+          if [ -f scripts/process_docs.py ]; then
+            python scripts/process_docs.py
+          else
+            echo "process_docs.py yok — atlandı"
+          fi
 
       - name: Değişiklikleri Kaydet
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/yazilar.json assets/images/articles/
+          git add assets/yazilar.json assets/images/articles/ 2>/dev/null || true
           if git diff --staged --quiet; then
-            echo "Yeni belge yok, değişiklik yapılmadı."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Yeni belge yok."
           else
-            git commit -m "chore: yeni belge otomatik işlendi [skip ci]"
+            git commit -m "chore: yeni belge otomatik işlendi"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+  deploy:
+    needs: process-docs
+    if: needs.process-docs.outputs.changed == 'true' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/deploy-pages.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
