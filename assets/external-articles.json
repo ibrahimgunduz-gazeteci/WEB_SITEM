@@ -1,19 +1,5 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-03T20:37:42Z",
-  "articles": [
-    {
-      "id": "test-dc51e5de",
-      "url": "https://example.com/",
-      "title": "[TEST] Worker pipeline smoke — silinecek",
-      "excerpt": "Geçici test kaydı; üretim içeriği değil.",
-      "image": "https://www.example.com/favicon.ico",
-      "publisher": "example.com",
-      "publishedAt": null,
-      "status": "published",
-      "createdAt": "2026-11-03T20:37:23Z",
-      "author": "test",
-      "updatedAt": "2026-11-03T20:37:42Z"
-    }
-  ]
+  "updatedAt": "2026-11-03T20:45:00Z",
+  "articles": []
 }
