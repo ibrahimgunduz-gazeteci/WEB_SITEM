@@ -477,15 +477,21 @@ export default {
       }
 
       if (url.pathname === "/api/health") {
-        return json({
-          service: "ig-admin-api",
-          ok: true,
-          oauthConfigured: Boolean(env.GITHUB_CLIENT_ID && env.SESSION_SECRET),
-          githubWriteConfigured: Boolean(env.GITHUB_TOKEN && env.REPO_OWNER && env.REPO_NAME),
-        });
+        // CORS zorunlu: admin sayfası Pages origin'inden health okur.
+        // Kök "/" ok yanıtı OAuth kanıtı değildir; yalnızca oauthConfigured kullanılmalı.
+        return withCors(
+          req,
+          json({
+            service: "ig-admin-api",
+            ok: true,
+            oauthConfigured: Boolean(env.GITHUB_CLIENT_ID && env.SESSION_SECRET),
+            githubWriteConfigured: Boolean(env.GITHUB_TOKEN && env.REPO_OWNER && env.REPO_NAME),
+          }),
+          env
+        );
       }
 
-      return json({ service: "ig-admin-api", ok: true });
+      return withCors(req, json({ service: "ig-admin-api", ok: true }), env);
     } catch (err) {
       const msg = String(err.message || err);
       const status = msg.includes("CSRF") ? 403 : msg.includes("Yetkisiz") ? 401 : 500;
