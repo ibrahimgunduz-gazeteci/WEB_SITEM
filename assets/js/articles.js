@@ -198,17 +198,12 @@
     var meta = item.meta
       ? '<p class="article-meta-line">' + escapeHtml(item.meta) + "</p>"
       : "";
-    var badge =
-      item.kind === "external"
-        ? '<span class="article-source-badge">Kaynak site</span>'
-        : "";
     var idAttr = item.id ? ' id="article-' + escapeHtml(item.id) + '" data-article-id="' + escapeHtml(item.id) + '"' : "";
     return (
       '<div class="article-card"' +
       idAttr +
       ">" +
       '<div class="article-image">' +
-      badge +
       '<img src="' +
       thumb +
       '" alt="' +
@@ -227,9 +222,7 @@
       escapeHtml(item.href) +
       '" class="read-more"' +
       rel +
-      ">" +
-      (item.external ? "Yazının Tamamını Oku →" : "Devamını Oku →") +
-      "</a>" +
+      ">Devamını Oku</a>" +
       "</div></div>"
     );
   }
