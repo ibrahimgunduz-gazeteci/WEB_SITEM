@@ -1,21 +1,5 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T15:05:49.059692Z",
-  "articles": [
-    {
-      "id": "test-e2e-20261107",
-      "url": "https://ig-admin-api.ibrahimgunduz.workers.dev/test/e2e-article",
-      "title": "[TEST] Admin publish E2E — silinecek",
-      "excerpt": "Bu kayıt yalnızca yönetim paneli uçtan uca test içindir. Gerçek yayın değildir.",
-      "image": null,
-      "publisher": "IG Admin Test",
-      "publishedAt": "2026-11-07",
-      "author": null,
-      "category": "test",
-      "status": "published",
-      "createdAt": "2026-11-07T15:05:49.058955Z",
-      "updatedAt": "2026-11-07T15:05:49.059678Z",
-      "prioritySource": false
-    }
-  ]
+  "updatedAt": "2026-11-07T15:07:27.341898Z",
+  "articles": []
 }
