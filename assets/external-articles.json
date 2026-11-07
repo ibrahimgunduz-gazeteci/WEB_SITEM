@@ -1,5 +1,23 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T15:07:27.341898Z",
-  "articles": []
+  "updatedAt": "2026-11-07T15:12:10.355Z",
+  "articles": [
+    {
+      "id": "8e9da426",
+      "url": "https://www.odatv.com/kultur-sanat/gazeteci-gunduz-yillar-sonra-acikladi-birand-isten-atilmami-istedi-264914",
+      "urlKey": "https://odatv.com/kultur-sanat/gazeteci-gunduz-yillar-sonra-acikladi-birand-isten-atilmami-istedi-264914",
+      "title": "Gazeteci Gündüz yıllar sonra açıkladı... Birand işten atılmamı istedi",
+      "author": "Odatv",
+      "publisher": "Odatv",
+      "publishedAt": "2023-01-01T16:58:52+03:00",
+      "image": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/old/images/2023_01/2023_01_01/odatv_image_67__7cb0e64d51284e.jpg",
+      "excerpt": "Gazeteci İbrahim Gündüz, \"O Soruyu Biz Sormayalım\" isimli yeni kitabında Kanal D&#039;den ayrılma sürecini anlattı. Kitabının adını neden \"O Soruyu Biz Sormayalım\" koydu, Melih Gökçek ile yaşadığı anı neydi?",
+      "category": "genel",
+      "status": "published",
+      "prioritySource": true,
+      "legacyFileName": null,
+      "createdAt": "2026-11-07T15:12:09.828Z",
+      "updatedAt": "2026-11-07T15:12:09.999Z"
+    }
+  ]
 }
