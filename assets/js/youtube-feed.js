@@ -31,7 +31,7 @@
       thumb +
       '" alt="' +
       title +
-      '" loading="lazy" width="480" height="360" onerror="this.onerror=null;this.src=\'static/ibrahimgunduz.png\';">' +
+      '" loading="lazy" width="480" height="360" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'static/ibrahimgunduz-480.webp\';">' +
       '<div class="play-button-overlay"><i class="fas fa-play-circle" aria-hidden="true"></i></div>' +
       "</div>" +
       '<div class="article-content">' +

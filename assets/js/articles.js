@@ -148,7 +148,8 @@
     return {
       kind: "legacy",
       title: article.title,
-      thumbnail: article.thumbnail || "static/ibrahimgunduz.png",
+      thumbnail: article.thumbnail || "static/ibrahimgunduz-480.webp",
+      thumbnail2x: article.thumbnail2x || "",
       href: href,
       excerpt: decodeEntities(article.excerpt || "Yazının detaylarını okumak için bağlantıya tıklayın."),
       meta: extracted ? formatDate(extracted) : "",
@@ -174,7 +175,8 @@
     return {
       kind: "external",
       title: article.title,
-      thumbnail: article.image || "static/ibrahimgunduz.png",
+      thumbnail: article.image || "static/ibrahimgunduz-480.webp",
+      thumbnail2x: "",
       href: article.url,
       external: true,
       excerpt: decodeEntities(article.excerpt || "Yayınlandığı sitede okuyun."),
@@ -191,9 +193,14 @@
 
   function cardHtml(item) {
     var thumb = encodeAssetPath(item.thumbnail);
+    var thumb2x = item.thumbnail2x ? encodeAssetPath(item.thumbnail2x) : "";
     if (item.kind === "external" && item.thumbnail && /^https?:/i.test(item.thumbnail)) {
       thumb = escapeHtml(item.thumbnail);
+      thumb2x = "";
     }
+    var srcset = thumb2x
+      ? ' srcset="' + thumb + " 400w, " + thumb2x + ' 800w" sizes="(max-width: 600px) 90vw, 400px"'
+      : "";
     var rel = item.external ? ' target="_blank" rel="noopener noreferrer"' : "";
     var meta = item.meta
       ? '<p class="article-meta-line">' + escapeHtml(item.meta) + "</p>"
@@ -206,9 +213,11 @@
       '<div class="article-image">' +
       '<img src="' +
       thumb +
-      '" alt="' +
+      '"' +
+      srcset +
+      ' alt="' +
       escapeHtml(item.title) +
-      '" loading="lazy" width="400" height="240" onerror="this.onerror=null;this.src=\'static/ibrahimgunduz.png\';">' +
+      '" loading="lazy" width="400" height="240" decoding="async" onerror="this.onerror=null;this.removeAttribute(\'srcset\');this.src=\'static/ibrahimgunduz-480.webp\';">' +
       "</div>" +
       '<div class="article-content">' +
       '<h3 class="article-title">' +

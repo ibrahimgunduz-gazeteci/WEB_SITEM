@@ -480,6 +480,21 @@ html[data-theme="dark"] .article-card--focus {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  max-width: 100%;
+  padding-inline: 12px;
+  box-sizing: border-box;
+}
+
+.search-container #articleSearch,
+.search-container #articleSort {
+  max-width: min(500px, 100%);
+  box-sizing: border-box;
+}
+
+@media (max-width: 360px) {
+  .search-container #articleSort {
+    width: 100%;
+  }
 }
 
 .read-more {

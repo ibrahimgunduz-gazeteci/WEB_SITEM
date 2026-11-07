@@ -18,10 +18,12 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"İbrahim Gündüz","jobTitle":"Gazeteci & Yazar","url":"https://ibrahimgunduz.com.tr/","sameAs":["https://x.com/ibrahimggunduzz","https://www.instagram.com/ibrahimgunduz_gazeteci","https://www.youtube.com/@İbrahimGündüz-Gazeteci"]}
   </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/main.css?v=2.3">
-
-  <link rel="stylesheet" href="assets/css/refinement.css?v=3.0">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+  <link rel="stylesheet" href="assets/css/main.css?v=3.1">
+  <link rel="stylesheet" href="assets/css/refinement.css?v=3.1">
+  <link rel="preload" as="image" type="image/webp" href="assets/images/profile/optimized/ibrahimgunduz-480.webp" imagesrcset="assets/images/profile/optimized/ibrahimgunduz-480.webp 480w, assets/images/profile/optimized/ibrahimgunduz-960.webp 960w" imagesizes="(max-width: 768px) 90vw, 480px" fetchpriority="high">
   <script src="assets/js/theme-toggle.js?v=2.3" defer></script>
 </head>
 <body>
@@ -57,7 +59,10 @@
           </div>
         </div>
         <div class="hero-image">
-          <img src="assets/images/profile/ibrahimgunduz.png" alt="İbrahim Gündüz, gazeteci ve yazar" width="480" height="600" fetchpriority="high" decoding="async">
+          <picture>
+            <source type="image/webp" srcset="assets/images/profile/optimized/ibrahimgunduz-480.webp 480w, assets/images/profile/optimized/ibrahimgunduz-960.webp 960w" sizes="(max-width: 768px) 90vw, 480px">
+            <img src="assets/images/profile/optimized/ibrahimgunduz-480.jpg" alt="İbrahim Gündüz, gazeteci ve yazar" width="480" height="600" fetchpriority="high" decoding="async">
+          </picture>
         </div>
       </div>
     </div>
@@ -111,7 +116,7 @@
     <div class="books-grid">
       <div class="book-card">
         <div class="book-cover">
-          <img src="assets/images/books/altinolum.jpeg" alt="Altın Ölüm">
+          <img src="assets/images/books/optimized/altinolum.webp" alt="Altın Ölüm" width="300" height="450" loading="lazy" decoding="async">
         </div>
         <div class="book-info">
           <div class="book-header">
@@ -131,7 +136,7 @@
 
       <div class="book-card">
         <div class="book-cover">
-          <img src="assets/images/books/altingirdap.jpeg" alt="Altın Girdap">
+          <img src="assets/images/books/optimized/altingirdap.webp" alt="Altın Girdap" width="300" height="450" loading="lazy" decoding="async">
         </div>
         <div class="book-info">
           <div class="book-header">
@@ -149,7 +154,7 @@
 
       <div class="book-card">
         <div class="book-cover">
-          <img src="assets/images/books/osoruyubizsormayalim.jpg" alt="O Soruyu Biz Sormayalım">
+          <img src="assets/images/books/optimized/osoruyubizsormayalim.webp" alt="O Soruyu Biz Sormayalım" width="300" height="450" loading="lazy" decoding="async">
         </div>
         <div class="book-info">
           <div class="book-header">
@@ -167,7 +172,7 @@
 
       <div class="book-card">
         <div class="book-cover">
-          <img src="assets/images/books/copler_faciasi.jpeg" alt="Çöpler Faciası">
+          <img src="assets/images/books/optimized/copler_faciasi.webp" alt="Çöpler Faciası" width="300" height="450" loading="lazy" decoding="async">
         </div>
         <div class="book-info">
           <div class="book-header">
@@ -191,7 +196,7 @@
       <h2 class="section-title">Hakkında</h2>
       <div class="about-content">
         <div class="about-image">
-          <img src="assets/images/profile/ibrahimgunduz3.jpg" alt="İbrahim Gündüz">
+          <img src="assets/images/profile/optimized/ibrahimgunduz3-480.webp" alt="İbrahim Gündüz" width="480" height="720" loading="lazy" decoding="async">
         </div>
         <div>
           <h2 style="font-size: 36px; margin-bottom: 20px;">İbrahim Gündüz</h2>
@@ -305,8 +310,8 @@
   
   
   <!-- JavaScript files -->
-  <script src="assets/js/main.js?v=2.6"></script>
-  <script src="assets/js/articles.js?v=3.1"></script>
-  <script src="assets/js/youtube-feed.js?v=2.1"></script>
+  <script src="assets/js/main.js?v=2.6" defer></script>
+  <script src="assets/js/articles.js?v=3.2" defer></script>
+  <script src="assets/js/youtube-feed.js?v=2.2" defer></script>
 </body>
 </html>
