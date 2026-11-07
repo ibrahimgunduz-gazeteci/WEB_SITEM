@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
-  <script src="../assets/js/theme-init.js?v=2.4"></script>
+  <script src="../assets/js/theme-init.js?v=2.9"></script>
   <title>Yazı Yönetimi | İbrahim Gündüz</title>
-  <link rel="stylesheet" href="../assets/css/main.css?v=2.4">
-  <link rel="stylesheet" href="../assets/css/refinement.css?v=2.5">
-  <script src="../assets/js/theme-toggle.js?v=2.4" defer></script>
+  <link rel="stylesheet" href="../assets/css/main.css?v=2.9">
+  <link rel="stylesheet" href="../assets/css/refinement.css?v=2.9">
+  <script src="../assets/js/theme-toggle.js?v=2.9" defer></script>
   <style>
     :root {
       --admin-max: 1100px;
@@ -20,11 +20,16 @@
     .admin-shell { max-width: var(--admin-max); margin: 0 auto; padding: 100px 16px 48px; }
     .admin-layout { display: grid; grid-template-columns: var(--admin-side) 1fr; gap: var(--admin-gap); align-items: start; }
     @media (max-width: 860px) { .admin-layout { grid-template-columns: 1fr; } }
-    .admin-nav, .admin-panel {
+    .admin-nav, .ig-admin-card {
+      display: block;
+      position: static;
+      width: auto;
+      height: auto;
       background: #fff; border: 1px solid var(--ig-border, #e2e8ee); border-radius: 14px;
       box-shadow: 0 6px 20px rgba(28,44,58,.06);
+      z-index: auto;
     }
-    html[data-theme="dark"] .admin-nav, html[data-theme="dark"] .admin-panel { background: #1a2731; }
+    html[data-theme="dark"] .admin-nav, html[data-theme="dark"] .ig-admin-card { background: #1a2731; }
     .admin-nav { padding: 14px; position: sticky; top: 88px; }
     .admin-nav h1 { font-size: 18px; margin: 0 0 4px; font-family: Georgia, serif; }
     .admin-nav .muted { font-size: 13px; color: #6a7b8a; margin-bottom: 14px; }
@@ -35,8 +40,9 @@
     .admin-nav button.tab:hover { background: rgba(231,76,60,.07); }
     .admin-nav button.tab.active { background: rgba(44,62,80,.08); color: #c0392b; }
     html[data-theme="dark"] .admin-nav button.tab.active { background: rgba(255,255,255,.06); color: #ff8f82; }
-    .admin-panel { padding: 22px; min-height: 420px; }
-    .admin-panel h2 { margin: 0 0 8px; font-size: 22px; }
+    .ig-admin-card { padding: 22px; min-height: 420px; }
+    .ig-admin-card.gate { min-height: 0; }
+    .ig-admin-card h2 { margin: 0 0 8px; font-size: 22px; }
     .muted { color: #6a7b8a; font-size: 14px; line-height: 1.55; }
     html[data-theme="dark"] .muted { color: #9aabba; }
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0 8px; }
@@ -99,14 +105,13 @@
 </header>
 
 <main class="admin-shell">
-  <div id="gate" class="admin-panel gate">
-    <h2>Yazı yönetimi</h2>
+  <div id="gate" class="ig-admin-card gate">
+    <h2>Yazı Yönetimi</h2>
     <p class="muted">GitHub ile güvenli giriş gerekir. Token’lar tarayıcıda tutulmaz; Cloudflare Worker üzerinden çalışır.</p>
     <p id="gate-status" class="muted">Oturum kontrol ediliyor…</p>
     <div id="gate-msg"></div>
     <div class="row">
       <button type="button" class="btn" id="login-btn">GitHub ile giriş</button>
-      <button type="button" class="ghost" id="api-btn">API adresini ayarla</button>
     </div>
     <p class="muted" style="margin-top:16px">Worker yokken CLI kullanın:<br><code>python3 scripts/manage_articles.py add "https://..." --draft</code></p>
   </div>
@@ -126,7 +131,7 @@
       </div>
     </aside>
 
-    <section class="admin-panel">
+    <section class="ig-admin-card" id="admin-card">
       <div id="flash"></div>
 
       <div data-pane="overview">
@@ -229,7 +234,6 @@
         <label>API temel URL</label>
         <input id="api-url" readonly>
         <div class="row">
-          <button type="button" class="ghost" id="api-btn-2">Değiştir</button>
           <button type="button" class="ghost" id="health-btn">Bağlantıyı sına</button>
         </div>
         <pre id="health-out" class="muted" style="white-space:pre-wrap;margin-top:12px"></pre>
@@ -238,12 +242,13 @@
   </div>
 </main>
 
-<script src="../assets/js/main.js?v=2.4"></script>
+<script src="../assets/js/main.js?v=2.9"></script>
 <script>
 (function () {
-  var API_BASE = localStorage.getItem('ig-admin-api') || '';
+  var API_BASE = 'https://ig-admin-api.ibrahimgunduz.workers.dev';
   var csrf = '';
   var user = '';
+  var oauthReady = false;
   var articles = [];
   var editingId = null;
   var draft = null;
@@ -274,7 +279,6 @@
   }
 
   function api(path, opts) {
-    if (!API_BASE) return Promise.reject(new Error('Önce Worker API adresini ayarlayın.'));
     opts = opts || {};
     opts.credentials = 'include';
     opts.headers = Object.assign({ 'content-type': 'application/json' }, opts.headers || {});
@@ -424,7 +428,7 @@
     if (checkDup()) { flash('err', 'Yinelenen URL.'); return Promise.resolve(); }
     var rec = collectArticle(status);
     if (!rec.url || !rec.title) { flash('err', 'URL ve başlık zorunlu.'); return Promise.resolve(); }
-    var panel = document.querySelector('.admin-panel');
+    var panel = document.getElementById('admin-card');
     panel.classList.add('loading');
     return api('/api/articles/upsert', { method: 'POST', body: JSON.stringify({ article: rec }) })
       .then(function (res) {
@@ -436,15 +440,6 @@
       .finally(function () { panel.classList.remove('loading'); });
   }
 
-  function setApi() {
-    var v = prompt('Cloudflare Worker API temel URL', API_BASE || 'https://ig-admin-api.xxx.workers.dev');
-    if (v) {
-      API_BASE = v.replace(/\/$/, '');
-      localStorage.setItem('ig-admin-api', API_BASE);
-      location.reload();
-    }
-  }
-
   function enterApp() {
     show($('gate'), false);
     show($('app'), true);
@@ -454,10 +449,11 @@
   }
 
   // Events
-  $('api-btn').addEventListener('click', setApi);
-  $('api-btn-2').addEventListener('click', setApi);
   $('login-btn').addEventListener('click', function () {
-    if (!API_BASE) { setApi(); return; }
+    if (!oauthReady) {
+      $('gate-status').textContent = 'GitHub OAuth aktif değil. /api/health içinde oauthConfigured true olmalı; kök ok yanıtı yeterli değildir.';
+      return;
+    }
     location.href = API_BASE.replace(/\/$/, '') + '/auth/login';
   });
   $('logout-btn').addEventListener('click', function () {
@@ -466,8 +462,9 @@
     });
   });
   $('health-btn').addEventListener('click', function () {
-    fetch(API_BASE.replace(/\/$/, '') + '/api/health').then(function (r) { return r.json(); }).then(function (j) {
-      $('health-out').textContent = JSON.stringify(j, null, 2);
+    fetch(API_BASE.replace(/\/$/, '') + '/api/health', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+      oauthReady = !!(j && j.oauthConfigured === true);
+      $('health-out').textContent = JSON.stringify(j, null, 2) + (oauthReady ? '\n\nOAuth: aktif' : '\n\nOAuth: kapalı (kök ok yanıtı sayılmaz)');
     }).catch(function (e) { $('health-out').textContent = e.message; });
   });
 
@@ -486,7 +483,7 @@
   });
   $('fetch-btn').addEventListener('click', function () {
     show($('fetch-err'), false);
-    var panel = document.querySelector('.admin-panel');
+    var panel = document.getElementById('admin-card');
     panel.classList.add('loading');
     api('/api/fetch-meta', { method: 'POST', body: JSON.stringify({ url: $('url').value.trim() }) })
       .then(function (res) {
@@ -530,18 +527,28 @@
   $('draft-list').addEventListener('click', onListClick);
   $('queue').addEventListener('click', onListClick);
 
-  // Boot
-  if (!API_BASE) {
-    $('gate-status').textContent = 'Worker API tanımlı değil. «API adresini ayarla» ile devam edin. Secrets olmadan yayın yapılamaz.';
-  } else {
-    api('/auth/me').then(function (me) {
+  // Boot — yalnızca /api/health.oauthConfigured girişe izin verir.
+  fetch(API_BASE.replace(/\/$/, '') + '/api/health', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (health) {
+      oauthReady = !!(health && health.oauthConfigured === true);
+      if (!oauthReady) {
+        $('gate-status').textContent = 'GitHub OAuth aktif değil (oauthConfigured false). Kök adresteki ok yanıtı giriş sayılmaz.';
+        return null;
+      }
+      return api('/auth/me');
+    })
+    .then(function (me) {
+      if (!me) return;
       user = me.user;
       csrf = me.csrf || '';
       enterApp();
-    }).catch(function () {
-      $('gate-status').textContent = 'Oturum yok. GitHub ile giriş yapın.';
+    })
+    .catch(function () {
+      $('gate-status').textContent = oauthReady
+        ? 'Oturum yok. GitHub ile giriş yapın.'
+        : 'Worker sağlık kontrolü okunamadı.';
     });
-  }
 })();
 </script>
 </body>

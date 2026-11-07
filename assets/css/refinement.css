@@ -1005,6 +1005,7 @@ html[data-theme="dark"] .article-body {
 }
 
 html[data-theme="dark"] .admin-panel,
+html[data-theme="dark"] .ig-admin-card,
 html[data-theme="dark"] .admin-nav,
 html[data-theme="dark"] .stat {
   color: var(--color-text);

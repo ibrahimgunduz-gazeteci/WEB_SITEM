@@ -143,11 +143,11 @@ function requireCsrf(session, req) {
 }
 
 function sessionCookie(token, clear = false) {
-  if (clear) {
-    return "ig_session=; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=0";
-  }
-  // SameSite=None so Pages origin can call Worker with credentials
-  return `ig_session=${encodeURIComponent(token)}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=43200`;
+  // SameSite=None: Pages (ibrahimgunduz.com.tr) Worker'a credential'lı istek atar.
+  // Partitioned (CHIPS): Chrome üçüncü taraf çerez engelinde oturumun düşmesini azaltır.
+  const attrs = "Path=/; HttpOnly; Secure; SameSite=None; Partitioned";
+  if (clear) return `ig_session=; ${attrs}; Max-Age=0`;
+  return `ig_session=${encodeURIComponent(token)}; ${attrs}; Max-Age=43200`;
 }
 
 async function fetchMeta(url) {

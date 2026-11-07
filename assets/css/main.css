@@ -692,7 +692,7 @@ nav ul li a:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Admin Panel Styles */
+/* Legacy site-içi modal. /admin/ yönetim kartları bu sınıfı kullanmaz (ig-admin-card). */
 .admin-panel {
   display: none;
   position: fixed;
