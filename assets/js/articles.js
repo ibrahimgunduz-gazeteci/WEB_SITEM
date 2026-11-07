@@ -49,12 +49,15 @@
   }
 
   function legacyToCard(article) {
+    var href = article.link
+      ? article.link
+      : "haber.html?file=" + encodeURIComponent(article.fileName);
     return {
       kind: "legacy",
       title: article.title,
       thumbnail: article.thumbnail || "static/ibrahimgunduz.png",
-      href: "haber.html?file=" + encodeURIComponent(article.fileName),
-      excerpt: "Yazının detaylarını okumak için bağlantıya tıklayın.",
+      href: href,
+      excerpt: article.excerpt || "Yazının detaylarını okumak için bağlantıya tıklayın.",
       meta: "",
       sortDate: "",
       fileName: article.fileName,

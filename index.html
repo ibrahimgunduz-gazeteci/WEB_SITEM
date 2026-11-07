@@ -80,25 +80,6 @@
     </div>
   </section>
 
-  <section id="eng-articles" class="section">
-    <div class="container">
-      <h2 class="section-title">İngilizce Makaleler ve Yazılar</h2>
-      <p class="section-subtitle">İngilizce dilinde akademik makaleler ve çalışmalar</p>
-
-      <div class="articles-slider">
-        <button class="article-nav-btn article-prev" aria-label="Önceki yazılar"><i class="fas fa-chevron-left"></i></button>
-        <button class="article-nav-btn article-next" aria-label="Sonraki yazılar"><i class="fas fa-chevron-right"></i></button>
-        <div class="articles-slider-wrapper" id="eng-articles-grid">
-          <!-- Yazılar assets/eng-yazilar.json'dan yüklenir -->
-        </div>
-      </div>
-
-      <div style="text-align: center; margin-top: 30px;">
-        <a href="tum-ingilizce-yazilar.html" class="btn">Tüm İngilizce Yazıları Görüntüle</a>
-      </div>
-    </div>
-  </section>
-
 <section id="videos" class="section" style="background-color: var(--light-bg);">
   <div class="container">
     <h2 class="section-title">Videolarım</h2>
@@ -325,67 +306,7 @@
   
   <!-- JavaScript files -->
   <script src="assets/js/main.js?v=2.6"></script>
-  <script src="assets/js/articles.js?v=2.1"></script>
+  <script src="assets/js/articles.js?v=2.9"></script>
   <script src="assets/js/youtube-feed.js?v=2.1"></script>
-  
-  <script>
-    /* Güvenlik: istemci şifreli admin paneli ve localStorage newsletter kaldırıldı.
-       Yeni yazı yönetimi için CLI / Cloudflare Worker kullanılacak. */
-  </script>
-
-  <script>
-  /* İngilizce yazılar bölümü — assets/eng-yazilar.json'dan yükler ve slider olarak gösterir */
-  document.addEventListener('DOMContentLoaded', function () {
-    const sliderContainer = document.querySelector('#eng-articles .articles-slider');
-    if (!sliderContainer) return;
-    
-    const sliderWrapper = sliderContainer.querySelector('.articles-slider-wrapper');
-    fetch('assets/eng-yazilar.json?v=' + new Date().getTime())
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(articles => {
-        sliderWrapper.innerHTML = '';
-        articles.forEach(a => {
-          const target = a.linkType === 'pdf' ? 'target="_blank"' : '';
-          const label  = a.linkType === 'pdf' ? 'View Presentation →' : 'Read More →';
-          const card = document.createElement('div');
-          card.className = 'article-card';
-          card.innerHTML = `
-            <div class="article-image">
-              <img src="${a.thumbnail}" alt="${a.title}" onerror="this.onerror=null;this.src='static/ibrahimgunduz.png';">
-            </div>
-            <div class="article-content">
-              <h3 class="article-title">${a.title}</h3>
-              <p class="article-excerpt">${a.excerpt || ''}</p>
-              <a href="${a.link}" class="read-more" ${target}>${label}</a>
-            </div>`;
-          sliderWrapper.appendChild(card);
-        });
-        
-        // Slider kontrolü başlat
-        initEnglishArticleSlider(sliderContainer, sliderWrapper);
-      })
-      .catch(() => {
-        sliderWrapper.innerHTML = '<p style="text-align:center;padding:20px;">Articles could not be loaded.</p>';
-      });
-  });
-  
-  function initEnglishArticleSlider(container, wrapper) {
-    const prevBtn = container.querySelector('.article-prev');
-    const nextBtn = container.querySelector('.article-next');
-    const scrollAmount = wrapper.offsetWidth / 3;
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      });
-    }
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-      });
-    }
-  }
-  </script>
 </body>
 </html>
