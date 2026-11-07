@@ -1,7 +1,25 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T15:30:08.817991Z",
+  "updatedAt": "2026-11-07T15:37:52.854186Z",
   "articles": [
+    {
+      "id": "test-qa-20261107",
+      "url": "https://ig-admin-api.ibrahimgunduz.workers.dev/test/e2e-article",
+      "urlKey": "https://ig-admin-api.ibrahimgunduz.workers.dev/test/e2e-article",
+      "title": "[TEST-QA] Publish status check — silinecek",
+      "author": null,
+      "publisher": "IG Admin Test",
+      "publishedAt": "2026-11-07",
+      "sitePublishedAt": "2026-11-07T15:37:52.854186Z",
+      "image": null,
+      "excerpt": "Kontrollü test kaydı. Gerçek yayın değildir.",
+      "category": "test",
+      "status": "published",
+      "prioritySource": false,
+      "legacyFileName": null,
+      "createdAt": "2026-11-07T15:37:52.854186Z",
+      "updatedAt": "2026-11-07T15:37:52.854186Z"
+    },
     {
       "id": "8e9da426",
       "url": "https://www.odatv.com/kultur-sanat/gazeteci-gunduz-yillar-sonra-acikladi-birand-isten-atilmami-istedi-264914",
