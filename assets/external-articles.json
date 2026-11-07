@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T15:15:13.528Z",
+  "updatedAt": "2026-11-07T15:30:08.817991Z",
   "articles": [
     {
       "id": "8e9da426",
@@ -17,7 +17,8 @@
       "prioritySource": true,
       "legacyFileName": null,
       "createdAt": "2026-11-07T15:12:09.828Z",
-      "updatedAt": "2026-11-07T15:15:13.241Z"
+      "updatedAt": "2026-11-07T15:15:13.241Z",
+      "sitePublishedAt": "2026-11-07T15:12:09.828Z"
     }
   ]
 }
