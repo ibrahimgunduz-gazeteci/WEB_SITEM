@@ -8,11 +8,27 @@ yayın paketine kart WebP'leri, kitap/kapak ve optimize profil görselleri alın
 
 from __future__ import annotations
 
+import json
 import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "_site"
+
+
+def write_yazilar_cards() -> None:
+    """Listing/home feed without htmlContent (~26KB vs ~800KB)."""
+    src = ROOT / "assets" / "yazilar.json"
+    if not src.exists():
+        return
+    articles = json.loads(src.read_text(encoding="utf-8"))
+    cards = []
+    for a in articles:
+        item = {k: v for k, v in a.items() if k != "htmlContent"}
+        cards.append(item)
+    out = ROOT / "assets" / "yazilar-cards.json"
+    out.write_text(json.dumps(cards, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"yazilar-cards.json: {out.stat().st_size / 1024:.1f} KB ({len(cards)} articles)")
 
 INCLUDE_ROOT_GLOBS = [
     "*.html",
@@ -28,11 +44,13 @@ INCLUDE_TREES = [
     "assets/js",
     "assets/icons",
     "assets/images/cards",
+    "assets/images/article-body",
     "assets/images/books",
     "assets/images/profile",
     "assets/images/icons",
     "assets/videos.json",
     "assets/yazilar.json",
+    "assets/yazilar-cards.json",
     "assets/eng-yazilar.json",
     "assets/external-articles.json",
     "assets/favicon.png",
@@ -62,6 +80,9 @@ def copy_path(rel: str) -> None:
         # Keep full-res profile/article sources in git; ship optimized variants only.
         if rel.replace("\\", "/") == "assets/images/profile":
             ignore.extend(["ibrahimgunduz.png", "ibrahimgunduz2.png", "ibrahimgunduz3.jpg"])
+        if rel.replace("\\", "/") == "static":
+            # 3MB original profile stays in repo; Pages serves WebP fallback only.
+            ignore.append("ibrahimgunduz.png")
         shutil.copytree(src, dest, ignore=shutil.ignore_patterns(*ignore))
     else:
         dest.parent.mkdir(parents=True, exist_ok=True)
@@ -70,6 +91,8 @@ def copy_path(rel: str) -> None:
 
 
 def main() -> int:
+    write_yazilar_cards()
+
     if OUT.exists():
         shutil.rmtree(OUT)
     OUT.mkdir(parents=True)

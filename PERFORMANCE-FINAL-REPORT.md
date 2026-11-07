@@ -99,4 +99,6 @@ Evet. Kart düzeni, renkler, spacing ve CTA metni (“Devamını Oku”) aynı; 
 
 ## 7. Yayın notu
 
-Push → `Deploy GitHub Pages` → artifact ~11 MB beklenir. DNS / Worker secrets değiştirilmedi.
+- Commit: `2bd885f` — Pages deploy **success** (`42393181031`).
+- DNS / Worker secrets değiştirilmedi.
+- Canlıda WebP kart yolları ve hero `ibrahimgunduz-480.webp` doğrulandı; Odatv `8e9da426` + 15 video korundu.

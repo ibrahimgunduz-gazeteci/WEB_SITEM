@@ -20,4 +20,5 @@ SCREENSHOTS-2.5/
 SCREENSHOTS-2.6/
 screenshots/
 tests/navigation/
+tests/admin/out/
 *.pyc

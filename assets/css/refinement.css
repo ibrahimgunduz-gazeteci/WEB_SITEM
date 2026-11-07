@@ -391,14 +391,26 @@ header nav[style] {
   min-height: 0;
   aspect-ratio: 16 / 10;
   background: linear-gradient(135deg, #e8eef3, #f5f7fa);
+  contain: layout paint;
 }
 
 .article-image img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   transition: transform .45s ease;
+}
+
+/* Reserve first paint space before JS hydrates the grid (CLS). */
+#all-articles-grid {
+  min-height: 72vh;
+}
+
+#all-videos-grid {
+  min-height: 60vh;
 }
 
 .article-card:hover .article-image img { transform: scale(1.04); }
@@ -541,10 +553,23 @@ html[data-theme="dark"] .article-card--focus {
   color: #c0392b;
 }
 
-/* Videos 16:9 */
+/* Videos 16:9 — reserve box before thumbnail arrives (CLS) */
 .video-link .article-image,
 a.video-link .article-image {
   aspect-ratio: 16 / 9;
+  width: 100%;
+  contain: layout paint;
+  background: #d9e2ea;
+}
+
+.video-link .article-image img,
+a.video-link .article-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .play-button-overlay {

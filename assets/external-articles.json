@@ -10,7 +10,7 @@
       "author": "Odatv",
       "publisher": "Odatv",
       "publishedAt": "2023-01-01T16:58:52+03:00",
-      "image": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/old/images/2023_01/2023_01_01/odatv_image_67__7cb0e64d51284e.jpg",
+      "image": "assets/images/cards/odatv-birand-400.webp",
       "excerpt": "Gazeteci İbrahim Gündüz, \"O Soruyu Biz Sormayalım\" isimli yeni kitabında Kanal D&#039;den ayrılma sürecini anlattı. Kitabının adını neden \"O Soruyu Biz Sormayalım\" koydu, Melih Gökçek ile yaşadığı anı neydi?",
       "category": "genel",
       "status": "published",
@@ -18,7 +18,9 @@
       "legacyFileName": null,
       "createdAt": "2026-11-07T15:12:09.828Z",
       "updatedAt": "2026-11-07T15:15:13.241Z",
-      "sitePublishedAt": "2026-11-07T15:12:09.828Z"
+      "sitePublishedAt": "2026-11-07T15:12:09.828Z",
+      "image2x": "assets/images/cards/odatv-birand-800.webp",
+      "imageSource": "https://img.odatv.com/rcman/Cw1280h720q95gc/storage/old/images/2023_01/2023_01_01/odatv_image_67__7cb0e64d51284e.jpg"
     }
   ]
 }

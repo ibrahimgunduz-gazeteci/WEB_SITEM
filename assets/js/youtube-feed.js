@@ -26,12 +26,12 @@
       '<a href="' +
       url +
       '" target="_blank" rel="noopener noreferrer" class="article-card video-link">' +
-      '<div class="article-image">' +
+      '<div class="article-image" style="aspect-ratio:16/9;position:relative;overflow:hidden;">' +
       '<img src="' +
       thumb +
       '" alt="' +
       title +
-      '" loading="lazy" width="480" height="360" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'static/ibrahimgunduz-480.webp\';">' +
+      '" width="480" height="270" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src=\'static/ibrahimgunduz-480.webp\';">' +
       '<div class="play-button-overlay"><i class="fas fa-play-circle" aria-hidden="true"></i></div>' +
       "</div>" +
       '<div class="article-content">' +

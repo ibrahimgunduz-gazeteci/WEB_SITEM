@@ -48,7 +48,7 @@
   }
 
   function encodeAssetPath(path) {
-    if (!path) return "static/ibrahimgunduz.png";
+    if (!path) return "static/ibrahimgunduz-480.webp";
     return path
       .split("/")
       .map(function (part) {
@@ -172,11 +172,13 @@
     var metaBits = [article.publisher];
     if (sourceLabel) metaBits.push("Kaynak: " + sourceLabel);
     if (siteLabel) metaBits.push("Sitede: " + siteLabel);
+    var img = article.image || "static/ibrahimgunduz-480.webp";
+    var img2x = article.image2x || "";
     return {
       kind: "external",
       title: article.title,
-      thumbnail: article.image || "static/ibrahimgunduz-480.webp",
-      thumbnail2x: "",
+      thumbnail: img,
+      thumbnail2x: img2x,
       href: article.url,
       external: true,
       excerpt: decodeEntities(article.excerpt || "Yayınlandığı sitede okuyun."),
@@ -191,12 +193,16 @@
     };
   }
 
-  function cardHtml(item) {
+  function cardHtml(item, opts) {
+    opts = opts || {};
     var thumb = encodeAssetPath(item.thumbnail);
     var thumb2x = item.thumbnail2x ? encodeAssetPath(item.thumbnail2x) : "";
     if (item.kind === "external" && item.thumbnail && /^https?:/i.test(item.thumbnail)) {
       thumb = escapeHtml(item.thumbnail);
       thumb2x = "";
+    } else if (item.kind === "external" && item.thumbnail2x && !/^https?:/i.test(item.thumbnail)) {
+      thumb = encodeAssetPath(item.thumbnail);
+      thumb2x = encodeAssetPath(item.thumbnail2x);
     }
     var srcset = thumb2x
       ? ' srcset="' + thumb + " 400w, " + thumb2x + ' 800w" sizes="(max-width: 600px) 90vw, 400px"'
@@ -206,6 +212,8 @@
       ? '<p class="article-meta-line">' + escapeHtml(item.meta) + "</p>"
       : "";
     var idAttr = item.id ? ' id="article-' + escapeHtml(item.id) + '" data-article-id="' + escapeHtml(item.id) + '"' : "";
+    var loading = opts.eager ? 'eager' : 'lazy';
+    var prio = opts.eager ? ' fetchpriority="high"' : "";
     return (
       '<div class="article-card"' +
       idAttr +
@@ -217,7 +225,11 @@
       srcset +
       ' alt="' +
       escapeHtml(item.title) +
-      '" loading="lazy" width="400" height="240" decoding="async" onerror="this.onerror=null;this.removeAttribute(\'srcset\');this.src=\'static/ibrahimgunduz-480.webp\';">' +
+      '" loading="' +
+      loading +
+      '" width="400" height="240" decoding="async"' +
+      prio +
+      ' onerror="this.onerror=null;this.removeAttribute(\'srcset\');this.src=\'static/ibrahimgunduz-480.webp\';">' +
       "</div>" +
       '<div class="article-content">' +
       '<h3 class="article-title">' +
@@ -384,27 +396,104 @@
     var searchInput = document.getElementById("articleSearch");
     if (!grid) return;
 
-    var items = allItems.slice();
-
-    function display(list) {
-      grid.innerHTML =
-        list.map(cardHtml).join("") ||
-        '<p style="text-align:center;padding:24px;">Sonuç bulunamadı.</p>';
+    var BATCH = 12;
+    var fullItems = allItems.slice();
+    var activeItems = fullItems.slice();
+    var shown = 0;
+    var moreBtn = document.getElementById("articles-load-more");
+    if (!moreBtn) {
+      moreBtn = document.createElement("button");
+      moreBtn.type = "button";
+      moreBtn.id = "articles-load-more";
+      moreBtn.className = "btn";
+      moreBtn.textContent = "Daha fazla yazı göster";
+      moreBtn.style.cssText = "display:none;margin:24px auto 8px;max-width:320px;";
+      grid.parentNode.appendChild(moreBtn);
     }
 
-    display(items);
-    focusArticleByQuery(items);
+    function targetArticleId() {
+      try {
+        return safeArticleId(new URLSearchParams(window.location.search).get("article"));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function ensureTargetVisible(list) {
+      var id = targetArticleId();
+      if (!id) return;
+      var idx = -1;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id) {
+          idx = i;
+          break;
+        }
+      }
+      if (idx >= 0) shown = Math.max(shown, idx + 1);
+    }
+
+    function renderSlice(reset) {
+      if (reset) {
+        shown = 0;
+        grid.innerHTML = "";
+      }
+      if (!activeItems.length) {
+        grid.innerHTML = '<p style="text-align:center;padding:24px;">Sonuç bulunamadı.</p>';
+        moreBtn.style.display = "none";
+        return;
+      }
+      ensureTargetVisible(activeItems);
+      var next = Math.min(activeItems.length, Math.max(shown + (reset ? BATCH : BATCH), shown || BATCH));
+      if (reset) next = Math.min(activeItems.length, Math.max(BATCH, shown));
+      var start = reset ? 0 : shown;
+      var chunk = activeItems.slice(start, next);
+      var html = chunk
+        .map(function (item, i) {
+          return cardHtml(item, { eager: start + i < 2 });
+        })
+        .join("");
+      if (reset) grid.innerHTML = html;
+      else grid.insertAdjacentHTML("beforeend", html);
+      shown = next;
+      moreBtn.style.display = shown < activeItems.length ? "block" : "none";
+      moreBtn.textContent =
+        "Daha fazla yazı göster (" + shown + " / " + activeItems.length + ")";
+    }
+
+    function display(list) {
+      activeItems = list.slice();
+      renderSlice(true);
+      focusArticleByQuery(activeItems);
+    }
+
+    display(fullItems);
+
+    moreBtn.onclick = function () {
+      renderSlice(false);
+    };
+
+    if (!window.__igArticlesScrollBound) {
+      window.__igArticlesScrollBound = true;
+      window.addEventListener(
+        "scroll",
+        function () {
+          if (moreBtn.style.display === "none") return;
+          var rect = moreBtn.getBoundingClientRect();
+          if (rect.top < window.innerHeight + 200) renderSlice(false);
+        },
+        { passive: true }
+      );
+    }
 
     if (searchInput && !searchInput.dataset.bound) {
       searchInput.dataset.bound = "1";
       searchInput.addEventListener("input", function (e) {
         var term = normalizeSearch(e.target.value);
         if (!term) {
-          display(items);
-          focusArticleByQuery(items);
+          display(fullItems);
           return;
         }
-        var filtered = items.filter(function (a) {
+        var filtered = fullItems.filter(function (a) {
           return (
             normalizeSearch(a.title).indexOf(term) !== -1 ||
             normalizeSearch(a.meta).indexOf(term) !== -1 ||
@@ -412,13 +501,16 @@
             normalizeSearch(a.publisher).indexOf(term) !== -1
           );
         });
-        display(filtered);
         if (!filtered.length) {
+          activeItems = [];
           grid.innerHTML =
             '<p style="text-align:center;padding:24px;">Arama sonucu yok. Yazı listesi yüklü (' +
-            items.length +
+            fullItems.length +
             " kayıt); farklı bir kelime deneyin.</p>";
+          moreBtn.style.display = "none";
+          return;
         }
+        display(filtered);
       });
     } else if (searchInput && searchInput.value) {
       searchInput.dispatchEvent(new Event("input"));
@@ -455,7 +547,10 @@
     var extError = null;
 
     Promise.all([
-      fetchJson("assets/yazilar.json", "yazilar.json"),
+      fetchJson("assets/yazilar-cards.json", "yazilar-cards.json").catch(function () {
+        // Fallback for older deploys that only ship yazilar.json
+        return fetchJson("assets/yazilar.json", "yazilar.json");
+      }),
       fetchJson("assets/external-articles.json", "external-articles.json").catch(function (err) {
         extError = err;
         return { ok: false, data: { articles: [] } };
