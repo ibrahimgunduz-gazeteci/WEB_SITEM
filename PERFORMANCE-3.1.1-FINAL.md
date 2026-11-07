@@ -62,13 +62,16 @@ Yapılanlar:
 
 ## 5) Canlı Lighthouse
 
-Deploy sonrası ölçülür (push → `Deploy GitHub Pages`). Bu dosyadaki canlı satırları deploy tamamlanınca doldurulur / ayrı kontrol edilir:
+Deploy: `1158342` → GitHub Pages success (`42396151630`).  
+Canlı içerik görselleri: **261/261 HTTP 200**.
 
-| Sayfa | Perf | LCP | CLS | Not |
-| --- | ---: | ---: | ---: | --- |
-| Ana sayfa | — | — | — | deploy sonrası |
-| Tüm Yazılar | — | — | — | deploy sonrası |
-| Tüm Videolar | — | — | — | deploy sonrası |
+| Sayfa | Perf | LCP | CLS |
+| --- | ---: | ---: | ---: |
+| Ana sayfa | **81** | **2.2 s** | **0** |
+| Tüm Yazılar | **80** | **5.0 s** | **0** |
+| Tüm Videolar | **75** | **6.1 s** | **0** |
+
+Not: Canlı skorlar yerel simulated koşuya göre CDN/font gecikmesiyle daha düşük olabilir; Tüm Yazılar LCP 12.3 s → 5.0 s, Videolar CLS 0.379 → 0.
 
 ## Paket disiplini
 
